@@ -1,5 +1,7 @@
 # Dependencies:
-SDL2 - Required on a system\
+Required on a system:\
+SDL2\
+SDL2_image\
 ImGui - included with git submodule
 
 # Install dependencies

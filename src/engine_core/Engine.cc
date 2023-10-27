@@ -3,59 +3,16 @@
 #include <SDL2/SDL_image.h>
 
 #include "Engine.h"
-
-namespace SDL_UTILS{
-
-    void logSDLError(std::string message) {
-        std::cout << message << ": " << SDL_GetError() << std::endl;
-    }
-
-    SDL_Window *createSDLWindow() {
-        auto window = SDL_CreateWindow("Heroes of Might & Magic 3",
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        WINDOW_WIDTH,
-        WINDOW_HEIGHT,
-        SDL_WINDOW_SHOWN);
-
-        if(window == NULL) {
-            logSDLError("Could not initialize window");
-        }
-        return window;
-    }
-
-    SDL_Renderer *createSDLRenderer(SDL_Window *window) {
-        auto renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-        SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-
-        if(renderer == NULL) {
-            logSDLError("Could not initialize renderer");
-        }
-        return renderer;
-    }
-
-    void initializeSDLImage() {
-        int flags = IMG_INIT_PNG;
-        if(!(IMG_Init(flags)) & flags) {
-            logSDLError("Could not initialize image library");
-        }
-    }
-
-}
+#include "SdlFacade.h"
 
 Engine::Engine():
-    window_(SDL_UTILS::createSDLWindow()),
-    renderer_(SDL_UTILS::createSDLRenderer(window_)),
+    window_(sdl_facade::createSDLWindow("Heroes of Might & Magic 3",WINDOW_WIDTH, WINDOW_HEIGHT)),
+    renderer_(sdl_facade::createSDLRenderer(window_)),
     surface_(SDL_GetWindowSurface(window_)) {
-        SDL_UTILS::initializeSDLImage();
-        texture_ = loadTexture("/home/janek/workspace/Heroes-3-clone/.secret/zadanie.png");
-        if(texture_ == NULL) {
-            SDL_UTILS::logSDLError("Could not load texture");
-        } 
+        sdl_facade::initializeSDLImage();
     };
 
 Engine::~Engine() {
-    SDL_DestroyTexture(texture_);
     SDL_DestroyRenderer(renderer_);
     SDL_DestroyWindow(window_);
     
@@ -74,20 +31,22 @@ void Engine::startLoop() {
         }
 
         SDL_RenderClear(renderer_);
-        SDL_RenderCopy(renderer_, texture_, NULL, NULL);
+
+        //draw game entities
+
         SDL_RenderPresent(renderer_);
     }
 }
 
-SDL_Texture *Engine::loadTexture(std::string path) const{
-    SDL_Surface *image_surface = IMG_Load(path.c_str());
-    if(image_surface == NULL) {
-        SDL_UTILS::logSDLError("Could not load surface from " + path);
-    }
-    auto texture = SDL_CreateTextureFromSurface(renderer_, image_surface);
-    if(texture == NULL) {
-        SDL_UTILS::logSDLError("Could not create texture from " + path);
-    }
-    SDL_FreeSurface(image_surface);
-    return texture;
-}
+// SDL_Texture *Engine::loadTexture(std::string path) const{
+//     SDL_Surface *image_surface = IMG_Load(path.c_str());
+//     if(image_surface == NULL) {
+//         sdl_facade::logSDLError("Could not load surface from " + path);
+//     }
+//     auto texture = SDL_CreateTextureFromSurface(renderer_, image_surface);
+//     if(texture == NULL) {
+//         sdl_facade::logSDLError("Could not create texture from " + path);
+//     }
+//     SDL_FreeSurface(image_surface);
+//     return texture;
+// }

@@ -10,9 +10,6 @@ class Engine {
     SDL_Window *window_;
     SDL_Renderer *renderer_;
     SDL_Surface *surface_;
-    SDL_Texture *texture_;
-
-    SDL_Texture *loadTexture(std::string path) const;
     public:
     Engine();
     ~Engine();

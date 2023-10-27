@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 3.14)
+project(HMM3-clone)
+
+set(CMAKE_CXX_STANDARD 17)
+
+file(GLOB src_FILES src/*.cpp)
+include_directories(src)
+add_executable(HMM3-clone ${src_FILES})
+
+file(GLOB imgui_SOURCE_FILES extern/imgui/*.cpp)
+set(imgui_BACKEND extern/imgui/backends/imgui_impl_sdl2.cpp
+    extern/imgui/backends/imgui_impl_sdlrenderer2.cpp)
+include_directories(extern/imgui)
+include_directories(extern/imgui/backends)
+add_library(imgui ${imgui_SOURCE_FILES} ${imgui_BACKEND})
+
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
+target_link_libraries(HMM3-clone imgui ${SDL2_LIBRARIES})

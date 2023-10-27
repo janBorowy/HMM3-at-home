@@ -1,4 +1,0 @@
-https://staff.elka.pw.edu.pl/~rbiedrzy/ZPR/index.html
-zasoby: https://www.spriters-resource.com/pc_computer/heroes3/
-styl: https://staff.elka.pw.edu.pl/~rbiedrzy/ZPR/StylKodowania.html
-porady: https://staff.elka.pw.edu.pl/~rbiedrzy/ZPR/porady.html

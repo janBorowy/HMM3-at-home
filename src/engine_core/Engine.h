@@ -1,18 +1,22 @@
+#pragma once
 #include <SDL2/SDL.h>
 #include <memory>
 #include <string>
+#include <array>
 
-constexpr int WINDOW_WIDTH = 1600;
-constexpr int WINDOW_HEIGHT = 900;
+#include "Renderer.h"
+#include "GameEntity.h"
+
+constexpr int MAX_ENTITY_COUNT = 512;
 
 class Engine {
+    
+    std::unique_ptr<Renderer> renderer_;
+    std::array<std::shared_ptr<GameEntity>, MAX_ENTITY_COUNT> gameEntities;
+    int entityCounter_;
 
-    SDL_Window *window_;
-    SDL_Renderer *renderer_;
-    SDL_Surface *surface_;
     public:
     Engine();
-    ~Engine();
     Engine(const Engine &rhs) = delete;
     Engine &operator=(const Engine &rhx) = delete;
     

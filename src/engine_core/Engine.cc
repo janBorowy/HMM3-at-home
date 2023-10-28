@@ -1,52 +1,35 @@
 #include <string>
 #include <iostream>
 #include <SDL2/SDL_image.h>
+#include <algorithm>
 
 #include "Engine.h"
 #include "SdlFacade.h"
+#include "components/SpriteComponent.h"
 
 Engine::Engine():
-    window_(sdl_facade::createSDLWindow("Heroes of Might & Magic 3",WINDOW_WIDTH, WINDOW_HEIGHT)),
-    renderer_(sdl_facade::createSDLRenderer(window_)),
-    surface_(SDL_GetWindowSurface(window_)) {
-        sdl_facade::initializeSDLImage();
-    };
-
-Engine::~Engine() {
-    SDL_DestroyRenderer(renderer_);
-    SDL_DestroyWindow(window_);
-    
-    IMG_Quit();
-    SDL_Quit();
-}
+    renderer_(std::unique_ptr<Renderer>(new Renderer())),
+    entityCounter_(0) {
+        ++entityCounter_;
+        gameEntities[0] = std::shared_ptr<GameEntity>(new GameEntity(new SpriteComponent("/home/janek/workspace/Heroes-3-clone/.secret/zadanie.png", renderer_)));
+    }
 
 void Engine::startLoop() {
     bool quit = false;
     SDL_Event e;
     while(!quit) {
+        // input
         while(SDL_PollEvent(&e) != 0 ) {
             if(e.type == SDL_QUIT) {
                 quit = true;
             }
         }
-
-        SDL_RenderClear(renderer_);
-
-        //draw game entities
-
-        SDL_RenderPresent(renderer_);
+        // update game state
+        renderer_->clear();
+        // draw game entities
+        for(int i = 0; i < entityCounter_; ++i) {
+            gameEntities[i]->render(renderer_);
+        }
+        renderer_->swapBuffers();
     }
 }
-
-// SDL_Texture *Engine::loadTexture(std::string path) const{
-//     SDL_Surface *image_surface = IMG_Load(path.c_str());
-//     if(image_surface == NULL) {
-//         sdl_facade::logSDLError("Could not load surface from " + path);
-//     }
-//     auto texture = SDL_CreateTextureFromSurface(renderer_, image_surface);
-//     if(texture == NULL) {
-//         sdl_facade::logSDLError("Could not create texture from " + path);
-//     }
-//     SDL_FreeSurface(image_surface);
-//     return texture;
-// }

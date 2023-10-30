@@ -19,3 +19,5 @@ class Renderer {
     void swapBuffers();
     void renderSprite(const std::unique_ptr<Sprite> &sprite, int x, int y);
 };
+
+typedef std::unique_ptr<Renderer> RendererPtr;

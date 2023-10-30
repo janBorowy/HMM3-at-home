@@ -1,12 +1,15 @@
 #pragma once
 #include <memory>
 #include "components/GraphicsComponent.h"
+#include "components/PositionComponent.h"
 
 class GameEntity {
 
-    std::unique_ptr<GraphicsComponent> graphicsComponent_;
+    GraphicsComponentPtr graphicsComponent_;
+    PositionComponentPtr positionComponent_;
 
     public:
-    GameEntity(GraphicsComponent *renderComponent);
-    void render(std::unique_ptr<Renderer> &renderer);
+    GameEntity(GraphicsComponent *graphicsComponent);
+    GameEntity(GraphicsComponent *graphicsComponent, PositionComponent *positionComponent);
+    void render(RendererPtr &renderer);
 };

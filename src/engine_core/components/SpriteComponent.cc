@@ -6,8 +6,8 @@ SpriteComponent::SpriteComponent(std::string path,
 
 void SpriteComponent::update(RendererPtr &renderer,
                              PositionComponentPtr &positionComponent) {
-  renderer->renderSprite(sprite_, positionComponent->getX(),
-                         positionComponent->getY());
+    renderer->renderSprite(sprite_, positionComponent->getX(),
+                           positionComponent->getY());
 }
 unsigned int SpriteComponent::getW() { return sprite_->getWidth(); }
 unsigned int SpriteComponent::getH() { return sprite_->getHeight(); }

@@ -18,4 +18,5 @@ class Engine {
     Engine &operator=(const Engine &rhx) = delete;
     
     void startLoop();
+    void handleEvents(SDL_Event &e, bool &quit);
 };

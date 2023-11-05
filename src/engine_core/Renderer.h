@@ -18,6 +18,7 @@ class Renderer {
     void clear();
     void swapBuffers();
     void renderSprite(std::unique_ptr<Sprite> const &sprite, int x, int y);
+    void drawLine(int startX, int startY, int endX, int endY);
 };
 
 typedef std::unique_ptr<Renderer> RendererPtr;

@@ -5,8 +5,6 @@
 
 enum State { DEFAULT = 0, IS_CLICKED = 1 };
 
-enum State { DEFAULT = 0, IS_CLICKED = 1 };
-
 class GameEntity {
     GraphicsComponentPtr graphicsComponent_;
     PositionComponentPtr positionComponent_;

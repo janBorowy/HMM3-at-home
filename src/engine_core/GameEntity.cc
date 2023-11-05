@@ -11,17 +11,8 @@ GameEntity::GameEntity(GraphicsComponent *graphicsComponent,
       positionComponent_(PositionComponentPtr(positionComponent)),
       state_(DEFAULT) {}
 
-GameEntity::GameEntity(GraphicsComponent *graphicsComponent,
-                       PositionComponent *positionComponent)
-    : graphicsComponent_(GraphicsComponentPtr(graphicsComponent)),
-      positionComponent_(PositionComponentPtr(positionComponent)) {}
-
 void GameEntity::render(RendererPtr &renderer) {
-<<<<<<< HEAD
     graphicsComponent_->update(renderer, positionComponent_);
-=======
-    graphicsComponent_->update(renderer, positionComponent_);
->>>>>>> 0734a40 (prototype of event handler function added)
 }
 
 State GameEntity::getState() { return state_; }

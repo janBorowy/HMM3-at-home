@@ -46,23 +46,3 @@ void Engine::handleEvents(SDL_Event &e, bool &quit) {
         }
     }
 }
-
-void Engine::handleEvents(SDL_Event &e, bool &quit) {
-    while (SDL_PollEvent(&e) != 0) {
-        if (e.type == SDL_QUIT) {
-            quit = true;
-        }
-        if (e.type == SDL_MOUSEBUTTONDOWN) {
-            // check witch entity was clicked
-            int x, y;
-            SDL_GetMouseState(&x, &y);
-            for (auto &entity : gameEntities) {
-                SDL_Rect rect = entity->getPosition();
-                if (x >= rect.x && x <= rect.x + rect.w && y >= rect.y &&
-                    y <= rect.y + rect.h) {
-                    entity->setState(IS_CLICKED);
-                }
-            }
-        }
-    }
-}

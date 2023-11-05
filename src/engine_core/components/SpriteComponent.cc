@@ -9,3 +9,5 @@ void SpriteComponent::update(RendererPtr &renderer,
     renderer->renderSprite(sprite_, positionComponent->getX(),
                            positionComponent->getY());
 }
+unsigned int SpriteComponent::getW() { return sprite_->getWidth(); }
+unsigned int SpriteComponent::getH() { return sprite_->getHeight(); }

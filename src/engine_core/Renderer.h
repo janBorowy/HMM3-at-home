@@ -1,23 +1,23 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include <memory>
-#include "Window.h"
 #include "Sprite.h"
+#include "Window.h"
 
 class Renderer {
     std::unique_ptr<Window> window_;
     SDL_Renderer *renderer_;
 
-    public:
+   public:
     Renderer();
     ~Renderer();
-    Renderer(const Renderer &rhs) = delete;
-    Renderer &operator=(const Renderer &rhs) = delete;
+    Renderer(Renderer const &rhs) = delete;
+    Renderer &operator=(Renderer const &rhs) = delete;
 
     SDL_Renderer *getSDLRenderer();
     void clear();
     void swapBuffers();
-    void renderSprite(const std::unique_ptr<Sprite> &sprite, int x, int y);
+    void renderSprite(std::unique_ptr<Sprite> const &sprite, int x, int y);
 };
 
 typedef std::unique_ptr<Renderer> RendererPtr;

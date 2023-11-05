@@ -7,7 +7,10 @@ Renderer::Renderer()
 
 Renderer::~Renderer() { SDL_DestroyRenderer(renderer_); }
 
-void Renderer::clear() { SDL_RenderClear(renderer_); }
+void Renderer::clear() {
+    SDL_SetRenderDrawColor(renderer_, 0x00, 0x00, 0x00, 0xFF);
+    SDL_RenderClear(renderer_);
+}
 
 void Renderer::swapBuffers() { SDL_RenderPresent(renderer_); }
 
@@ -21,4 +24,9 @@ void Renderer::renderSprite(std::unique_ptr<Sprite> const &sprite, int x,
     rect.w = sprite->getWidth();
     rect.h = sprite->getHeight();
     SDL_RenderCopy(renderer_, sprite->getSDLTexture(), NULL, &rect);
+}
+
+void Renderer::drawLine(int startX, int startY, int endX, int endY) {
+    SDL_SetRenderDrawColor(renderer_, 0xFF, 0xFF, 0xFF, 0xFF);
+    SDL_RenderDrawLine(renderer_, startX, startY, endX, endY);
 }

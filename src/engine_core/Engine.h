@@ -3,20 +3,18 @@
 #include <memory>
 #include <string>
 #include <vector>
-
-#include "Renderer.h"
 #include "GameEntity.h"
+#include "Renderer.h"
 
 class Engine {
-    
     std::unique_ptr<Renderer> renderer_;
     std::vector<std::unique_ptr<GameEntity>> gameEntities;
 
-    public:
+   public:
     Engine();
-    Engine(const Engine &rhs) = delete;
-    Engine &operator=(const Engine &rhx) = delete;
-    
+    Engine(Engine const &rhs) = delete;
+    Engine &operator=(Engine const &rhx) = delete;
+
     void startLoop();
     void handleEvents(SDL_Event &e, bool &quit);
 };

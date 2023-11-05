@@ -4,7 +4,7 @@
 class PositionComponent {
     unsigned int x_, y_;
 
-    public:
+   public:
     PositionComponent();
     PositionComponent(unsigned int x, unsigned int y);
     void setX(unsigned int x);

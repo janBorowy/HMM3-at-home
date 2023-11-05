@@ -2,7 +2,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <memory>
-
 #include "SdlFacade.h"
 
 class Sprite {
@@ -11,10 +10,11 @@ class Sprite {
     int height_;
     Sprite(SDL_Texture *texture_, int width, int height);
 
-    public:
+   public:
     int getWidth() const;
     int getHeight() const;
     SDL_Texture *getSDLTexture();
-    static std::unique_ptr<Sprite> loadFromPng(std::string path, SDL_Renderer *renderer);
+    static std::unique_ptr<Sprite> loadFromPng(std::string path,
+                                               SDL_Renderer *renderer);
     ~Sprite();
 };

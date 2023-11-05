@@ -1,0 +1,8 @@
+BasedOnStyle: Google
+DerivePointerAlignment: false
+PointerAlignment: Right
+QualifierAlignment: Right
+IncludeBlocks: Merge
+CommentPragmas: '(@copydoc|@copybrief|@see|@overload|@snippet)'
+TabWidth: 4
+IndentWidth: 4

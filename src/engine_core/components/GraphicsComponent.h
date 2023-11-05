@@ -4,9 +4,10 @@
 #include "PositionComponent.h"
 
 class GraphicsComponent {
-    public:
+   public:
     virtual ~GraphicsComponent() = default;
-    virtual void update(RendererPtr &renderer, PositionComponentPtr &positionComponent) = 0;
+    virtual void update(RendererPtr &renderer,
+                        PositionComponentPtr &positionComponent) = 0;
 };
 
 typedef std::unique_ptr<GraphicsComponent> GraphicsComponentPtr;

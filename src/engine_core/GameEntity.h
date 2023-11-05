@@ -4,12 +4,12 @@
 #include "components/PositionComponent.h"
 
 class GameEntity {
-
     GraphicsComponentPtr graphicsComponent_;
     PositionComponentPtr positionComponent_;
 
-    public:
+   public:
     GameEntity(GraphicsComponent *graphicsComponent);
-    GameEntity(GraphicsComponent *graphicsComponent, PositionComponent *positionComponent);
+    GameEntity(GraphicsComponent *graphicsComponent,
+               PositionComponent *positionComponent);
     void render(RendererPtr &renderer);
 };

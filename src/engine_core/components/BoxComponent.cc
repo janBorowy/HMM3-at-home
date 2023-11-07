@@ -6,7 +6,7 @@ unsigned int BoxComponent::getW() { return size_; }
 
 unsigned int BoxComponent::getH() { return size_; }
 
-void BoxComponent::update(RendererPtr &renderer,
+void BoxComponent::update(RendererPtr const &renderer,
                           PositionComponentPtr &posititonComponent) {
     unsigned int x = posititonComponent->getX();
     unsigned int y = posititonComponent->getY();
@@ -15,4 +15,8 @@ void BoxComponent::update(RendererPtr &renderer,
     renderer->drawLine(x, y, x, y + size_);
     renderer->drawLine(x + size_, y, x + size_, y + size_);
     renderer->drawLine(x, y + size_, x + size_, y + size_);
+}
+
+GraphicsComponent *BoxComponent::clone() const {
+    return new BoxComponent(size_);
 }

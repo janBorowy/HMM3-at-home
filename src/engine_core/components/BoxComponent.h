@@ -6,8 +6,9 @@ class BoxComponent : public GraphicsComponent {
    public:
     BoxComponent(unsigned int size);
     virtual ~BoxComponent() = default;
-    virtual void update(RendererPtr &renderer,
+    virtual void update(RendererPtr const &renderer,
                         PositionComponentPtr &positionComponent) override;
     virtual unsigned int getW() override;
     virtual unsigned int getH() override;
+    virtual GraphicsComponent *clone() const override;
 };

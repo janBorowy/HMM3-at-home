@@ -16,7 +16,7 @@ void Renderer::swapBuffers() { SDL_RenderPresent(renderer_); }
 
 SDL_Renderer *Renderer::getSDLRenderer() { return renderer_; }
 
-void Renderer::renderSprite(std::unique_ptr<Sprite> const &sprite, int x,
+void Renderer::renderSprite(std::shared_ptr<Sprite> const &sprite, int x,
                             int y) {
     SDL_Rect rect;
     rect.x = x;

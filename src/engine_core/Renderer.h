@@ -17,8 +17,8 @@ class Renderer {
     SDL_Renderer *getSDLRenderer();
     void clear();
     void swapBuffers();
-    void renderSprite(std::unique_ptr<Sprite> const &sprite, int x, int y);
+    void renderSprite(std::shared_ptr<Sprite> const &sprite, int x, int y);
     void drawLine(int startX, int startY, int endX, int endY);
 };
 
-typedef std::unique_ptr<Renderer> RendererPtr;
+typedef std::shared_ptr<Renderer> RendererPtr;

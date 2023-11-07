@@ -14,7 +14,7 @@ class Sprite {
     int getWidth() const;
     int getHeight() const;
     SDL_Texture *getSDLTexture();
-    static std::unique_ptr<Sprite> loadFromPng(std::string path,
+    static std::shared_ptr<Sprite> loadFromPng(std::string path,
                                                SDL_Renderer *renderer);
     ~Sprite();
 };

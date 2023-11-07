@@ -27,3 +27,9 @@ SDL_Rect GameEntity::getPosition() {
     rect.h = graphicsComponent_->getH();
     return rect;
 }
+
+GameEntity GameEntity::clone() const {
+    auto positionComponentCopy(*positionComponent_);
+    auto graphicsComponentCopy = graphicsComponent_->clone();
+    return GameEntity(graphicsComponentCopy, &positionComponentCopy);
+}

@@ -8,8 +8,14 @@
 #include "Renderer.h"
 
 class Engine {
-    std::unique_ptr<Renderer> renderer_;
-    EntityRegistry registry;
+    std::shared_ptr<Renderer> renderer_;
+    EntityRegistry registry_;
+
+    // class Prototypes {
+    //    public:
+    //     GameEntity selectedFieldPrototype = GameEntity(
+    //         new SpriteComponent("../images/selected_field.png", renderer_));
+    // };
 
    public:
     Engine();

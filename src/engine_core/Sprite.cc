@@ -5,7 +5,7 @@ Sprite::Sprite(SDL_Texture *texture, int width, int height)
 
 Sprite::~Sprite() { SDL_DestroyTexture(texture_); }
 
-std::unique_ptr<Sprite> Sprite::loadFromPng(std::string path,
+std::shared_ptr<Sprite> Sprite::loadFromPng(std::string path,
                                             SDL_Renderer *renderer) {
     SDL_Surface *image_surface = IMG_Load(path.c_str());
     if (image_surface == NULL) {
@@ -18,7 +18,7 @@ std::unique_ptr<Sprite> Sprite::loadFromPng(std::string path,
     int width = image_surface->w;
     int height = image_surface->h;
     SDL_FreeSurface(image_surface);
-    return std::unique_ptr<Sprite>(new Sprite(texture, width, height));
+    return std::shared_ptr<Sprite>(new Sprite(texture, width, height));
 }
 
 SDL_Texture *Sprite::getSDLTexture() { return texture_; }

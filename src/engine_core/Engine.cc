@@ -7,7 +7,7 @@
 #include "components/SpriteComponent.h"
 
 Engine::Engine() : renderer_(std::unique_ptr<Renderer>(new Renderer())) {
-    gameEntities.push_back(std::unique_ptr<GameEntity>(new GameEntity(
+    registry.putEntity(std::shared_ptr<GameEntity>(new GameEntity(
         new SpriteComponent("../images/Archer.png", renderer_))));
 }
 
@@ -20,8 +20,8 @@ void Engine::startLoop() {
         // update game state
         renderer_->clear();
         // draw game entities
-        for (auto &entity : gameEntities) {
-            entity->render(renderer_);
+        for (auto &entity : registry) {
+            entity.second->render(renderer_);
         }
         renderer_->swapBuffers();
     }
@@ -36,7 +36,8 @@ void Engine::handleEvents(SDL_Event &e, bool &quit) {
             // check witch entity was clicked
             int x, y;
             SDL_GetMouseState(&x, &y);
-            for (auto &entity : gameEntities) {
+            for (auto &pair : registry) {
+                auto entity = pair.second;
                 SDL_Rect rect = entity->getPosition();
                 if (x >= rect.x && x <= rect.x + rect.w && y >= rect.y &&
                     y <= rect.y + rect.h) {

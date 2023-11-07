@@ -3,12 +3,13 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include "EntityRegistry.h"
 #include "GameEntity.h"
 #include "Renderer.h"
 
 class Engine {
     std::unique_ptr<Renderer> renderer_;
-    std::vector<std::unique_ptr<GameEntity>> gameEntities;
+    EntityRegistry registry;
 
    public:
     Engine();

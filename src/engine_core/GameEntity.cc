@@ -19,6 +19,11 @@ State GameEntity::getState() { return state_; }
 
 void GameEntity::setState(State state) { state_ = state; }
 
+void GameEntity::setPosition(unsigned int x, unsigned int y) {
+    positionComponent_->setX(x);
+    positionComponent_->setY(y);
+}
+
 SDL_Rect GameEntity::getPosition() {
     SDL_Rect rect;
     rect.x = positionComponent_->getX();

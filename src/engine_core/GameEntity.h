@@ -17,6 +17,7 @@ class GameEntity {
     State getState();
     void setState(State state);
     void render(RendererPtr &renderer);
+    void setPosition(unsigned int x,unsigned int y);
     SDL_Rect getPosition();
     GameEntity clone() const;
 };

@@ -7,9 +7,9 @@ unsigned int BoxComponent::getW() { return size_; }
 unsigned int BoxComponent::getH() { return size_; }
 
 void BoxComponent::update(RendererPtr const &renderer,
-                          PositionComponentPtr &posititonComponent) {
-    unsigned int x = posititonComponent->getX();
-    unsigned int y = posititonComponent->getY();
+                          PositionComponentPtr &positionComponent) {
+    unsigned int x = positionComponent->getX();
+    unsigned int y = positionComponent->getY();
 
     renderer->drawLine(x, y, x + size_, y);
     renderer->drawLine(x, y, x, y + size_);

@@ -16,6 +16,7 @@ class Engine {
     //     GameEntity selectedFieldPrototype = GameEntity(
     //         new SpriteComponent("../images/selected_field.png", renderer_));
     // };
+    void drawGameEntities();
 
    public:
     Engine();

@@ -1,8 +1,8 @@
-#include "Engine.h"
 #include <SDL2/SDL_image.h>
 #include <algorithm>
 #include <iostream>
 #include <string>
+#include "Engine.h"
 #include "SdlFacade.h"
 #include "components/BoxComponent.h"
 #include "components/GridComponent.h"
@@ -10,11 +10,7 @@
 
 Engine::Engine() : renderer_(std::unique_ptr<Renderer>(new Renderer())) {
     registry_.putEntity(std::shared_ptr<GameEntity>(new GameEntity(
-        new SpriteComponent("../images/selected_field.png", renderer_))));
-    registry_.putEntity(
-        std::shared_ptr<GameEntity>(new GameEntity(new BoxComponent(100))));
-    registry_.putEntity(std::shared_ptr<GameEntity>(
-        new GameEntity(new GridComponent(50, 10, 12))));
+        new GridComponent(70, 10, 12), new PositionComponent(0, 0))));
 }
 
 void Engine::startLoop() {
@@ -32,11 +28,14 @@ void Engine::startLoop() {
         handleEvents(e, quit);
         // update game state
         renderer_->clear();
-        // draw game entities
-        for (auto &entity : registry_) {
-            entity.second->render(renderer_);
-        }
+        drawGameEntities();
         renderer_->swapBuffers();
+    }
+}
+
+void Engine::drawGameEntities() {
+    for (auto &entity : registry_) {
+        entity.second->render(renderer_);
     }
 }
 

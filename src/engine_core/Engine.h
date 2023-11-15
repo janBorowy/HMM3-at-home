@@ -17,6 +17,7 @@ class Engine {
     //         new SpriteComponent("../images/selected_field.png", renderer_));
     // };
     void drawGameEntities();
+    void updateGameEntities();
 
    public:
     Engine();

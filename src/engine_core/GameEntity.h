@@ -2,22 +2,22 @@
 #include <memory>
 #include "components/GraphicsComponent.h"
 #include "components/PositionComponent.h"
-
-enum State { DEFAULT = 0, IS_CLICKED = 1 };
+#include "components/StateComponent.h"
 
 class GameEntity {
     GraphicsComponentPtr graphicsComponent_;
     PositionComponentPtr positionComponent_;
-    State state_;
+    StateComponentPtr stateComponent_;
 
    public:
     GameEntity(GraphicsComponent *graphicsComponent);
     GameEntity(GraphicsComponent *graphicsComponent,
                PositionComponent *positionComponent);
-    State getState();
-    void setState(State state);
+    StateComponentPtr getState();
+    void setClickState(StateComponent::ClickState state);
     void render(RendererPtr &renderer);
-    void setPosition(unsigned int x,unsigned int y);
+    void setPosition(unsigned int x, unsigned int y);
     SDL_Rect getPosition();
     GameEntity clone() const;
+    void update();
 };

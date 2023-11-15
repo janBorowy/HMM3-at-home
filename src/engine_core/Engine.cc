@@ -16,20 +16,18 @@ Engine::Engine() : renderer_(std::unique_ptr<Renderer>(new Renderer())) {
 void Engine::startLoop() {
     bool quit = false;
     SDL_Event e;
-    for (auto &entity : registry_) {
-        if (entity.first == 2) {
-            entity.second->setPosition(150, 100);
-        } else if (entity.first == 3) {
-            entity.second->setPosition(200, 200);
-        }
-    }
     while (!quit) {
-        // input
         handleEvents(e, quit);
-        // update game state
+        updateGameEntities();
         renderer_->clear();
         drawGameEntities();
         renderer_->swapBuffers();
+    }
+}
+
+void Engine::updateGameEntities() {
+    for (auto &entity : registry_) {
+        entity.second->update();
     }
 }
 
@@ -53,7 +51,8 @@ void Engine::handleEvents(SDL_Event &e, bool &quit) {
                 SDL_Rect rect = entity->getPosition();
                 if (x >= rect.x && x <= rect.x + rect.w && y >= rect.y &&
                     y <= rect.y + rect.h) {
-                    entity->setState(IS_CLICKED);
+                    entity->setClickState(
+                        StateComponent::ClickState::IS_CLICKED);
                 }
             }
         }

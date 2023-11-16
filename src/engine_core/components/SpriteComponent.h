@@ -15,5 +15,4 @@ class SpriteComponent : public GraphicsComponent {
                         PositionComponentPtr &positionComponent);
     virtual unsigned int getW();
     virtual unsigned int getH();
-    virtual GraphicsComponent *clone() const override;
 };

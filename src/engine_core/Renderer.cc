@@ -27,6 +27,9 @@ void Renderer::renderSprite(std::shared_ptr<Sprite> const &sprite, int x,
 }
 
 void Renderer::drawLine(int startX, int startY, int endX, int endY) {
-    SDL_SetRenderDrawColor(renderer_, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_RenderDrawLine(renderer_, startX, startY, endX, endY);
+}
+
+void Renderer::setColor(Uint8 r, Uint8 g, Uint8 b) {
+    SDL_SetRenderDrawColor(renderer_, r, g, b, 0xFF);
 }

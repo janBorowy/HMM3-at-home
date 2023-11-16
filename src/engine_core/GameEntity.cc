@@ -11,6 +11,8 @@ GameEntity::GameEntity(GraphicsComponent *graphicsComponent,
       positionComponent_(PositionComponentPtr(positionComponent)),
       stateComponent_(StateComponentPtr(new StateComponent())) {}
 
+GameEntity::~GameEntity() {}
+
 void GameEntity::render(RendererPtr &renderer) {
     graphicsComponent_->update(renderer, positionComponent_);
 }
@@ -21,7 +23,7 @@ void GameEntity::setClickState(StateComponent::ClickState state) {
     stateComponent_->clicked = state;
 }
 
-void GameEntity::setPosition(unsigned int x, unsigned int y) {
+void GameEntity::setPosition(unsigned x, unsigned y) {
     positionComponent_->setX(x);
     positionComponent_->setY(y);
 }
@@ -35,14 +37,10 @@ SDL_Rect GameEntity::getPosition() {
     return rect;
 }
 
-GameEntity GameEntity::clone() const {
-    auto positionComponentCopy(*positionComponent_);
-    auto graphicsComponentCopy = graphicsComponent_->clone();
-    return GameEntity(graphicsComponentCopy, &positionComponentCopy);
-}
 void GameEntity::update() {
     if (stateComponent_->clicked) {
-        // call on click command
+        clickedCallback();
     }
-    stateComponent_->clicked = StateComponent::ClickState::DEFAULT;
 }
+
+void GameEntity::clickedCallback() {}

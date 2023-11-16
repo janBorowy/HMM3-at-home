@@ -3,14 +3,13 @@
 #include <iostream>
 #include <string>
 #include "Engine.h"
+#include "GridEntity.h"
 #include "SdlFacade.h"
 #include "components/BoxComponent.h"
-#include "components/GridComponent.h"
 #include "components/SpriteComponent.h"
 
 Engine::Engine() : renderer_(std::unique_ptr<Renderer>(new Renderer())) {
-    registry_.putEntity(std::shared_ptr<GameEntity>(new GameEntity(
-        new GridComponent(70, 10, 12), new PositionComponent(0, 0))));
+    registry_.putEntity(std::shared_ptr<GameEntity>(new GridEntity));
 }
 
 void Engine::startLoop() {
@@ -51,6 +50,8 @@ void Engine::handleEvents(SDL_Event &e, bool &quit) {
                 SDL_Rect rect = entity->getPosition();
                 if (x >= rect.x && x <= rect.x + rect.w && y >= rect.y &&
                     y <= rect.y + rect.h) {
+                    entity->clicked_x = x;
+                    entity->clicked_y = y;
                     entity->setClickState(
                         StateComponent::ClickState::IS_CLICKED);
                 }

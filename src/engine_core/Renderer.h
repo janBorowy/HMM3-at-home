@@ -16,6 +16,7 @@ class Renderer {
 
     SDL_Renderer *getSDLRenderer();
     void clear();
+    void setColor(Uint8 r, Uint8 g, Uint8 b);
     void swapBuffers();
     void renderSprite(std::shared_ptr<Sprite> const &sprite, int x, int y);
     void drawLine(int startX, int startY, int endX, int endY);

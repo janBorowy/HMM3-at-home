@@ -5,6 +5,7 @@
 #include "components/StateComponent.h"
 
 class GameEntity {
+   protected:
     GraphicsComponentPtr graphicsComponent_;
     PositionComponentPtr positionComponent_;
     StateComponentPtr stateComponent_;
@@ -13,11 +14,14 @@ class GameEntity {
     GameEntity(GraphicsComponent *graphicsComponent);
     GameEntity(GraphicsComponent *graphicsComponent,
                PositionComponent *positionComponent);
+    virtual ~GameEntity();
     StateComponentPtr getState();
     void setClickState(StateComponent::ClickState state);
-    void render(RendererPtr &renderer);
-    void setPosition(unsigned int x, unsigned int y);
+    virtual void render(RendererPtr &renderer);
+    void setPosition(unsigned x, unsigned y);
+    unsigned clicked_x;
+    unsigned clicked_y;
+    virtual void clickedCallback();
     SDL_Rect getPosition();
-    GameEntity clone() const;
     void update();
 };

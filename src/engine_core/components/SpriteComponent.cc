@@ -13,7 +13,3 @@ void SpriteComponent::update(RendererPtr const &renderer,
 }
 unsigned int SpriteComponent::getW() { return sprite_->getWidth(); }
 unsigned int SpriteComponent::getH() { return sprite_->getHeight(); }
-
-GraphicsComponent *SpriteComponent::clone() const {
-    return new SpriteComponent(*sprite_);
-};

@@ -1,3 +1,4 @@
+#pragma once
 #include <map>
 #include <stdexcept>
 #include "GameEntity.h"

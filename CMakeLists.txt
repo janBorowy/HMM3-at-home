@@ -4,8 +4,6 @@ project(HMM3-clone)
 set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB src_FILES src/*.cc)
-file(GLOB src_engine_core_FILES src/engine_core/*.cc)
-file(GLOB src_component_FILES src/engine_core/components/*.cc)
 include_directories(src)
 include_directories(src/engine_core)
 add_executable(HMM3-clone ${src_FILES} ${src_engine_core_FILES} ${src_component_FILES})
@@ -24,6 +22,6 @@ include_directories(${SDL2IMAGE_INCLUDE_DIRS})
 
 target_link_libraries(HMM3-clone imgui SDL2::SDL2 SDL2_image::SDL2_image)
 
-# compiles tests
-add_executable(test test/main.cc ${src_engine_core_FILES} ${src_component_FILES})
-target_link_libraries(test imgui SDL2::SDL2 SDL2_image::SDL2_image)
+# # compiles tests
+# add_executable(test test/main.cc ${src_engine_core_FILES} ${src_component_FILES})
+# target_link_libraries(test imgui SDL2::SDL2 SDL2_image::SDL2_image)

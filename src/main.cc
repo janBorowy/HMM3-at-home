@@ -4,7 +4,6 @@
 #include "GameWindow.h"
 #include "MainPanel.h"
 #include "UI.h"
-#include "engine_core/SdlFacade.h"
 
 void gameLoop();
 

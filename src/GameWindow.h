@@ -1,12 +1,8 @@
 #pragma once
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <stdexcept>
 #include "Renderer.h"
-
-class SDLException : public std::runtime_error {
-   public:
-    SDLException() : runtime_error(SDL_GetError()) { SDL_ClearError(); }
-};
 
 class GameWindow {
     GameWindow();

@@ -22,15 +22,15 @@ void Renderer::swapBuffers() { SDL_RenderPresent(renderer_); }
 
 SDL_Renderer *Renderer::getSDLRenderer() { return renderer_; }
 
-void Renderer::renderSprite(std::shared_ptr<Sprite> const &sprite, int x,
-                            int y) {
-    SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    rect.w = sprite->getWidth();
-    rect.h = sprite->getHeight();
-    SDL_RenderCopy(renderer_, sprite->getSDLTexture(), NULL, &rect);
-}
+// void Renderer::renderSprite(std::shared_ptr<Sprite> const &sprite, int x,
+//                             int y) {
+//     SDL_Rect rect;
+//     rect.x = x;
+//     rect.y = y;
+//     rect.w = sprite->getWidth();
+//     rect.h = sprite->getHeight();
+//     SDL_RenderCopy(renderer_, sprite->getSDLTexture(), NULL, &rect);
+// }
 
 void Renderer::drawLine(int startX, int startY, int endX, int endY) {
     SDL_RenderDrawLine(renderer_, startX, startY, endX, endY);

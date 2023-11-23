@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "GameData.h"
 #include "GameWindow.h"
 #include "MainPanel.h"
 #include "UI.h"
@@ -10,6 +11,8 @@ void gameLoop();
 int main() {
     GameWindow &gameWindow = GameWindow::getInstance();
     // Render once to show something other, rather than black window
+    GameData::setRenderer(gameWindow.getRenderer().getSDLRenderer());
+    GameData::load();
     gameLoop();
     gameWindow.quit();
     return 0;

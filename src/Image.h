@@ -3,17 +3,17 @@
 #include <SDL2/SDL_image.h>
 #include <memory>
 
-class Sprite {
+class Image {
     SDL_Texture *texture_;
     int width_;
     int height_;
-    Sprite(SDL_Texture *texture_, int width, int height);
 
    public:
+    Image(SDL_Texture *texture_, int width, int height);
     int getWidth() const;
     int getHeight() const;
     SDL_Texture *getSDLTexture();
-    static std::shared_ptr<Sprite> loadFromPng(std::string path,
-                                               SDL_Renderer *renderer);
-    ~Sprite();
+    ~Image();
 };
+
+using ImageUPtr = std::unique_ptr<Image>;

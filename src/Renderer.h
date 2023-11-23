@@ -1,7 +1,7 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include <memory>
-#include "Sprite.h"
+// #include "Sprite.h"
 
 class Renderer {
     SDL_Renderer *renderer_;
@@ -17,7 +17,7 @@ class Renderer {
     void clear();
     void setColor(Uint8 r, Uint8 g, Uint8 b);
     void swapBuffers();
-    void renderSprite(std::shared_ptr<Sprite> const &sprite, int x, int y);
+    // void renderSprite(std::shared_ptr<Sprite> const &sprite, int x, int y);
     void drawLine(int startX, int startY, int endX, int endY);
 };
 

@@ -16,4 +16,4 @@ class Image {
     ~Image();
 };
 
-using ImageUPtr = std::unique_ptr<Image>;
+using ImagePtr = std::shared_ptr<Image>;

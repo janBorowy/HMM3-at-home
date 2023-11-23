@@ -37,7 +37,7 @@ void GameData::load() {
 void GameData::setRenderer(SDL_Renderer *renderer) { renderer_ = renderer; }
 
 void GameData::reg(std::string index, Image *image) {
-    imageMap[index] = ImageUPtr(image);
+    imageMap[index] = ImagePtr(image);
 }
 
 Image const &GameData::getImage(std::string index) {

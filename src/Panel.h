@@ -8,7 +8,7 @@ struct Panel {
     Panel() = default;
     void setUI(UI *ui);
     virtual void step() = 0;
-    virtual void draw(std::shared_ptr<Renderer> renderer) = 0;
+    virtual void draw(Renderer &renderer) = 0;
     virtual bool keyDown(SDL_Keycode key, Uint16 mod, Command const &command,
                          bool isNewPress) = 0;
 

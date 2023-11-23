@@ -21,4 +21,4 @@ class Renderer {
     void drawLine(int startX, int startY, int endX, int endY);
 };
 
-typedef std::shared_ptr<Renderer> RendererPtr;
+typedef std::shared_ptr<Renderer> RendererUPtr;

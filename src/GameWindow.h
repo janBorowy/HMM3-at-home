@@ -1,13 +1,28 @@
 #pragma once
 #include <SDL2/SDL.h>
+#include <stdexcept>
 #include "Renderer.h"
 
-class GameWindow {
+class SDLException : public std::runtime_error {
    public:
-    static bool init();
-    static void quit();
-    static void step();
-    static int width();
-    static int height();
-    static std::shared_ptr<Renderer> getRenderer();
+    SDLException() : runtime_error(SDL_GetError()) { SDL_ClearError(); }
 };
+
+class GameWindow {
+    GameWindow();
+    static std::unique_ptr<GameWindow> instance_;
+    SDL_Window *window_;
+    RendererUPtr renderer_;
+    int windowWidth_;
+    int windowHeight_;
+
+   public:
+    static GameWindow &getInstance();
+    Renderer &getRenderer();
+    void quit();
+    void step();
+    int width();
+    int height();
+};
+
+using GameWindowUPtr = std::unique_ptr<GameWindow>;

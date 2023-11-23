@@ -1,9 +1,7 @@
 #include "UI.h"
 
 void UI::stepAll() {}
-void UI::drawAll(std::shared_ptr<Renderer> renderer) {
-    stack.back()->draw(renderer);
-}
+void UI::drawAll(Renderer &renderer) { stack.back()->draw(renderer); }
 void UI::pop() { /*pop pop*/
 }
 bool UI::handle(SDL_Event const &event) {

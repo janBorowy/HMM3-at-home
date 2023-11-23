@@ -8,17 +8,18 @@
 void gameLoop();
 
 int main() {
-    if (!GameWindow::init()) return 1;
+    GameWindow &gameWindow = GameWindow::getInstance();
     // Render once to show something other, rather than black window
-    GameWindow::step();
+    gameWindow.step();
     gameLoop();
-    GameWindow::quit();
+    gameWindow.quit();
     return 0;
 }
 
 void gameLoop() {
     UI panels;
-    std::shared_ptr<Renderer> renderer = GameWindow::getRenderer();
+    GameWindow &gameWindow = GameWindow::getInstance();
+    Renderer &renderer = gameWindow.getRenderer();
     panels.push(new MainPanel);
     while (!panels.isDone()) {
         SDL_Event event;
@@ -28,8 +29,8 @@ void gameLoop() {
         } else if (panels.handle(event)) {
             // UI handled the event
         }
-        renderer->clear();
+        renderer.clear();
         panels.drawAll(renderer);
-        renderer->swapBuffers();
+        renderer.swapBuffers();
     }
 }

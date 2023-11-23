@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 #include <unordered_map>
 #include "Image.h"
@@ -11,7 +12,7 @@ class GameData {
 
    public:
     static void setRenderer(SDL_Renderer *renderer);
-    static Image const &getImage(std::string index);
+    static ImagePtr getImage(std::string index);
     static void load();
     static void reg(std::string index, Image *image);
 };

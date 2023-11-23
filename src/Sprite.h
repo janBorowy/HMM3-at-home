@@ -1,3 +1,4 @@
+#pragma once
 #include "Image.h"
 
 struct Sprite {
@@ -6,3 +7,5 @@ struct Sprite {
     ImagePtr image_;
     Sprite(unsigned short width, unsigned short height, ImagePtr image);
 };
+
+using SpriteUPtr = std::unique_ptr<Sprite>;

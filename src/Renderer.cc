@@ -22,13 +22,14 @@ void Renderer::swapBuffers() { SDL_RenderPresent(renderer_); }
 
 SDL_Renderer *Renderer::getSDLRenderer() { return renderer_; }
 
-void Renderer::renderSprite(Sprite const &sprite, int x, int y) {
+void Renderer::drawEntity(GameEntity const &entity) {
+    auto &sprite = entity.sprite_;
     SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    rect.w = sprite.width_;
-    rect.h = sprite.height_;
-    SDL_RenderCopy(renderer_, sprite.image_->getSDLTexture(), NULL, &rect);
+    rect.x = entity.positionX_;
+    rect.y = entity.posisitonY_;
+    rect.w = sprite->width_;
+    rect.h = sprite->height_;
+    SDL_RenderCopy(renderer_, sprite->image_->getSDLTexture(), NULL, &rect);
 }
 
 void Renderer::drawLine(int startX, int startY, int endX, int endY) {

@@ -40,6 +40,4 @@ void GameData::reg(std::string index, Image *image) {
     imageMap[index] = ImagePtr(image);
 }
 
-Image const &GameData::getImage(std::string index) {
-    return *(imageMap[index]);
-}
+ImagePtr GameData::getImage(std::string index) { return imageMap[index]; }

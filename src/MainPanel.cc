@@ -7,9 +7,8 @@ void MainPanel::draw(Renderer &renderer) {
     renderer.drawLine(100, 100, 1500, 900);
 }
 #include <iostream>
-bool MainPanel::keyDown(SDL_Keycode key, Uint16 mod, Command const &command,
-                        bool isNewPress) {
-    if (command.has(Command::SAY_HELLO)) {
+bool MainPanel::keyDown(SDL_Keycode key, Uint16 mod, bool isNewPress) {
+    if (key == SDLK_e) {
         std::cout << "hello" << std::endl;
         return true;
     }

@@ -10,7 +10,6 @@ void gameLoop();
 int main() {
     GameWindow &gameWindow = GameWindow::getInstance();
     // Render once to show something other, rather than black window
-    gameWindow.step();
     gameLoop();
     gameWindow.quit();
     return 0;
@@ -20,6 +19,7 @@ void gameLoop() {
     UI panels;
     GameWindow &gameWindow = GameWindow::getInstance();
     Renderer &renderer = gameWindow.getRenderer();
+    renderer.swapBuffers();
     panels.push(new MainPanel);
     while (!panels.isDone()) {
         SDL_Event event;

@@ -20,7 +20,6 @@ class GameWindow {
     static GameWindow &getInstance();
     Renderer &getRenderer();
     void quit();
-    void step();
     int width();
     int height();
 };

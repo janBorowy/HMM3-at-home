@@ -44,6 +44,5 @@ void GameWindow::quit() {
     SDL_Quit();
 }
 
-void GameWindow::step() { SDL_GL_SwapWindow(window_); }
 int GameWindow::width() { return windowWidth_; }
 int GameWindow::height() { return windowHeight_; }

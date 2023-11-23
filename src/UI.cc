@@ -11,10 +11,9 @@ bool UI::handle(SDL_Event const &event) {
         --it;
         switch (event.type) {
             case SDL_KEYDOWN:
-                Command command(event.key.keysym.sym);
                 handled =
                     (*it)->keyDown(event.key.keysym.sym, event.key.keysym.mod,
-                                   command, !event.key.repeat);
+                                   !event.key.repeat);
                 break;
         }
     }

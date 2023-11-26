@@ -22,8 +22,9 @@ void Renderer::swapBuffers() { SDL_RenderPresent(renderer_); }
 
 SDL_Renderer *Renderer::getSDLRenderer() { return renderer_; }
 
-void Renderer::drawEntity(GameEntity const &entity) {
+void Renderer::drawEntity(GameEntity const &entity) const {
     auto &sprite = entity.sprite_;
+    if (sprite == nullptr) return;
     SDL_Rect rect;
     rect.x = entity.positionX_;
     rect.y = entity.posisitonY_;

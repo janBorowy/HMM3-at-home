@@ -17,7 +17,7 @@ class Renderer {
     void clear();
     void setColor(Uint8 r, Uint8 g, Uint8 b);
     void swapBuffers();
-    void drawEntity(GameEntity const &entity);
+    void drawEntity(GameEntity const &entity) const;
     void drawLine(int startX, int startY, int endX, int endY);
 };
 

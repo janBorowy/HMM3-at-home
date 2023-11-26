@@ -1,9 +1,10 @@
 #include "MainPanel.h"
 
-MainPanel::MainPanel()
-    : Panel(), selectedField("selected_field.png", 50, 50, 100, 100) {}
+MainPanel::MainPanel() : Panel(), mapGrid_(50, 50, 1000, 896) {}
 void MainPanel::step() {}
-void MainPanel::draw(Renderer &renderer) { renderer.drawEntity(selectedField); }
+void MainPanel::draw(Renderer const &renderer) {
+    mapGrid_.drawFields(renderer);
+}
 #include <iostream>
 bool MainPanel::keyDown(SDL_Keycode key, Uint16 mod, bool isNewPress) {
     if (key == SDLK_e) {

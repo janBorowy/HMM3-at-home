@@ -7,6 +7,7 @@ struct MainPanel : public Panel {
     virtual void step();
     virtual void draw(Renderer const &renderer);
     virtual bool keyDown(SDL_Keycode key, Uint16 mod, bool isNewPress) override;
+    virtual bool mouseButtonDown(int x, int y) override;
 
    private:
     MapGrid mapGrid_;

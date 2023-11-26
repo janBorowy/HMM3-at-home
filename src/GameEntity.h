@@ -12,6 +12,7 @@ class GameEntity {
     GameEntity(std::string spriteIndex, unsigned short initX,
                unsigned short initY, unsigned short width,
                unsigned short height);
+    void changeSprite(std::string spriteIndex);
     unsigned short positionX_;
     unsigned short posisitonY_;
 };

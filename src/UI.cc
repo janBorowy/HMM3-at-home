@@ -10,6 +10,10 @@ bool UI::handle(SDL_Event const &event) {
     while (it != stack.begin() && !handled) {
         --it;
         switch (event.type) {
+            case SDL_MOUSEBUTTONDOWN:
+                int x, y;
+                SDL_GetMouseState(&x, &y);
+                handled = (*it)->mouseButtonDown(x, y);
             case SDL_KEYDOWN:
                 handled =
                     (*it)->keyDown(event.key.keysym.sym, event.key.keysym.mod,

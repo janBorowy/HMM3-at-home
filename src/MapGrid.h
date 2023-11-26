@@ -11,11 +11,17 @@ using Fields = std::array<Field, GRID_HEIGHT * GRID_WIDTH>;
 
 class MapGrid {
     Fields fields_;
+    unsigned short x_;
+    unsigned short y_;
+    unsigned short width_;
+    unsigned short height_;
+    unsigned short fieldHeight_;
+    unsigned short fieldWidth_;
 
    public:
     MapGrid(unsigned short initX, unsigned short initY, unsigned short widht,
             unsigned short height);
     void drawFields(Renderer const &renderer) const;
-    unsigned short x_;
-    unsigned short y_;
+    void handleClick(int x, int y);
+    Field &at(int row, int col);
 };

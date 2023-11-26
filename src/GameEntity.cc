@@ -11,5 +11,5 @@ GameEntity::GameEntity(std::string spriteIndex, unsigned short initX,
 
 void GameEntity::changeSprite(std::string spriteIndex) {
     auto image = GameData::getImage(spriteIndex);
-    sprite_.reset(new Sprite(sprite_->width_, sprite_->height_, image));
+    sprite_->image_ = image;
 }

@@ -8,7 +8,7 @@ using ImageMap = std::unordered_map<std::string, ImagePtr>;
 class GameData {
     static void loadFromPng(std::string path, SDL_Renderer *renderer);
     static SDL_Renderer *renderer_;
-    static std::unordered_map<std::string, ImagePtr> imageMap;
+    static ImageMap imageMap;
 
    public:
     static void setRenderer(SDL_Renderer *renderer);

@@ -17,6 +17,8 @@ class MapGrid {
     unsigned short height_;
     unsigned short fieldHeight_;
     unsigned short fieldWidth_;
+    unsigned short selectedRow_;
+    unsigned short selectedCol_;
 
    public:
     MapGrid(unsigned short initX, unsigned short initY, unsigned short widht,

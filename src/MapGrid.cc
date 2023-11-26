@@ -7,7 +7,9 @@ MapGrid::MapGrid(unsigned short initX, unsigned short initY,
       x_{initX},
       y_{initY},
       fieldHeight_(height / GRID_HEIGHT),
-      fieldWidth_(width / GRID_WIDTH) {
+      fieldWidth_(width / GRID_WIDTH),
+      selectedRow_{0},
+      selectedCol_{0} {
     for (int y = 0; y < GRID_HEIGHT; ++y) {
         for (int x = 0; x < GRID_WIDTH; ++x) {
             at(x + 1, y + 1) =
@@ -23,10 +25,14 @@ void MapGrid::drawFields(Renderer const &renderer) const {
     }
 }
 
+#include <iostream>
 void MapGrid::handleClick(int x, int y) {
-    auto gridX = (x - x_) / fieldWidth_ + 1;
-    auto gridY = (y - y_) / fieldHeight_ + 1;
-    at(gridX, gridY).changeSprite("selected_field.png");
+    auto clickedCol = (x - x_) / fieldWidth_ + 1;
+    auto clickedRow = (y - y_) / fieldHeight_ + 1;
+    at(selectedCol_, selectedRow_).changeSprite("empty_field.png");
+    selectedCol_ = clickedCol;
+    selectedRow_ = clickedRow;
+    at(clickedCol, clickedRow).changeSprite("selected_field.png");
 }
 
 Field &MapGrid::at(int col, int row) {

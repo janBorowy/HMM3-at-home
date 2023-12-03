@@ -1,4 +1,4 @@
-#include "TestEntityRegistry.cc"
+#include "TestHeroResources.cc"
 #include "doctest.h"
 
 int main(int argc, char **argv) {

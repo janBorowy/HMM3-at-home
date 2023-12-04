@@ -1,3 +1,6 @@
+#pragma once
+constexpr int ONE_FIELD_MOVEMENT_PENALTY = 100;
+
 class HeroResources {
     int stamina_;
     int const movement_;

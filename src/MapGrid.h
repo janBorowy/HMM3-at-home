@@ -21,7 +21,7 @@ class MapGrid {
     unsigned short selectedCol_;
 
    public:
-    MapGrid(unsigned short initX, unsigned short initY, unsigned short widht,
+    MapGrid(unsigned short initX, unsigned short initY, unsigned short width,
             unsigned short height);
     void drawFields(Renderer const &renderer) const;
     void handleClick(int x, int y);

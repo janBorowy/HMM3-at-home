@@ -1,3 +1,5 @@
+#include "TestGameMap.cc"
+#include "TestHero.cc"
 #include "TestHeroResources.cc"
 #include "doctest.h"
 

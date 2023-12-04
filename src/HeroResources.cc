@@ -2,11 +2,10 @@
 
 namespace {
 int calculateStamina(int movement) { return movement; }
-constexpr int ONE_FIELD_MOVEMENT_PENALTY = 100;
 };  // namespace
 
 HeroResources::HeroResources(int movement)
-    : stamina_(calculateStamina(0)), movement_(movement) {}
+    : stamina_(calculateStamina(movement)), movement_(movement) {}
 
 int HeroResources::refreshStamina() {
     stamina_ = calculateStamina(movement_);

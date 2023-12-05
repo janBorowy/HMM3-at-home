@@ -1,7 +1,10 @@
 #include "UI.h"
 
 void UI::stepAll() {}
-void UI::drawAll(Renderer &renderer) { stack.back()->draw(renderer); }
+void UI::drawFront(Renderer &renderer) {
+    stack.back()->draw(renderer);
+    stack.back()->drawImGui(renderer);
+}
 void UI::pop() { /*pop pop*/
 }
 bool UI::handle(SDL_Event const &event) {

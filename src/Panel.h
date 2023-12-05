@@ -8,6 +8,7 @@ struct Panel {
     void setUI(UI *ui);
     virtual void step() = 0;
     virtual void draw(Renderer const &renderer) = 0;
+    virtual void drawImGui(Renderer const &renderer);
     virtual bool keyDown(SDL_Keycode key, Uint16 mod, bool isNewPress) = 0;
     virtual bool mouseButtonDown(int x, int y) = 0;
 

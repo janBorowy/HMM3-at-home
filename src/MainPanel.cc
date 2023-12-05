@@ -1,4 +1,6 @@
 #include "MainPanel.h"
+#include "imgui_impl_sdl2.h"
+#include "imgui_impl_sdlrenderer2.h"
 
 constexpr int GRID_X = 50;
 constexpr int GRID_Y = 50;
@@ -9,7 +11,18 @@ MainPanel::MainPanel()
     : Panel(), map_{GRID_X, GRID_Y, GRID_PANEL_WIDTH, GRID_PANEL_HEIGHT} {}
 void MainPanel::step() {}
 void MainPanel::draw(Renderer const &renderer) { map_.drawFields(renderer); }
-
+void MainPanel::drawImGui(Renderer const &renderer) {
+    ImGui_ImplSDLRenderer2_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+    {
+        ImGui::Begin("Debug");
+        ImGui::Text("we do debug sometimes");
+        ImGui::End();
+    }
+    ImGui::Render();
+    ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
+}
 bool MainPanel::keyDown(SDL_Keycode key, Uint16 mod, bool isNewPress) {
     if (key == SDLK_RIGHT) {
         map_.moveCameraBy({1, 0});

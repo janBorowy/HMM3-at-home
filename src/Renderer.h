@@ -13,7 +13,7 @@ class Renderer {
     Renderer(Renderer const &rhs) = delete;
     Renderer &operator=(Renderer const &rhs) = delete;
 
-    SDL_Renderer *getSDLRenderer();
+    SDL_Renderer *getSDLRenderer() const;
     void clear();
     void setColor(Uint8 r, Uint8 g, Uint8 b);
     void swapBuffers();

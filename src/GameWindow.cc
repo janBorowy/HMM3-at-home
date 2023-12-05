@@ -42,3 +42,5 @@ void GameWindow::quit() {
 
 int GameWindow::width() { return windowWidth_; }
 int GameWindow::height() { return windowHeight_; }
+
+SDL_Window *GameWindow::getSDLWindow() const { return window_; }

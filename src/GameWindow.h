@@ -15,6 +15,7 @@ class GameWindow {
    public:
     static GameWindow &getInstance();
     Renderer &getRenderer();
+    SDL_Window *getSDLWindow() const;
     void quit();
     int width();
     int height();

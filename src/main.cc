@@ -6,6 +6,9 @@
 #include "GameWindow.h"
 #include "MainPanel.h"
 #include "UI.h"
+#include "imgui.h"
+#include "imgui_impl_sdl2.h"
+#include "imgui_impl_sdlrenderer2.h"
 
 constexpr int FRAMES_PER_SECOND = 60;
 
@@ -20,6 +23,9 @@ int main() {
     GameData::load();
     gameLoop();
     gameWindow.quit();
+    ImGui_ImplSDLRenderer2_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
     return 0;
 }
 
@@ -27,9 +33,20 @@ void gameLoop() {
     UI panels;
     GameWindow &gameWindow = GameWindow::getInstance();
     Renderer &renderer = gameWindow.getRenderer();
+
+#ifdef SDL_HINT_IME_SHOW_UI
+    SDL_SetHint(SDL_HINT_IME_SHOW_UI, "1");
+#endif
+
     renderer.swapBuffers();
     panels.push(new MainPanel);
 
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGui::StyleColorsDark();
+    ImGui_ImplSDL2_InitForSDLRenderer(gameWindow.getSDLWindow(),
+                                      renderer.getSDLRenderer());
+    ImGui_ImplSDLRenderer2_Init(renderer.getSDLRenderer());
     SteadyClock::time_point frameStart, frameEnd;
     SteadyClock::duration goalFrameDuration =
         std::chrono::seconds(1) / FRAMES_PER_SECOND;
@@ -38,13 +55,14 @@ void gameLoop() {
 
         SDL_Event event;
         SDL_PollEvent(&event);
+        ImGui_ImplSDL2_ProcessEvent(&event);
         if (event.type == SDL_QUIT) {
             panels.quit();
         } else if (panels.handle(event)) {
             // UI handled the event
         }
         renderer.clear();
-        panels.drawAll(renderer);
+        panels.drawFront(renderer);
         renderer.swapBuffers();
 
         frameEnd = SteadyClock::now();

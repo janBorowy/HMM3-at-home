@@ -2,6 +2,7 @@
 Required on a system:\
 SDL2\
 SDL2_image\
+SDL2_TTF\
 ImGui - included with git submodule
 
 # Install dependencies

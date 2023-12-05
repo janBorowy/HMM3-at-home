@@ -20,7 +20,7 @@ void Renderer::clear() {
 
 void Renderer::swapBuffers() { SDL_RenderPresent(renderer_); }
 
-SDL_Renderer *Renderer::getSDLRenderer() { return renderer_; }
+SDL_Renderer *Renderer::getSDLRenderer() const { return renderer_; }
 
 void Renderer::drawEntity(GameEntity const &entity) const {
     auto &sprite = entity.sprite_;

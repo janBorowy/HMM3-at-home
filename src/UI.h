@@ -7,7 +7,7 @@
 struct UI {
     UI() = default;
     void stepAll();
-    void drawAll(Renderer &renderer);
+    void drawFront(Renderer &renderer);
     void push(Panel *panel);
     void quit();
     void pop();

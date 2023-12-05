@@ -9,12 +9,27 @@ MainPanel::MainPanel()
     : Panel(), map_{GRID_X, GRID_Y, GRID_PANEL_WIDTH, GRID_PANEL_HEIGHT} {}
 void MainPanel::step() {}
 void MainPanel::draw(Renderer const &renderer) { map_.drawFields(renderer); }
-#include <iostream>
+
 bool MainPanel::keyDown(SDL_Keycode key, Uint16 mod, bool isNewPress) {
-    if (key == SDLK_e) {
-        std::cout << "hello" << std::endl;
+    if (key == SDLK_RIGHT) {
+        map_.moveCameraBy({1, 0});
         return true;
     }
+    if (key == SDLK_LEFT) {
+        map_.moveCameraBy({-1, 0});
+        return true;
+    }
+
+    if (key == SDLK_UP) {
+        map_.moveCameraBy({0, -1});
+        return true;
+    }
+
+    if (key == SDLK_DOWN) {
+        map_.moveCameraBy({0, 1});
+        return true;
+    }
+
     return false;
 }
 

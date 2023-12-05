@@ -15,5 +15,5 @@ void GameMap::initFields() {
 Fields const &GameMap::fields() const { return fields_; }
 
 void GameMap::placeObject(int x, int y, MapObject object) {
-    fields_[x - 1][y - 1].object_ = object;
+    fields_[y - 1][x - 1].object_ = object;
 }

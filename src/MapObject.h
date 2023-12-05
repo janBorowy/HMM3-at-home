@@ -2,7 +2,7 @@
 
 class MapObject {
    public:
-    enum Type { NONE, GOLD, WOOD, STONE };
+    enum Type { NONE, GOLD, WOOD, ORE };
 
    private:
     Type type_;

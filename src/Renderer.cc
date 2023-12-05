@@ -33,6 +33,15 @@ void Renderer::drawEntity(GameEntity const &entity) const {
     SDL_RenderCopy(renderer_, sprite->image_->getSDLTexture(), NULL, &rect);
 }
 
+void Renderer::drawSprite(int x, int y, Sprite const &sprite) const {
+    SDL_Rect rect;
+    rect.x = x;
+    rect.y = y;
+    rect.w = sprite.width_;
+    rect.h = sprite.height_;
+    SDL_RenderCopy(renderer_, sprite.image_->getSDLTexture(), NULL, &rect);
+}
+
 void Renderer::drawLine(int startX, int startY, int endX, int endY) {
     SDL_RenderDrawLine(renderer_, startX, startY, endX, endY);
 }

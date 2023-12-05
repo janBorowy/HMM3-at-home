@@ -1,6 +1,7 @@
 #include "TestGameMap.cc"
 #include "TestHero.cc"
 #include "TestHeroResources.cc"
+#include "TestMapObject.cc"
 #include "doctest.h"
 
 int main(int argc, char **argv) {

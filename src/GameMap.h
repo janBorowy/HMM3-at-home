@@ -12,4 +12,6 @@ class GameMap {
 
    public:
     GameMap();
+    Fields const &fields() const;
+    void placeObject(int x, int y, MapObject object);
 };

@@ -14,10 +14,13 @@ void MainPanel::draw(Renderer const &renderer) { map_.drawFields(renderer); }
 void MainPanel::drawImGui(Renderer const &renderer) {
     ImGui_ImplSDLRenderer2_NewFrame();
     ImGui_ImplSDL2_NewFrame();
+    auto io = ImGui::GetIO();
     ImGui::NewFrame();
     {
         ImGui::Begin("Debug");
-        ImGui::Text("we do debug sometimes");
+        ImGui::Text("FPS: %1.f", io.Framerate);
+        ImGui::Text("CAMERA X: %d Y: %d", map_.getCameraPosition().first,
+                    map_.getCameraPosition().second);
         ImGui::End();
     }
     ImGui::Render();

@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <chrono>
+#include <iostream>
 #include <thread>
 #include "GameData.h"
 #include "GameWindow.h"
@@ -21,6 +22,11 @@ int main() {
     // Render once to show something other, rather than black window
     GameData::setRenderer(gameWindow.getRenderer().getSDLRenderer());
     GameData::load();
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGui::StyleColorsDark();
+
     gameLoop();
     gameWindow.quit();
     ImGui_ImplSDLRenderer2_Shutdown();
@@ -40,16 +46,12 @@ void gameLoop() {
 
     renderer.swapBuffers();
     panels.push(new MainPanel);
-
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGui::StyleColorsDark();
     ImGui_ImplSDL2_InitForSDLRenderer(gameWindow.getSDLWindow(),
                                       renderer.getSDLRenderer());
     ImGui_ImplSDLRenderer2_Init(renderer.getSDLRenderer());
     SteadyClock::time_point frameStart, frameEnd;
     SteadyClock::duration goalFrameDuration =
-        std::chrono::seconds(1) / FRAMES_PER_SECOND;
+        std::chrono::nanoseconds(1000000000) / FRAMES_PER_SECOND;
     while (!panels.isDone()) {
         frameStart = SteadyClock::now();
 
@@ -66,10 +68,10 @@ void gameLoop() {
         renderer.swapBuffers();
 
         frameEnd = SteadyClock::now();
-        SteadyClock::duration sleepDuration = frameEnd - frameStart;
+        SteadyClock::duration executionTime = frameEnd - frameStart;
 
-        if (sleepDuration < goalFrameDuration) {
-            std::this_thread::sleep_for(sleepDuration);
+        if (executionTime < goalFrameDuration) {
+            // std::this_thread::sleep_for(goalFrameDuration - executionTime);
         }
     }
 }

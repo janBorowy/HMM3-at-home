@@ -9,7 +9,7 @@ MapExtrinsic::MapExtrinsic(unsigned short initX, unsigned short initY,
       fieldHeight_(height / GRID_HEIGHT),
       fieldWidth_(width / GRID_WIDTH),
       map_{},
-      cameraLeftUpperCorner{0, 0} {
+      cameraLeftUpperCorner_{0, 0} {
     loadMapSprites();
     map_.placeObject(10, 10, MapObject(MapObject::GOLD, 1000));
     map_.placeObject(11, 10, MapObject(MapObject::WOOD, 1000));
@@ -17,14 +17,14 @@ MapExtrinsic::MapExtrinsic(unsigned short initX, unsigned short initY,
 }
 
 void MapExtrinsic::drawFields(Renderer const &renderer) const {
-    for (int row = cameraLeftUpperCorner.second;
-         row < 16 + cameraLeftUpperCorner.second; ++row) {
-        for (int col = cameraLeftUpperCorner.first;
-             col < 16 + cameraLeftUpperCorner.first; ++col) {
+    for (int row = cameraLeftUpperCorner_.second;
+         row < 16 + cameraLeftUpperCorner_.second; ++row) {
+        for (int col = cameraLeftUpperCorner_.first;
+             col < 16 + cameraLeftUpperCorner_.first; ++col) {
             auto &field = map_.fields()[row][col];
-            int drawX = x_ + (col - cameraLeftUpperCorner.first) * fieldWidth_;
+            int drawX = x_ + (col - cameraLeftUpperCorner_.first) * fieldWidth_;
             int drawY =
-                y_ + (row - cameraLeftUpperCorner.second) * fieldHeight_;
+                y_ + (row - cameraLeftUpperCorner_.second) * fieldHeight_;
             renderer.drawSprite(drawX, drawY, *fieldSprite_);
             drawFieldTypeSpecific(drawX, drawY, field.object_.type(), renderer);
         }
@@ -72,10 +72,14 @@ void MapExtrinsic::loadMapSprites() {
 }
 
 void MapExtrinsic::moveCameraBy(Position delta) {
-    cameraLeftUpperCorner.first =
-        std::clamp(cameraLeftUpperCorner.first, 0, MAP_WIDTH);
-    cameraLeftUpperCorner.second =
-        std::clamp(cameraLeftUpperCorner.second, 0, MAP_HEIGHT);
-    cameraLeftUpperCorner.first += delta.first;
-    cameraLeftUpperCorner.second += delta.second;
+    cameraLeftUpperCorner_.first += delta.first;
+    cameraLeftUpperCorner_.second += delta.second;
+    cameraLeftUpperCorner_.first =
+        std::clamp(cameraLeftUpperCorner_.first, 0, MAP_WIDTH - GRID_WIDTH);
+    cameraLeftUpperCorner_.second =
+        std::clamp(cameraLeftUpperCorner_.second, 0, MAP_HEIGHT - GRID_HEIGHT);
+}
+
+Position MapExtrinsic::getCameraPosition() const {
+    return cameraLeftUpperCorner_;
 }

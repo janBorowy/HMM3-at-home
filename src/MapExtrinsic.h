@@ -23,7 +23,7 @@ class MapExtrinsic {
     SpriteUPtr goldFieldSprite_;
     SpriteUPtr oreFieldSprite_;
     SpriteUPtr woodFieldSprite_;
-    Position cameraLeftUpperCorner;
+    Position cameraLeftUpperCorner_;
     void loadMapSprites();
 
    public:
@@ -34,5 +34,6 @@ class MapExtrinsic {
                                Renderer const &renderer) const;
     void handleClick(int x, int y);
     void moveCameraBy(Position delta);
+    Position getCameraPosition() const;
     MapField const &at(int row, int col);
 };

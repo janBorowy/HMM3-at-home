@@ -28,7 +28,8 @@ class MapExtrinsic {
 
    public:
     MapExtrinsic(unsigned short initX, unsigned short initY,
-                 unsigned short width, unsigned short height);
+                 unsigned short width, unsigned short height,
+                 GameMap const &map);
     void drawFields(Renderer const &renderer) const;
     void drawFieldTypeSpecific(int x, int y, MapObject::Type type,
                                Renderer const &renderer) const;

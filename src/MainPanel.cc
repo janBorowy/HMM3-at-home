@@ -1,4 +1,6 @@
+#include <fstream>
 #include "MainPanel.h"
+#include "MapParser.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
 
@@ -7,8 +9,20 @@ constexpr int GRID_Y = 50;
 constexpr int GRID_PANEL_WIDTH = 1000;
 constexpr int GRID_PANEL_HEIGHT = 896;
 
+namespace {
+GameMap loadMap(int width, int height, std::string filename) {
+    std::ifstream file(filename);
+    MapParser parser(50, 50);
+    return parser.parse(file);
+}
+}  // namespace
+
 MainPanel::MainPanel()
-    : Panel(), map_{GRID_X, GRID_Y, GRID_PANEL_WIDTH, GRID_PANEL_HEIGHT} {}
+    : Panel(),
+      map_{GRID_X, GRID_Y, GRID_PANEL_WIDTH, GRID_PANEL_HEIGHT,
+           loadMap(
+               50, 50,
+               "/home/janek/workspace/Heroes-3-clone/resource/map1.hmm3map")} {}
 void MainPanel::step() {}
 void MainPanel::draw(Renderer const &renderer) { map_.drawFields(renderer); }
 void MainPanel::drawImGui(Renderer const &renderer) {

@@ -1,17 +1,27 @@
 #pragma once
-#include <array>
+#include <stdexcept>
+#include <vector>
 #include "MapField.h"
 
-constexpr int MAP_WIDTH = 50;
-constexpr int MAP_HEIGHT = 50;
+class GameMapException : std::runtime_error {
+   public:
+    GameMapException(std::string msg) : std::runtime_error(msg) {}
+};
 
-using Fields = std::array<std::array<MapField, MAP_WIDTH>, MAP_HEIGHT>;
+using Fields = std::vector<std::vector<MapField>>;
 class GameMap {
+    unsigned short width_;
+    unsigned short height_;
     Fields fields_;
-    void initFields();
+
+    void checkInBounds(int col, int row) const;
 
    public:
-    GameMap();
+    GameMap(unsigned short width, unsigned short height);
     Fields const &fields() const;
-    void placeObject(int x, int y, MapObject object);
+    MapField const &at(int col, int row) const;
+    MapField &at(int col, int row);
+    void placeObject(int col, int row, MapObject const &object);
+    unsigned short width() const;
+    unsigned short height() const;
 };

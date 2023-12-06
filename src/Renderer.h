@@ -1,11 +1,14 @@
 #pragma once
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <memory>
+#include <string>
 #include "GameEntity.h"
 
 class Renderer {
     SDL_Renderer *renderer_;
     SDL_Window *window_;
+    TTF_Font *font_;
 
    public:
     Renderer(SDL_Window *window);
@@ -19,7 +22,8 @@ class Renderer {
     void swapBuffers();
     void drawEntity(GameEntity const &entity) const;
     void drawSprite(int x, int y, Sprite const &sprite) const;
-    void drawLine(int startX, int startY, int endX, int endY);
+    void drawTexture(int x, int y, int width, int height,
+                     SDL_Texture *texture) const;
 };
 
 typedef std::shared_ptr<Renderer> RendererUPtr;

@@ -3,7 +3,7 @@
 
 TEST_CASE("Hero") {
     Hero hero(0, 0);
-    GameMap map;
+    GameMap map(20, 20);
     SUBCASE("Should initialize properly") {}
     SUBCASE("Should get correct position") {
         auto pos = hero.position();
@@ -24,13 +24,13 @@ TEST_CASE("Hero") {
     }
     SUBCASE("Should not be possible to move out of bounds") {
         CHECK_THROWS_AS(hero.move(Position{-1, -1}, map), HeroException);
-        auto fartherHero = Hero(MAP_WIDTH, MAP_HEIGHT);
+        auto fartherHero = Hero(map.width(), map.height());
         CHECK_THROWS_AS(
-            fartherHero.move(Position{MAP_WIDTH + 1, MAP_HEIGHT + 1}, map),
+            fartherHero.move(Position{map.width() + 1, map.height() + 1}, map),
             HeroException);
     }
     SUBCASE("Should not be able to move if not enough stamina") {
-        CHECK_THROWS_AS(hero.move(Position{MAP_WIDTH, MAP_HEIGHT}, map),
+        CHECK_THROWS_AS(hero.move(Position{map.width(), map.height()}, map),
                         HeroException);
         CHECK_THROWS_AS(hero.move(Position{8, 8}, map), HeroException);
     }

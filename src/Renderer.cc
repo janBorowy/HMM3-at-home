@@ -42,8 +42,14 @@ void Renderer::drawSprite(int x, int y, Sprite const &sprite) const {
     SDL_RenderCopy(renderer_, sprite.image_->getSDLTexture(), NULL, &rect);
 }
 
-void Renderer::drawLine(int startX, int startY, int endX, int endY) {
-    SDL_RenderDrawLine(renderer_, startX, startY, endX, endY);
+void Renderer::drawTexture(int x, int y, int width, int height,
+                           SDL_Texture *texture) const {
+    SDL_Rect rect;
+    rect.x = x;
+    rect.y = y;
+    rect.w = width;
+    rect.h = height;
+    SDL_RenderCopy(renderer_, texture, NULL, &rect);
 }
 
 void Renderer::setColor(Uint8 r, Uint8 g, Uint8 b) {

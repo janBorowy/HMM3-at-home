@@ -3,17 +3,15 @@
 #include "MapExtrinsic.h"
 
 MapExtrinsic::MapExtrinsic(unsigned short initX, unsigned short initY,
-                           unsigned short width, unsigned short height)
+                           unsigned short width, unsigned short height,
+                           GameMap const &map)
     : x_{initX},
       y_{initY},
       fieldHeight_(height / GRID_HEIGHT),
       fieldWidth_(width / GRID_WIDTH),
-      map_{},
+      map_{map},
       cameraLeftUpperCorner_{0, 0} {
     loadMapSprites();
-    map_.placeObject(10, 10, MapObject(MapObject::GOLD, 1000));
-    map_.placeObject(11, 10, MapObject(MapObject::WOOD, 1000));
-    map_.placeObject(12, 10, MapObject(MapObject::ORE, 1000));
 }
 
 void MapExtrinsic::drawFields(Renderer const &renderer) const {
@@ -75,9 +73,9 @@ void MapExtrinsic::moveCameraBy(Position delta) {
     cameraLeftUpperCorner_.first += delta.first;
     cameraLeftUpperCorner_.second += delta.second;
     cameraLeftUpperCorner_.first =
-        std::clamp(cameraLeftUpperCorner_.first, 0, MAP_WIDTH - GRID_WIDTH);
-    cameraLeftUpperCorner_.second =
-        std::clamp(cameraLeftUpperCorner_.second, 0, MAP_HEIGHT - GRID_HEIGHT);
+        std::clamp(cameraLeftUpperCorner_.first, 0, map_.width() - GRID_WIDTH);
+    cameraLeftUpperCorner_.second = std::clamp(cameraLeftUpperCorner_.second, 0,
+                                               map_.height() - GRID_HEIGHT);
 }
 
 Position MapExtrinsic::getCameraPosition() const {

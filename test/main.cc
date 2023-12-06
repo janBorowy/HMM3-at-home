@@ -2,6 +2,7 @@
 #include "TestHero.cc"
 #include "TestHeroResources.cc"
 #include "TestMapObject.cc"
+#include "TestMapParser.cc"
 #include "doctest.h"
 
 int main(int argc, char **argv) {

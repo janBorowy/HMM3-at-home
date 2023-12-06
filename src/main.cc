@@ -6,6 +6,7 @@
 #include "GameData.h"
 #include "GameWindow.h"
 #include "MainPanel.h"
+#include "MapParser.h"
 #include "UI.h"
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
@@ -13,7 +14,7 @@
 
 constexpr int FRAMES_PER_SECOND = 60;
 
-void gameLoop();
+int gameLoop();
 
 using SteadyClock = std::chrono::steady_clock;
 
@@ -27,15 +28,15 @@ int main() {
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
 
-    gameLoop();
+    int gameLoopReturn = gameLoop();
     gameWindow.quit();
     ImGui_ImplSDLRenderer2_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
-    return 0;
+    return gameLoopReturn;
 }
 
-void gameLoop() {
+int gameLoop() {
     UI panels;
     GameWindow &gameWindow = GameWindow::getInstance();
     Renderer &renderer = gameWindow.getRenderer();
@@ -45,10 +46,15 @@ void gameLoop() {
 #endif
 
     renderer.swapBuffers();
-    panels.push(new MainPanel);
     ImGui_ImplSDL2_InitForSDLRenderer(gameWindow.getSDLWindow(),
                                       renderer.getSDLRenderer());
     ImGui_ImplSDLRenderer2_Init(renderer.getSDLRenderer());
+    try {
+        panels.push(new MainPanel);
+    } catch (MapParserException const &e) {
+        std::cout << "Error parsing map file" << std::endl;
+        return 1;
+    }
     SteadyClock::time_point frameStart, frameEnd;
     SteadyClock::duration goalFrameDuration =
         std::chrono::nanoseconds(1000000000) / FRAMES_PER_SECOND;
@@ -74,4 +80,5 @@ void gameLoop() {
             // std::this_thread::sleep_for(goalFrameDuration - executionTime);
         }
     }
+    return 0;
 }

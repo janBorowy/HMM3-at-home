@@ -16,9 +16,9 @@ MapExtrinsic::MapExtrinsic(unsigned short initX, unsigned short initY,
 
 void MapExtrinsic::drawFields(Renderer const &renderer) const {
     for (int row = cameraLeftUpperCorner_.second;
-         row < 16 + cameraLeftUpperCorner_.second; ++row) {
+         row < GRID_HEIGHT + cameraLeftUpperCorner_.second; ++row) {
         for (int col = cameraLeftUpperCorner_.first;
-             col < 16 + cameraLeftUpperCorner_.first; ++col) {
+             col < GRID_WIDTH + cameraLeftUpperCorner_.first; ++col) {
             auto &field = map_.fields()[row][col];
             int drawX = x_ + (col - cameraLeftUpperCorner_.first) * fieldWidth_;
             int drawY =
@@ -82,3 +82,5 @@ int MapExtrinsic::y() const { return y_; }
 int MapExtrinsic::fieldWidth() const { return fieldWidth_; }
 
 int MapExtrinsic::fieldHeight() const { return fieldHeight_; }
+
+GameMap const &MapExtrinsic::gameMap() const { return map_; }

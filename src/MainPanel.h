@@ -1,4 +1,5 @@
 #pragma once
+#include "HeroExtrinsic.h"
 #include "Label.h"
 #include "MapExtrinsic.h"
 #include "Panel.h"
@@ -21,4 +22,9 @@ struct MainPanel : public Panel {
     Label woodResourceLabel_;
     Label oreResourceLabel_;
     SelectionVisitator selection_;
+    HeroExtrinsic playerHero_;
+
+    void handleMapGridClick(int col, int row);
+    void handleMapGridSelect(int col, int row);
+    void handleMapGridMove(int col, int row);
 };

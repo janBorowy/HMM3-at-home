@@ -28,7 +28,8 @@ MainPanel::MainPanel(Renderer const &renderer)
       goldResourceLabel_("Gold: ", renderer),
       woodResourceLabel_("Wood: ", renderer),
       oreResourceLabel_("Ore: ", renderer),
-      selection_(map_.fieldWidth(), map_.fieldHeight(), renderer) {
+      selection_(map_.fieldWidth(), map_.fieldHeight(), renderer),
+      playerHero_(1, 1, map_) {
     goldResourceLabel_.setPos(50, 950);
     staminaResourceLabel_.setPos(150, 950);
     woodResourceLabel_.setPos(300, 950);
@@ -37,11 +38,12 @@ MainPanel::MainPanel(Renderer const &renderer)
 void MainPanel::step() {}
 void MainPanel::draw() {
     map_.drawFields(renderer_);
+    playerHero_.draw(renderer_);
+    map_.accept(&selection_);
     goldResourceLabel_.draw();
     staminaResourceLabel_.draw();
     woodResourceLabel_.draw();
     oreResourceLabel_.draw();
-    map_.accept(&selection_);
 }
 void MainPanel::drawImGui() {
     ImGui_ImplSDLRenderer2_NewFrame();
@@ -51,8 +53,12 @@ void MainPanel::drawImGui() {
     {
         ImGui::Begin("Debug");
         ImGui::Text("FPS: %1.f", io.Framerate);
-        ImGui::Text("CAMERA X: %d Y: %d", map_.getCameraPosition().first,
+        ImGui::Text("Camera (%d,%d)", map_.getCameraPosition().first,
                     map_.getCameraPosition().second);
+        ImGui::Text("Selection COL: %d, ROW: %d", selection_.col(),
+                    selection_.row());
+        ImGui::Text("PLAYER STATS");
+        ImGui::Text("Stamina: %d", playerHero_.hero().resources().stamina());
         ImGui::End();
     }
     ImGui::Render();
@@ -86,9 +92,32 @@ bool MainPanel::mouseButtonDown(int x, int y) {
         y < GRID_Y + GRID_PANEL_HEIGHT) {
         auto clickedCol = (x - map_.x()) / map_.fieldWidth() + 1;
         auto clickedRow = (y - map_.y()) / map_.fieldHeight() + 1;
-        selection_.setPosition(clickedCol, clickedRow);
-        selection_.visible(true);
+        handleMapGridClick(clickedCol, clickedRow);
         return true;
     }
     return false;
+}
+
+void MainPanel::handleMapGridClick(int clickedCol, int clickedRow) {
+    auto cameraPos = map_.getCameraPosition();
+    auto mapCol = clickedCol + cameraPos.first;
+    auto mapRow = clickedRow + cameraPos.second;
+    if (selection_.col() == mapCol && selection_.row() == mapRow &&
+        playerHero_.hero().canMove({mapCol, mapRow}, map_.gameMap())) {
+        handleMapGridMove(mapCol, mapRow);
+    } else {
+        handleMapGridSelect(mapCol, mapRow);
+    }
+}
+
+void MainPanel::handleMapGridSelect(int mapCol, int mapRow) {
+    selection_.setPosition(mapCol, mapRow);
+    selection_.canMove(
+        playerHero_.hero().canMove({mapCol, mapRow}, map_.gameMap()));
+    selection_.visible(true);
+}
+
+void MainPanel::handleMapGridMove(int mapCol, int mapRow) {
+    playerHero_.hero().move({mapCol, mapRow}, map_.gameMap());
+    selection_.visible(false);
 }

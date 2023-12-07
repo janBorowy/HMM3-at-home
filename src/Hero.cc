@@ -1,21 +1,11 @@
 #include "Hero.h"
 
-Hero::Hero(int initialX, int initialY)
-    : resources_(INITIAL_HERO_MOVEMENT), position_(initialX, initialY) {}
+Hero::Hero(int initialCol, int initialRow)
+    : resources_(INITIAL_HERO_MOVEMENT), position_(initialCol, initialRow) {}
 
 void Hero::move(Position const &destination, GameMap const &map) {
-    if (destination.first < 0 || destination.first > map.width() ||
-        destination.second < 0 || destination.second > map.height()) {
-        throw HeroException("Illegal move destination");
-    }
-
-    Position delta;
-    delta.first = destination.first - position_.first;
-    delta.second = destination.second - position_.second;
-    int staminaRequired =
-        (abs(delta.first) + abs(delta.second)) * ONE_FIELD_MOVEMENT_PENALTY;
-    if (resources_.stamina() < staminaRequired) {
-        throw HeroException("Not enough stamina");
+    if (!canMove(destination, map)) {
+        throw HeroException("Illegal move");
     }
 
     while (resources_.canMove() && position_ != destination) {
@@ -39,3 +29,20 @@ void Hero::move(Position const &destination, GameMap const &map) {
 Position Hero::position() const { return position_; }
 
 HeroResources const &Hero::resources() const { return resources_; }
+
+bool Hero::canMove(Position const &destination, GameMap const &map) const {
+    if (destination.first < 0 || destination.first > map.width() ||
+        destination.second < 0 || destination.second > map.height()) {
+        return false;
+    }
+
+    Position delta;
+    delta.first = destination.first - position_.first;
+    delta.second = destination.second - position_.second;
+    int staminaRequired =
+        (abs(delta.first) + abs(delta.second)) * ONE_FIELD_MOVEMENT_PENALTY;
+    if (resources_.stamina() < staminaRequired) {
+        return false;
+    }
+    return true;
+}

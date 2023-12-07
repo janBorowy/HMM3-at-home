@@ -17,8 +17,9 @@ class Hero {
     Position position_;
 
    public:
-    Hero(int initialX, int initialY);
+    Hero(int initialCol, int initialRow);
     Position position() const;
     HeroResources const &resources() const;
     void move(Position const &destination, GameMap const &map);
+    bool canMove(Position const &destination, GameMap const &map) const;
 };

@@ -8,8 +8,8 @@
 #include "MapVisitator.h"
 #include "Renderer.h"
 
-constexpr int GRID_WIDTH = 16;
-constexpr int GRID_HEIGHT = 16;
+constexpr int GRID_WIDTH = 20;
+constexpr int GRID_HEIGHT = 20;
 
 using Position = std::pair<int, int>;
 
@@ -43,4 +43,5 @@ class MapExtrinsic {
     int fieldWidth() const;
     int fieldHeight() const;
     void accept(MapVisitator *visitator);
+    GameMap const &gameMap() const;
 };

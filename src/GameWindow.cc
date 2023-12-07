@@ -14,6 +14,7 @@ GameWindow::GameWindow()
     SDL_Init(SDL_INIT_VIDEO);
     SDLError::checkSDLError();
     IMG_Init(IMG_INIT_PNG);
+    TTF_Init();
     window_ = SDL_CreateWindow("Budget Heroes of Might & Magic 3",
                                SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                windowWidth_, windowHeight_, SDL_WINDOW_SHOWN);
@@ -36,6 +37,7 @@ Renderer &GameWindow::getRenderer() { return *renderer_; }
 void GameWindow::quit() {
     SDL_ShowCursor(true);
     if (window_) SDL_DestroyWindow(window_);
+    TTF_Quit();
     IMG_Quit();
     SDL_Quit();
 }

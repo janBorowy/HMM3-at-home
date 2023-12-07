@@ -2,8 +2,8 @@
 
 void UI::stepAll() {}
 void UI::drawFront(Renderer &renderer) {
-    stack.back()->draw(renderer);
-    stack.back()->drawImGui(renderer);
+    stack.back()->draw();
+    stack.back()->drawImGui();
 }
 void UI::pop() { /*pop pop*/
 }

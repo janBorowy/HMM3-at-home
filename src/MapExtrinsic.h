@@ -1,9 +1,11 @@
 #pragma once
 
 #include <array>
+#include <memory>
 #include <utility>
 #include "GameEntity.h"
 #include "GameMap.h"
+#include "MapVisitator.h"
 #include "Renderer.h"
 
 constexpr int GRID_WIDTH = 16;
@@ -33,8 +35,12 @@ class MapExtrinsic {
     void drawFields(Renderer const &renderer) const;
     void drawFieldTypeSpecific(int x, int y, MapObject::Type type,
                                Renderer const &renderer) const;
-    void handleClick(int x, int y);
     void moveCameraBy(Position delta);
     Position getCameraPosition() const;
     MapField const &at(int row, int col);
+    int x() const;
+    int y() const;
+    int fieldWidth() const;
+    int fieldHeight() const;
+    void accept(MapVisitator *visitator);
 };

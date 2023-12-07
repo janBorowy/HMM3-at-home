@@ -7,7 +7,7 @@ Image::Image(SDL_Texture *texture, int width, int height)
 
 Image::~Image() { SDL_DestroyTexture(texture_); }
 
-SDL_Texture *Image::getSDLTexture() { return texture_; }
+SDL_Texture *Image::getSDLTexture() const { return texture_; }
 
 int Image::getWidth() const { return width_; }
 

@@ -12,8 +12,9 @@ class Image {
     Image(SDL_Texture *texture_, int width, int height);
     int getWidth() const;
     int getHeight() const;
-    SDL_Texture *getSDLTexture();
+    SDL_Texture *getSDLTexture() const;
     ~Image();
 };
 
 using ImagePtr = std::shared_ptr<Image>;
+using ImageUPtr = std::unique_ptr<Image>;

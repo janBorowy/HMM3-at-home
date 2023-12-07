@@ -7,3 +7,10 @@ void SDLError::checkSDLError() {
         throw SDLException();
     }
 }
+
+void SDLError::checkTTFError() {
+    std::string message = TTF_GetError();
+    if (!message.empty()) {
+        throw TTFException();
+    }
+}

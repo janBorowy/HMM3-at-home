@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "SDLUtils.h"
 
 namespace {
 SDL_Renderer *createSDLRenderer(SDL_Window *window) {
@@ -6,10 +7,19 @@ SDL_Renderer *createSDLRenderer(SDL_Window *window) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     return renderer;
 }
+
+TTF_Font *openFont(std::string path) {
+    auto font = TTF_OpenFont(path.c_str(), 14);
+    // Maybe add some handling in case TTF_OpenFont fails
+    return font;
+}
 }  // namespace
 
 Renderer::Renderer(SDL_Window *window)
-    : window_(window), renderer_(createSDLRenderer(window)) {}
+    : window_(window),
+      renderer_(createSDLRenderer(window)),
+      font_(
+          openFont("/home/janek/workspace/Heroes-3-clone/resource/Vera.ttf")) {}
 
 Renderer::~Renderer() { SDL_DestroyRenderer(renderer_); }
 
@@ -42,16 +52,31 @@ void Renderer::drawSprite(int x, int y, Sprite const &sprite) const {
     SDL_RenderCopy(renderer_, sprite.image_->getSDLTexture(), NULL, &rect);
 }
 
-void Renderer::drawTexture(int x, int y, int width, int height,
-                           SDL_Texture *texture) const {
+void Renderer::drawImage(int x, int y, Image const &image) const {
     SDL_Rect rect;
     rect.x = x;
     rect.y = y;
-    rect.w = width;
-    rect.h = height;
-    SDL_RenderCopy(renderer_, texture, NULL, &rect);
+    rect.w = image.getWidth();
+    rect.h = image.getHeight();
+    SDL_RenderCopy(renderer_, image.getSDLTexture(), NULL, &rect);
 }
 
 void Renderer::setColor(Uint8 r, Uint8 g, Uint8 b) {
     SDL_SetRenderDrawColor(renderer_, r, g, b, 0xFF);
+}
+
+Image Renderer::createTextImage(std::string text, ColorRGB const &rgb) const {
+    SDL_Surface *surface = TTF_RenderText_Solid(
+        font_, text.c_str(),
+        {std::get<0>(rgb), std::get<1>(rgb), std::get<2>(rgb)});
+    if (surface == nullptr) {
+        SDLError::checkTTFError();
+    }
+    auto texture = SDL_CreateTextureFromSurface(renderer_, surface);
+    if (texture == nullptr) {
+        SDLError::checkSDLError();
+    }
+    auto image = Image(texture, surface->w, surface->h);
+    SDL_FreeSurface(surface);
+    return image;
 }

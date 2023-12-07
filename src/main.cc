@@ -28,12 +28,12 @@ int main() {
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
 
-    int gameLoopReturn = gameLoop();
+    int gameLoopReturnCode = gameLoop();
     gameWindow.quit();
     ImGui_ImplSDLRenderer2_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
-    return gameLoopReturn;
+    return gameLoopReturnCode;
 }
 
 int gameLoop() {
@@ -50,7 +50,7 @@ int gameLoop() {
                                       renderer.getSDLRenderer());
     ImGui_ImplSDLRenderer2_Init(renderer.getSDLRenderer());
     try {
-        panels.push(new MainPanel);
+        panels.push(new MainPanel(renderer));
     } catch (MapParserException const &e) {
         std::cout << "Error parsing map file" << std::endl;
         return 1;

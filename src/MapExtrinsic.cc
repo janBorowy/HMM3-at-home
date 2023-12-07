@@ -45,15 +45,6 @@ void MapExtrinsic::drawFieldTypeSpecific(int x, int y, MapObject::Type type,
     }
 }
 
-void MapExtrinsic::handleClick(int x, int y) {
-    // auto clickedCol = (x - x_) / fieldWidth_ + 1;
-    // auto clickedRow = (y - y_) / fieldHeight_ + 1;
-    // at(selectedCol_, selectedRow_).changeSprite("empty_field.png");
-    // selectedCol_ = clickedCol;
-    // selectedRow_ = clickedRow;
-    // at(clickedCol, clickedRow).changeSprite("selected_field.png");
-}
-
 MapField const &MapExtrinsic::at(int col, int row) {
     return map_.fields()[row - 1][col - 1];
 }
@@ -81,3 +72,13 @@ void MapExtrinsic::moveCameraBy(Position delta) {
 Position MapExtrinsic::getCameraPosition() const {
     return cameraLeftUpperCorner_;
 }
+
+void MapExtrinsic::accept(MapVisitator *visitator) { visitator->visit(*this); }
+
+int MapExtrinsic::x() const { return x_; }
+
+int MapExtrinsic::y() const { return y_; }
+
+int MapExtrinsic::fieldWidth() const { return fieldWidth_; }
+
+int MapExtrinsic::fieldHeight() const { return fieldHeight_; }

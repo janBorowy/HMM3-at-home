@@ -17,15 +17,33 @@ GameMap loadMap(int width, int height, std::string filename) {
 }
 }  // namespace
 
-MainPanel::MainPanel()
+MainPanel::MainPanel(Renderer const &renderer)
     : Panel(),
+      renderer_(renderer),
       map_{GRID_X, GRID_Y, GRID_PANEL_WIDTH, GRID_PANEL_HEIGHT,
            loadMap(
                50, 50,
-               "/home/janek/workspace/Heroes-3-clone/resource/map1.hmm3map")} {}
+               "/home/janek/workspace/Heroes-3-clone/resource/map1.hmm3map")},
+      staminaResourceLabel_("Stamina: ", renderer),
+      goldResourceLabel_("Gold: ", renderer),
+      woodResourceLabel_("Wood: ", renderer),
+      oreResourceLabel_("Ore: ", renderer),
+      selection_(map_.fieldWidth(), map_.fieldHeight(), renderer) {
+    goldResourceLabel_.setPos(50, 950);
+    staminaResourceLabel_.setPos(150, 950);
+    woodResourceLabel_.setPos(300, 950);
+    oreResourceLabel_.setPos(450, 950);
+}
 void MainPanel::step() {}
-void MainPanel::draw(Renderer const &renderer) { map_.drawFields(renderer); }
-void MainPanel::drawImGui(Renderer const &renderer) {
+void MainPanel::draw() {
+    map_.drawFields(renderer_);
+    goldResourceLabel_.draw();
+    staminaResourceLabel_.draw();
+    woodResourceLabel_.draw();
+    oreResourceLabel_.draw();
+    map_.accept(&selection_);
+}
+void MainPanel::drawImGui() {
     ImGui_ImplSDLRenderer2_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     auto io = ImGui::GetIO();
@@ -64,10 +82,13 @@ bool MainPanel::keyDown(SDL_Keycode key, Uint16 mod, bool isNewPress) {
 }
 
 bool MainPanel::mouseButtonDown(int x, int y) {
-    // if (x > GRID_X && x < GRID_X + GRID_PANEL_WIDTH && y > GRID_Y &&
-    //     y < GRID_Y + GRID_PANEL_HEIGHT) {
-    //     mapGrid_.handleClick(x, y);
-    //     return true;
-    // }
+    if (x > GRID_X && x < GRID_X + GRID_PANEL_WIDTH && y > GRID_Y &&
+        y < GRID_Y + GRID_PANEL_HEIGHT) {
+        auto clickedCol = (x - map_.x()) / map_.fieldWidth() + 1;
+        auto clickedRow = (y - map_.y()) / map_.fieldHeight() + 1;
+        selection_.setPosition(clickedCol, clickedRow);
+        selection_.visible(true);
+        return true;
+    }
     return false;
 }

@@ -46,3 +46,5 @@ bool Hero::canMove(Position const &destination, GameMap const &map) const {
     }
     return true;
 }
+
+void Hero::nextTurn() { resources_.refreshStamina(); }

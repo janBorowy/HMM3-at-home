@@ -5,6 +5,7 @@
 #include "Renderer.h"
 
 class Label {
+   protected:
     std::string text_;
     ImageUPtr image_;
     Renderer const &renderer_;

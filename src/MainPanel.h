@@ -2,6 +2,7 @@
 #include "HeroExtrinsic.h"
 #include "Label.h"
 #include "MapExtrinsic.h"
+#include "NextTurnButton.h"
 #include "Panel.h"
 #include "SelectionVisitator.h"
 #include "imgui.h"
@@ -23,6 +24,7 @@ struct MainPanel : public Panel {
     Label oreResourceLabel_;
     SelectionVisitator selection_;
     HeroExtrinsic playerHero_;
+    NextTurnButton nextTurnButton_;
 
     void handleMapGridClick(int col, int row);
     void handleMapGridSelect(int col, int row);

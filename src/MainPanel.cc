@@ -29,11 +29,14 @@ MainPanel::MainPanel(Renderer const &renderer)
       woodResourceLabel_("Wood: ", renderer),
       oreResourceLabel_("Ore: ", renderer),
       selection_(map_.fieldWidth(), map_.fieldHeight(), renderer),
-      playerHero_(1, 1, map_) {
+      playerHero_(1, 1, map_),
+      nextTurnButton_(renderer_, 300, 100, playerHero_.hero()) {
     goldResourceLabel_.setPos(50, 950);
     staminaResourceLabel_.setPos(150, 950);
     woodResourceLabel_.setPos(300, 950);
     oreResourceLabel_.setPos(450, 950);
+    nextTurnButton_.setPos(GRID_X + GRID_PANEL_WIDTH + 30,
+                           GRID_PANEL_HEIGHT + GRID_Y - 115);
 }
 void MainPanel::step() {}
 void MainPanel::draw() {
@@ -44,6 +47,7 @@ void MainPanel::draw() {
     staminaResourceLabel_.draw();
     woodResourceLabel_.draw();
     oreResourceLabel_.draw();
+    nextTurnButton_.draw();
 }
 void MainPanel::drawImGui() {
     ImGui_ImplSDLRenderer2_NewFrame();
@@ -93,6 +97,9 @@ bool MainPanel::mouseButtonDown(int x, int y) {
         auto clickedCol = (x - map_.x()) / map_.fieldWidth() + 1;
         auto clickedRow = (y - map_.y()) / map_.fieldHeight() + 1;
         handleMapGridClick(clickedCol, clickedRow);
+        return true;
+    }
+    if (nextTurnButton_.handleIfClicked(x, y)) {
         return true;
     }
     return false;

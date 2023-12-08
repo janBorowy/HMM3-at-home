@@ -22,4 +22,5 @@ class Hero {
     HeroResources &resources();
     void move(Position const &destination, GameMap const &map);
     bool canMove(Position const &destination, GameMap const &map) const;
+    void interactWith(GameMap &map, Position const &at);
 };

@@ -129,6 +129,7 @@ void MainPanel::handleMapGridSelect(int mapCol, int mapRow) {
 
 void MainPanel::handleMapGridMove(int mapCol, int mapRow) {
     playerHero_.hero().move({mapCol, mapRow}, map_.gameMap());
+    playerHero_.hero().interactWith(map_.gameMap(), {mapCol, mapRow});
     selection_.visible(false);
 }
 

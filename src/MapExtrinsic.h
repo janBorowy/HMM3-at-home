@@ -43,5 +43,5 @@ class MapExtrinsic {
     int fieldWidth() const;
     int fieldHeight() const;
     void accept(MapVisitator *visitator);
-    GameMap const &gameMap() const;
+    GameMap &gameMap();
 };

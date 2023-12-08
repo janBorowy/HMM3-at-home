@@ -56,3 +56,21 @@ bool Hero::canMove(Position const &destination, GameMap const &map) const {
     }
     return true;
 }
+
+void Hero::interactWith(GameMap &map, Position const &position) {
+    auto &object = map.at(position.first, position.second).object_;
+    switch (object.type()) {
+        case MapObject::NONE:
+            break;
+        case MapObject::GOLD:
+            resources_.addGold(object.value());
+            break;
+        case MapObject::WOOD:
+            resources_.addWood(object.value());
+            break;
+        case MapObject::ORE:
+            resources_.addOre(object.value());
+            break;
+    }
+    object = MapObject(MapObject::NONE, 0);
+}

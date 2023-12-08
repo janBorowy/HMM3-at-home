@@ -35,10 +35,10 @@ void MapExtrinsic::drawFieldTypeSpecific(int x, int y, MapObject::Type type,
         case MapObject::Type::GOLD:
             renderer.drawSprite(x, y, *goldFieldSprite_);
             break;
-        case MapObject::Type::ORE:
+        case MapObject::Type::WOOD:
             renderer.drawSprite(x, y, *woodFieldSprite_);
             break;
-        case MapObject::Type::WOOD:
+        case MapObject::Type::ORE:
             renderer.drawSprite(x, y, *oreFieldSprite_);
             break;
         case MapObject::Type::NONE:;
@@ -83,4 +83,4 @@ int MapExtrinsic::fieldWidth() const { return fieldWidth_; }
 
 int MapExtrinsic::fieldHeight() const { return fieldHeight_; }
 
-GameMap const &MapExtrinsic::gameMap() const { return map_; }
+GameMap &MapExtrinsic::gameMap() { return map_; }

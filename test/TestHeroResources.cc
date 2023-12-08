@@ -28,4 +28,19 @@ TEST_CASE("HeroResources") {
         auto moreStaminaHeroResources = HeroResources(1544);
         CHECK_EQ(moreStaminaHeroResources.calculateMaxSteps(), 16);
     }
+    SUBCASE("Should add/substract gold") {
+        auto gold = heroResources.gold();
+        heroResources.addGold(1000);
+        CHECK_EQ(heroResources.gold(), 1000);
+    }
+    SUBCASE("Should add/substract wood") {
+        auto gold = heroResources.wood();
+        heroResources.addWood(1000);
+        CHECK_EQ(heroResources.wood(), 1000);
+    }
+    SUBCASE("Should add/substract ore") {
+        auto gold = heroResources.ore();
+        heroResources.addOre(1000);
+        CHECK_EQ(heroResources.ore(), 1000);
+    }
 }

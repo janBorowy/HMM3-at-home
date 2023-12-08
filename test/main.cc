@@ -3,6 +3,7 @@
 #include "TestHeroResources.cc"
 #include "TestMapObject.cc"
 #include "TestMapParser.cc"
+#include "TestTurnManager.cc"
 #include "doctest.h"
 
 int main(int argc, char **argv) {

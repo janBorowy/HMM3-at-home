@@ -30,7 +30,8 @@ MainPanel::MainPanel(Renderer const &renderer)
       oreResourceLabel_("Ore: ", renderer),
       selection_(map_.fieldWidth(), map_.fieldHeight(), renderer),
       playerHero_(1, 1, map_),
-      nextTurnButton_(renderer_, 300, 100, playerHero_.hero()) {
+      turnManager_(playerHero_.hero()),
+      nextTurnButton_(renderer_, 300, 100, turnManager_) {
     goldResourceLabel_.setPos(50, 950);
     staminaResourceLabel_.setPos(150, 950);
     woodResourceLabel_.setPos(300, 950);
@@ -43,10 +44,7 @@ void MainPanel::draw() {
     map_.drawFields(renderer_);
     playerHero_.draw(renderer_);
     map_.accept(&selection_);
-    goldResourceLabel_.draw();
-    staminaResourceLabel_.draw();
-    woodResourceLabel_.draw();
-    oreResourceLabel_.draw();
+    updateAndDrawLabels();
     nextTurnButton_.draw();
 }
 void MainPanel::drawImGui() {
@@ -62,7 +60,12 @@ void MainPanel::drawImGui() {
         ImGui::Text("Selection COL: %d, ROW: %d", selection_.col(),
                     selection_.row());
         ImGui::Text("PLAYER STATS");
+        ImGui::Text("Position: (%d, %d)", playerHero_.hero().position().first,
+                    playerHero_.hero().position().second);
         ImGui::Text("Stamina: %d", playerHero_.hero().resources().stamina());
+        ImGui::Text("Gold: %d", playerHero_.hero().resources().gold());
+        ImGui::Text("Wood: %d", playerHero_.hero().resources().wood());
+        ImGui::Text("Ore: %d", playerHero_.hero().resources().ore());
         ImGui::End();
     }
     ImGui::Render();
@@ -127,4 +130,27 @@ void MainPanel::handleMapGridSelect(int mapCol, int mapRow) {
 void MainPanel::handleMapGridMove(int mapCol, int mapRow) {
     playerHero_.hero().move({mapCol, mapRow}, map_.gameMap());
     selection_.visible(false);
+}
+
+void MainPanel::updateAndDrawLabels() {
+    std::string goldLabelText = "Gold: ";
+    goldLabelText += std::to_string(playerHero_.hero().resources().gold());
+    goldResourceLabel_.updateText(goldLabelText);
+    goldResourceLabel_.draw();
+
+    std::string staminaLabelText = "Stamina: ";
+    staminaLabelText +=
+        std::to_string(playerHero_.hero().resources().stamina());
+    staminaResourceLabel_.updateText(staminaLabelText);
+    staminaResourceLabel_.draw();
+
+    std::string woodLabelText = "Wood: ";
+    woodLabelText += std::to_string(playerHero_.hero().resources().wood());
+    woodResourceLabel_.updateText(woodLabelText);
+    woodResourceLabel_.draw();
+
+    std::string oreLabelText = "Ore: ";
+    oreLabelText += std::to_string(playerHero_.hero().resources().ore());
+    oreResourceLabel_.updateText(oreLabelText);
+    oreResourceLabel_.draw();
 }

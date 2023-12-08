@@ -19,8 +19,7 @@ class Hero {
    public:
     Hero(int initialCol, int initialRow);
     Position position() const;
-    HeroResources const &resources() const;
+    HeroResources &resources();
     void move(Position const &destination, GameMap const &map);
     bool canMove(Position const &destination, GameMap const &map) const;
-    void nextTurn();
 };

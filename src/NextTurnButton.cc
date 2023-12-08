@@ -1,7 +1,7 @@
 #include "NextTurnButton.h"
 
 NextTurnButton::NextTurnButton(Renderer const &renderer, int width, int height,
-                               Hero &hero)
-    : Button("Next turn", renderer, width, height), hero_(hero) {}
+                               TurnManager &turnManager)
+    : Button("Next turn", renderer, width, height), turnManager_(turnManager) {}
 
-void NextTurnButton::handleClick() { hero_.nextTurn(); }
+void NextTurnButton::handleClick() { turnManager_.nextTurn(); }

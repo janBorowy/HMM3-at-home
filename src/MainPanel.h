@@ -5,6 +5,7 @@
 #include "NextTurnButton.h"
 #include "Panel.h"
 #include "SelectionVisitator.h"
+#include "TurnManager.h"
 #include "imgui.h"
 
 struct MainPanel : public Panel {
@@ -24,9 +25,11 @@ struct MainPanel : public Panel {
     Label oreResourceLabel_;
     SelectionVisitator selection_;
     HeroExtrinsic playerHero_;
+    TurnManager turnManager_;
     NextTurnButton nextTurnButton_;
 
     void handleMapGridClick(int col, int row);
     void handleMapGridSelect(int col, int row);
     void handleMapGridMove(int col, int row);
+    void updateAndDrawLabels();
 };

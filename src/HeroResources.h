@@ -3,6 +3,9 @@ constexpr int ONE_FIELD_MOVEMENT_PENALTY = 100;
 
 class HeroResources {
     int stamina_;
+    int gold_;
+    int wood_;
+    int ore_;
     int const movement_;
 
    public:
@@ -13,4 +16,10 @@ class HeroResources {
     void reduceStaminaByStep();
     bool canMove() const;
     int calculateMaxSteps() const;
+    int gold() const;
+    int wood() const;
+    int ore() const;
+    void addGold(int);
+    void addWood(int);
+    void addOre(int);
 };

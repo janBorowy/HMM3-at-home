@@ -1,11 +1,12 @@
 #pragma once
 #include "Button.h"
-#include "Hero.h"
+#include "TurnManager.h"
 
 class NextTurnButton : public Button {
-    Hero &hero_;
+    TurnManager &turnManager_;
 
    public:
-    NextTurnButton(Renderer const &renderer, int width, int height, Hero &hero);
+    NextTurnButton(Renderer const &renderer, int width, int height,
+                   TurnManager &turnManager);
     virtual void handleClick() override;
 };

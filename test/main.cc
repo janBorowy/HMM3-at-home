@@ -1,3 +1,4 @@
+#include "TestBattle.cc"
 #include "TestGameMap.cc"
 #include "TestHero.cc"
 #include "TestHeroResources.cc"

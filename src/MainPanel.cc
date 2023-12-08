@@ -1,5 +1,5 @@
-#include <fstream>
 #include "MainPanel.h"
+#include <fstream>
 #include "MapParser.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
@@ -20,9 +20,7 @@ GameMap loadMap(int width, int height, std::string filename) {
 MainPanel::MainPanel()
     : Panel(),
       map_{GRID_X, GRID_Y, GRID_PANEL_WIDTH, GRID_PANEL_HEIGHT,
-           loadMap(
-               50, 50,
-               "/home/janek/workspace/Heroes-3-clone/resource/map1.hmm3map")} {}
+           loadMap(50, 50, "../resource/map1.hmm3map")} {}
 void MainPanel::step() {}
 void MainPanel::draw(Renderer const &renderer) { map_.drawFields(renderer); }
 void MainPanel::drawImGui(Renderer const &renderer) {

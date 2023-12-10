@@ -24,4 +24,5 @@ class GameMap {
     void placeObject(int col, int row, MapObject const &object);
     unsigned short width() const;
     unsigned short height() const;
+    bool fieldExists(int col, int row) const;
 };

@@ -16,8 +16,6 @@ constexpr int FRAMES_PER_SECOND = 60;
 
 int gameLoop();
 
-using SteadyClock = std::chrono::steady_clock;
-
 int main() {
     GameWindow &gameWindow = GameWindow::getInstance();
     // Render once to show something other, rather than black window
@@ -55,12 +53,7 @@ int gameLoop() {
         std::cout << "Error parsing map file" << std::endl;
         return 1;
     }
-    SteadyClock::time_point frameStart, frameEnd;
-    SteadyClock::duration goalFrameDuration =
-        std::chrono::nanoseconds(1000000000) / FRAMES_PER_SECOND;
     while (!panels.isDone()) {
-        frameStart = SteadyClock::now();
-
         SDL_Event event;
         SDL_PollEvent(&event);
         ImGui_ImplSDL2_ProcessEvent(&event);
@@ -72,13 +65,6 @@ int gameLoop() {
         renderer.clear();
         panels.drawFront(renderer);
         renderer.swapBuffers();
-
-        frameEnd = SteadyClock::now();
-        SteadyClock::duration executionTime = frameEnd - frameStart;
-
-        if (executionTime < goalFrameDuration) {
-            // std::this_thread::sleep_for(goalFrameDuration - executionTime);
-        }
     }
     return 0;
 }

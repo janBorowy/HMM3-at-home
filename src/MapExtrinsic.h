@@ -7,11 +7,10 @@
 #include "GameMap.h"
 #include "MapVisitator.h"
 #include "Renderer.h"
+#include "typedefs.h"
 
 constexpr int GRID_WIDTH = 20;
 constexpr int GRID_HEIGHT = 20;
-
-using Position = std::pair<int, int>;
 
 class MapExtrinsic {
     unsigned short x_;

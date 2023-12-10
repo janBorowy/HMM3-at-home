@@ -33,3 +33,6 @@ MapField const &GameMap::at(int col, int row) const {
     checkInBounds(col, row);
     return fields_[row - 1][col - 1];
 }
+bool GameMap::fieldExists(int col, int row) const {
+    return col < 0 || col > width_ || row < 0 || row > height_;
+}

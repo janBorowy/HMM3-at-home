@@ -3,6 +3,9 @@ project(HMM3-clone)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
+
 file(GLOB src_FILES src/*.cc)
 include_directories(src)
 include_directories(src/engine_core)

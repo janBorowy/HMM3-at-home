@@ -1,4 +1,5 @@
 #include "Soldier.h"
+#include <stdexcept>
 
 Soldier::Soldier(int attack, int defense, int damage, int health,
                  int walk_distance, int number, int startX, int startY)
@@ -8,9 +9,17 @@ Soldier::Soldier(int attack, int defense, int damage, int health,
       health_(health),
       walk_distance_(walk_distance),
       current_health_(health),
-      number_(number),
-      pos_x_(startX),
-      pos_y_(startY) {}
+      number_(number)
+
+{
+    if (startX < 0 || startY < 0 || startX > 15 || startY > 15) {
+        throw std::runtime_error(
+            "Initialzed soldier with x, y values out of scope");
+    } else {
+        pos_x_ = startX;
+        pos_y_ = startY;
+    }
+}
 
 void Soldier::receive_damage(int damage) {
     int division = damage / health_;
@@ -29,21 +38,14 @@ void Soldier::receive_damage(int damage) {
 }
 
 int Soldier::attack(int x, int y) {
-    for (int a = -1; a < 2; ++a) {
-        for (int b = -1; b < 2; ++b) {
-            if (try_to_move(x + b, y + a)) {
-                return damage_ * number_;
-            }
-        }
+    if (try_to_move(x, y)) {
+        return damage_ * number_;
     }
     return 0;
 }
 
 bool Soldier::try_to_move(int x, int y) {
-    if (x < 1 || y < 1 || x > 16 || y > 16) {
-        return false;
-    }
-    if (std::abs(pos_x_ - x) + std::abs(pos_y_ - y) > walk_distance_) {
+    if (std::abs(x - pos_x_) + std::abs(y - pos_y_) > walk_distance_) {
         return false;
     } else {
         pos_x_ = x;

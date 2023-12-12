@@ -4,7 +4,9 @@
 #include <map>
 #include <memory>
 #include <vector>
+#include "AlivePlayer.h"
 #include "HeroResources.h"
+#include "Player.h"
 #include "SoldierTypes.h"
 
 #define Cols 16
@@ -12,26 +14,23 @@
 
 enum BattleState { heroTurn, enemyTurn, won, lost };
 
-using SoldierPtr = std::unique_ptr<Soldier>;
-
 class Battle {
-    std::map<int, SoldierPtr> enemy_;
-    std::map<int, SoldierPtr> hero_;
-
-    std::vector<int> enemy_keys_;
-    std::vector<int> hero_keys_;
-
     BattleState state_;
-    int paw_counter_;
+    int hero_paw_nr_;
+    int enemy_paw_nr_;
+    int counter_;
 
-    int game_grid[Rows][Cols];
+    std::vector<SoldierPtr> hero_army_;
+    std::vector<SoldierPtr> enemy_army_;
+
+    std::unique_ptr<Player> hero_;
+    std::unique_ptr<Player> enemy_;
 
    public:
     Battle(std::vector<UnitInfo> &hero_units,
            std::vector<UnitInfo> &enemy_units);
     ~Battle() = default;
-    void battle_spin(int x, int y);
-    void print_grid();
-    void update_grid();
-    void clear_grid();
+    void battleSpin(int x, int y);
+    void updateState();
+    BattleState getState();
 };

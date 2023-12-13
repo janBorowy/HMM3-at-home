@@ -37,7 +37,10 @@ void SelectionVisitator::drawMovementIndicators(MapExtrinsic const &map) {
     while (movementIndicators_.end() - it != 1) {
         auto previous = *it;
         auto next = *(it + 1);
-        Sprite &sprite = upArrow_;
+        auto cameraPos = map.getCameraPosition();
+        auto col = previous.first - cameraPos.first;
+        auto row = previous.second - cameraPos.second;
+        Sprite sprite = upArrow_;
         if (previous.first < next.first) {
             sprite = rightArrow_;
         } else if (previous.first > next.first) {
@@ -45,9 +48,11 @@ void SelectionVisitator::drawMovementIndicators(MapExtrinsic const &map) {
         } else if (previous.second < next.second) {
             sprite = downArrow_;
         }
-        renderer_.drawSprite(
-            map.x() + (previous.first - 1) * map.fieldWidth(),
-            map.y() + (previous.second - 1) * map.fieldHeight(), sprite);
+        if (col > 0 && col <= GRID_WIDTH && row > 0 && row <= GRID_HEIGHT) {
+            renderer_.drawSprite(map.x() + (col - 1) * map.fieldWidth(),
+                                 map.y() + (row - 1) * map.fieldHeight(),
+                                 sprite);
+        }
         ++it;
     }
 }

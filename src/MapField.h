@@ -1,10 +1,16 @@
 #pragma once
 #include "MapObject.h"
+
 class MapField {
-    bool movable_;
+   public:
+    enum Type { EMPTY, WALL };
+
+   private:
+    Type type_;
 
    public:
     MapField();
-    MapField(MapObject object, bool movable_);
+    MapField(MapObject object, Type type);
     MapObject object_;
+    bool movable() const;
 };

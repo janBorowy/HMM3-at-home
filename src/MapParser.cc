@@ -33,11 +33,11 @@ MapField MapParser::parseString(std::string const &str) const {
     } catch (std::out_of_range const &e) {
         throw MapParserException("Illegal identifier");
     }
-    if (identifier == "0") return MapField(MapObject(type, 0), true);
+    if (identifier == "0") return MapField(MapObject(type, 0), MapField::EMPTY);
     std::string valueStr;
     for (++it; it != str.end() && *it != ')'; ++it) {
         valueStr += *it;
     }
     auto value = std::stoi(valueStr);
-    return MapField(MapObject(type, value), true);
+    return MapField(MapObject(type, value), MapField::EMPTY);
 }

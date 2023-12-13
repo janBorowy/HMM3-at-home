@@ -5,10 +5,9 @@ namespace {}  // namespace
 GameMap::GameMap(unsigned short width, unsigned short height)
     : width_(width),
       height_(height),
-      fields_(height,
-              std::vector<MapField>(
-                  width, MapField(MapObject(MapObject::Type::NONE, 0), true))) {
-}
+      fields_(height, std::vector<MapField>(
+                          width, MapField(MapObject(MapObject::Type::NONE, 0),
+                                          MapField::Type::EMPTY))) {}
 
 Fields const &GameMap::fields() const { return fields_; }
 

@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <vector>
 #include "MapField.h"
+#include "typedefs.h"
 
 class GameMapException : std::runtime_error {
    public:
@@ -20,6 +21,7 @@ class GameMap {
     GameMap(unsigned short width, unsigned short height);
     Fields const &fields() const;
     MapField const &at(int col, int row) const;
+    MapField const &at(Position const &pos) const;
     MapField &at(int col, int row);
     void placeObject(int col, int row, MapObject const &object);
     unsigned short width() const;

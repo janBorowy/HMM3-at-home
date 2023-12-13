@@ -14,7 +14,7 @@ MapExtrinsic::MapExtrinsic(unsigned short initX, unsigned short initY,
     loadMapSprites();
 }
 
-void MapExtrinsic::drawFields(Renderer const &renderer) const {
+void MapExtrinsic::draw(Renderer const &renderer) const {
     for (int row = cameraLeftUpperCorner_.second;
          row < GRID_HEIGHT + cameraLeftUpperCorner_.second; ++row) {
         for (int col = cameraLeftUpperCorner_.first;
@@ -24,13 +24,25 @@ void MapExtrinsic::drawFields(Renderer const &renderer) const {
             int drawY =
                 y_ + (row - cameraLeftUpperCorner_.second) * fieldHeight_;
             renderer.drawSprite(drawX, drawY, *fieldSprite_);
-            drawFieldTypeSpecific(drawX, drawY, field.object_.type(), renderer);
+            drawField(drawX, drawY, field.type(), renderer);
+            drawFieldObject(drawX, drawY, field.object_.type(), renderer);
         }
     }
 }
 
-void MapExtrinsic::drawFieldTypeSpecific(int x, int y, MapObject::Type type,
-                                         Renderer const &renderer) const {
+void MapExtrinsic::drawField(int x, int y, MapField::Type type,
+                             Renderer const &renderer) const {
+    switch (type) {
+        case MapField::Type::EMPTY:
+            renderer.drawSprite(x, y, *fieldSprite_);
+            break;
+        case MapField::Type::WALL:
+            renderer.drawSprite(x, y, *wallSprite_);
+    }
+}
+
+void MapExtrinsic::drawFieldObject(int x, int y, MapObject::Type type,
+                                   Renderer const &renderer) const {
     switch (type) {
         case MapObject::Type::GOLD:
             renderer.drawSprite(x, y, *goldFieldSprite_);
@@ -52,6 +64,8 @@ MapField const &MapExtrinsic::at(int col, int row) {
 void MapExtrinsic::loadMapSprites() {
     auto image = GameData::getImage("grass.png");
     fieldSprite_.reset(new Sprite(fieldWidth_, fieldHeight_, image));
+    image = GameData::getImage("wall.png");
+    wallSprite_.reset(new Sprite(fieldWidth_, fieldHeight_, image));
     image = GameData::getImage("gold.png");
     goldFieldSprite_.reset(new Sprite(fieldWidth_, fieldHeight_, image));
     image = GameData::getImage("wood.png");

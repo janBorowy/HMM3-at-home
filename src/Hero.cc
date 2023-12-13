@@ -17,7 +17,6 @@ void Hero::move(Position const &destination, GameMap const &map) {
     if (!canMove(destination, map)) {
         throw HeroException("Illegal move");
     }
-
     while (resources_.canMove() && position_ != destination) {
         resources_.reduceStaminaByStep();
         if (position_.first < destination.first) {
@@ -36,13 +35,41 @@ void Hero::move(Position const &destination, GameMap const &map) {
     }
 }
 
+std::vector<Position> Hero::getMovementPath(Position const &destination,
+                                            GameMap const &map) const {
+    if (!canMove(destination, map)) {
+        throw HeroException("Illegal move");
+    }
+    auto position = position_;
+    std::vector<Position> traveledPath;
+    while (resources_.canMove() && position != destination) {
+        traveledPath.push_back(position);
+        if (position.first < destination.first) {
+            ++(position.first);
+            continue;
+        } else if (position.first > destination.first) {
+            --(position.first);
+            continue;
+        } else if (position.second < destination.second) {
+            ++(position.second);
+            continue;
+        } else {
+            --(position.second);
+            continue;
+        }
+    }
+    traveledPath.push_back(position);
+    return traveledPath;
+}
+
 Position Hero::position() const { return position_; }
 
 HeroResources &Hero::resources() { return resources_; }
 
 bool Hero::canMove(Position const &destination, GameMap const &map) const {
     if (destination.first < 0 || destination.first > map.width() ||
-        destination.second < 0 || destination.second > map.height()) {
+        destination.second < 0 || destination.second > map.height() ||
+        !map.at(destination).movable()) {
         return false;
     }
 

@@ -7,6 +7,11 @@ SelectionVisitator::SelectionVisitator(int fieldWidth, int fieldHeight,
                      GameData::getImage("selected_green.png")),
       cannotMoveSprite_(fieldWidth, fieldHeight,
                         GameData::getImage("selected_red.png")),
+      upArrow_(fieldWidth, fieldHeight, GameData::getImage("up_arrow.png")),
+      downArrow_(fieldWidth, fieldHeight, GameData::getImage("down_arrow.png")),
+      leftArrow_(fieldWidth, fieldHeight, GameData::getImage("left_arrow.png")),
+      rightArrow_(fieldWidth, fieldHeight,
+                  GameData::getImage("right_arrow.png")),
       col_{1},
       row_{1},
       visible_{false},
@@ -16,11 +21,34 @@ void SelectionVisitator::visit(MapExtrinsic const &map) {
     auto cameraPos = map.getCameraPosition();
     auto col = col_ - cameraPos.first;
     auto row = row_ - cameraPos.second;
-    if (visible_ && col > 0 && col <= GRID_WIDTH && row > 0 &&
-        row <= GRID_HEIGHT) {
-        renderer_.drawSprite(map.x() + (col - 1) * map.fieldWidth(),
-                             map.y() + (row - 1) * map.fieldHeight(),
-                             chooseSprite());
+    if (visible_) {
+        if (canMove_) drawMovementIndicators(map);
+        if (col > 0 && col <= GRID_WIDTH && row > 0 && row <= GRID_HEIGHT) {
+            renderer_.drawSprite(map.x() + (col - 1) * map.fieldWidth(),
+                                 map.y() + (row - 1) * map.fieldHeight(),
+                                 chooseSprite());
+        }
+    }
+}
+
+void SelectionVisitator::drawMovementIndicators(MapExtrinsic const &map) {
+    auto it = movementIndicators_.begin() +
+              1;  // start from second element to avoid drawing over sprite
+    while (movementIndicators_.end() - it != 1) {
+        auto previous = *it;
+        auto next = *(it + 1);
+        Sprite &sprite = upArrow_;
+        if (previous.first < next.first) {
+            sprite = rightArrow_;
+        } else if (previous.first > next.first) {
+            sprite = leftArrow_;
+        } else if (previous.second < next.second) {
+            sprite = downArrow_;
+        }
+        renderer_.drawSprite(
+            map.x() + (previous.first - 1) * map.fieldWidth(),
+            map.y() + (previous.second - 1) * map.fieldHeight(), sprite);
+        ++it;
     }
 }
 
@@ -42,4 +70,9 @@ Sprite const &SelectionVisitator::chooseSprite() {
         return canMoveSprite_;
     }
     return cannotMoveSprite_;
+}
+
+void SelectionVisitator::setMovementIndicators(
+    std::vector<Position> const &indicators) {
+    movementIndicators_ = indicators;
 }

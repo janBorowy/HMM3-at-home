@@ -41,7 +41,7 @@ MainPanel::MainPanel(Renderer const &renderer)
 }
 void MainPanel::step() {}
 void MainPanel::draw() {
-    map_.drawFields(renderer_);
+    map_.draw(renderer_);
     playerHero_.draw(renderer_);
     map_.accept(&selection_);
     updateAndDrawLabels();
@@ -112,18 +112,29 @@ void MainPanel::handleMapGridClick(int clickedCol, int clickedRow) {
     auto cameraPos = map_.getCameraPosition();
     auto mapCol = clickedCol + cameraPos.first;
     auto mapRow = clickedRow + cameraPos.second;
+    if (playerHero_.hero().position() == Position{clickedCol, clickedRow}) {
+        // Show hero info?
+        return;
+    }
     if (selection_.col() == mapCol && selection_.row() == mapRow &&
         playerHero_.hero().canMove({mapCol, mapRow}, map_.gameMap())) {
         handleMapGridMove(mapCol, mapRow);
+        return;
     } else {
         handleMapGridSelect(mapCol, mapRow);
+        return;
     }
 }
 
 void MainPanel::handleMapGridSelect(int mapCol, int mapRow) {
     selection_.setPosition(mapCol, mapRow);
-    selection_.canMove(
-        playerHero_.hero().canMove({mapCol, mapRow}, map_.gameMap()));
+    auto canMoveThere =
+        playerHero_.hero().canMove({mapCol, mapRow}, map_.gameMap());
+    selection_.canMove(canMoveThere);
+    if (canMoveThere) {
+        selection_.setMovementIndicators(playerHero_.hero().getMovementPath(
+            {mapCol, mapRow}, map_.gameMap()));
+    };
     selection_.visible(true);
 }
 

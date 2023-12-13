@@ -21,19 +21,23 @@ class MapExtrinsic {
     unsigned short fieldWidth_;
     GameMap map_;
     SpriteUPtr fieldSprite_;
+    SpriteUPtr wallSprite_;
     SpriteUPtr goldFieldSprite_;
     SpriteUPtr oreFieldSprite_;
     SpriteUPtr woodFieldSprite_;
     Position cameraLeftUpperCorner_;
     void loadMapSprites();
+    void drawField(int x, int y, MapField::Type type,
+                   Renderer const &renderer) const;
+    void drawFieldObject(int x, int y, MapObject::Type type,
+                         Renderer const &renderer) const;
+    std::vector<Position> movementIndicators_;
 
    public:
     MapExtrinsic(unsigned short initX, unsigned short initY,
                  unsigned short width, unsigned short height,
                  GameMap const &map);
-    void drawFields(Renderer const &renderer) const;
-    void drawFieldTypeSpecific(int x, int y, MapObject::Type type,
-                               Renderer const &renderer) const;
+    void draw(Renderer const &renderer) const;
     void moveCameraBy(Position delta);
     Position getCameraPosition() const;
     MapField const &at(int row, int col);

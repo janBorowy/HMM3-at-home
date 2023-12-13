@@ -7,11 +7,16 @@
 class SelectionVisitator : public MapVisitator {
     Sprite canMoveSprite_;
     Sprite cannotMoveSprite_;
+    Sprite upArrow_;
+    Sprite downArrow_;
+    Sprite leftArrow_;
+    Sprite rightArrow_;
     unsigned short col_, row_;
     bool visible_;
     bool canMove_;
     Renderer const &renderer_;
-
+    std::vector<Position> movementIndicators_;
+    void drawMovementIndicators(MapExtrinsic const &map);
     Sprite const &chooseSprite();
 
    public:
@@ -23,4 +28,5 @@ class SelectionVisitator : public MapVisitator {
     int col() const;
     int row() const;
     void canMove(bool can);
+    void setMovementIndicators(std::vector<Position> const &indicators);
 };

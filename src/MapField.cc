@@ -14,3 +14,4 @@ bool MapField::movable() const {
     }
     return true;
 }
+MapField::Type MapField::type() const { return type_; }

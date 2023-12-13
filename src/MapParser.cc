@@ -27,6 +27,10 @@ MapField MapParser::parseString(std::string const &str) const {
     for (; it != str.end() && *it != '('; ++it) {
         identifier += *it;
     }
+    if (identifier == "W") {
+        return MapField(MapObject(MapObject::Type::NONE, 0),
+                        MapField::Type::WALL);
+    }
     MapObject::Type type;
     try {
         type = elements_.at(identifier);

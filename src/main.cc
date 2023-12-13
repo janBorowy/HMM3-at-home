@@ -5,6 +5,7 @@
 #include <thread>
 #include "GameData.h"
 #include "GameWindow.h"
+#include "HeroResources.h"
 #include "MainPanel.h"
 #include "MapParser.h"
 #include "UI.h"

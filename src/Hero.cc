@@ -13,7 +13,7 @@ Hero::Hero(int initialCol, int initialRow)
     resources_.addOre(INTIAL_ORE);
 }
 
-void Hero::move(Position const &destination, GameMap const &map) {
+void Hero::move(const Position &destination, const GameMap &map) {
     if (!canMove(destination, map)) {
         throw HeroException("Illegal move");
     }
@@ -35,8 +35,8 @@ void Hero::move(Position const &destination, GameMap const &map) {
     }
 }
 
-std::vector<Position> Hero::getMovementPath(Position const &destination,
-                                            GameMap const &map) const {
+std::vector<Position> Hero::getMovementPath(const Position &destination,
+                                            const GameMap &map) const {
     if (!canMove(destination, map)) {
         throw HeroException("Illegal move");
     }
@@ -66,7 +66,7 @@ Position Hero::position() const { return position_; }
 
 HeroResources &Hero::resources() { return resources_; }
 
-bool Hero::canMove(Position const &destination, GameMap const &map) const {
+bool Hero::canMove(const Position &destination, const GameMap &map) const {
     if (destination.first < 0 || destination.first > map.width() ||
         destination.second < 0 || destination.second > map.height() ||
         !map.at(destination).movable()) {
@@ -84,7 +84,7 @@ bool Hero::canMove(Position const &destination, GameMap const &map) const {
     return true;
 }
 
-void Hero::interactWith(GameMap &map, Position const &position) {
+void Hero::interactWith(GameMap &map, const Position &position) {
     auto &object = map.at(position.first, position.second).object_;
     switch (object.type()) {
         case MapObject::NONE:

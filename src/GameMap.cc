@@ -9,9 +9,9 @@ GameMap::GameMap(unsigned short width, unsigned short height)
                           width, MapField(MapObject(MapObject::Type::NONE, 0),
                                           MapField::Type::EMPTY))) {}
 
-Fields const &GameMap::fields() const { return fields_; }
+const Fields &GameMap::fields() const { return fields_; }
 
-void GameMap::placeObject(int col, int row, MapObject const &object) {
+void GameMap::placeObject(int col, int row, const MapObject &object) {
     checkInBounds(col, row);
     at(col, row).object_ = object;
 }
@@ -28,11 +28,11 @@ MapField &GameMap::at(int col, int row) {
     checkInBounds(col, row);
     return fields_[row - 1][col - 1];
 }
-MapField const &GameMap::at(int col, int row) const {
+const MapField &GameMap::at(int col, int row) const {
     checkInBounds(col, row);
     return fields_[row - 1][col - 1];
 }
-MapField const &GameMap::at(Position const &pos) const {
+const MapField &GameMap::at(const Position &pos) const {
     checkInBounds(pos.first, pos.second);
     return at(pos.first, pos.second);
 }

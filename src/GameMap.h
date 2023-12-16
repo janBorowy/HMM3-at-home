@@ -19,11 +19,11 @@ class GameMap {
 
    public:
     GameMap(unsigned short width, unsigned short height);
-    Fields const &fields() const;
-    MapField const &at(int col, int row) const;
-    MapField const &at(Position const &pos) const;
+    const Fields &fields() const;
+    const MapField &at(int col, int row) const;
+    const MapField &at(const Position &pos) const;
     MapField &at(int col, int row);
-    void placeObject(int col, int row, MapObject const &object);
+    void placeObject(int col, int row, const MapObject &object);
     unsigned short width() const;
     unsigned short height() const;
     bool fieldExists(int col, int row) const;

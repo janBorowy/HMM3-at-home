@@ -17,7 +17,7 @@ GameMap loadMap(int width, int height, std::string filename) {
 }
 }  // namespace
 
-MainPanel::MainPanel(Renderer const &renderer)
+MainPanel::MainPanel(const Renderer &renderer)
     : Panel(),
       renderer_(renderer),
       map_{GRID_X, GRID_Y, GRID_PANEL_WIDTH, GRID_PANEL_HEIGHT,

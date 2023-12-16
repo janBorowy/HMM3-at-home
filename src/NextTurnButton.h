@@ -6,7 +6,7 @@ class NextTurnButton : public Button {
     TurnManager &turnManager_;
 
    public:
-    NextTurnButton(Renderer const &renderer, int width, int height,
+    NextTurnButton(const Renderer &renderer, int width, int height,
                    TurnManager &turnManager);
     virtual void handleClick() override;
 };

@@ -3,5 +3,5 @@
 class MapExtrinsic;
 class MapVisitator {
    public:
-    virtual void visit(MapExtrinsic const &map) = 0;
+    virtual void visit(const MapExtrinsic &map) = 0;
 };

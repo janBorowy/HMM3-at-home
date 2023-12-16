@@ -7,7 +7,7 @@ void UI::drawFront(Renderer &renderer) {
 }
 void UI::pop() { /*pop pop*/
 }
-bool UI::handle(SDL_Event const &event) {
+bool UI::handle(const SDL_Event &event) {
     bool handled = false;
     std::vector<std::shared_ptr<Panel>>::iterator it = stack.end();
     while (it != stack.begin() && !handled) {

@@ -14,19 +14,19 @@ class SelectionVisitator : public MapVisitator {
     unsigned short col_, row_;
     bool visible_;
     bool canMove_;
-    Renderer const &renderer_;
+    const Renderer &renderer_;
     std::vector<Position> movementIndicators_;
-    void drawMovementIndicators(MapExtrinsic const &map);
-    Sprite const &chooseSprite();
+    void drawMovementIndicators(const MapExtrinsic &map);
+    const Sprite &chooseSprite();
 
    public:
     SelectionVisitator(int fieldWidth, int fieldHeight,
-                       Renderer const &renderer);
-    virtual void visit(MapExtrinsic const &map) override;
+                       const Renderer &renderer);
+    virtual void visit(const MapExtrinsic &map) override;
     void visible(bool onOff);
     void setPosition(int col, int row);
     int col() const;
     int row() const;
     void canMove(bool can);
-    void setMovementIndicators(std::vector<Position> const &indicators);
+    void setMovementIndicators(const std::vector<Position> &indicators);
 };

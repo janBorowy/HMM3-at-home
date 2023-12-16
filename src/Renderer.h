@@ -16,17 +16,17 @@ class Renderer {
    public:
     Renderer(SDL_Window *window);
     ~Renderer();
-    Renderer(Renderer const &rhs) = delete;
-    Renderer &operator=(Renderer const &rhs) = delete;
+    Renderer(const Renderer &rhs) = delete;
+    Renderer &operator=(const Renderer &rhs) = delete;
 
     SDL_Renderer *getSDLRenderer() const;
-    Image createTextImage(std::string text, ColorRGB const &rgb) const;
+    Image createTextImage(std::string text, const ColorRGB &rgb) const;
     void clear();
     void setColor(Uint8 r, Uint8 g, Uint8 b);
     void swapBuffers();
-    void drawEntity(GameEntity const &entity) const;
-    void drawSprite(int x, int y, Sprite const &sprite) const;
-    void drawImage(int x, int y, Image const &image) const;
+    void drawEntity(const GameEntity &entity) const;
+    void drawSprite(int x, int y, const Sprite &sprite) const;
+    void drawImage(int x, int y, const Image &image) const;
 };
 
 typedef std::shared_ptr<Renderer> RendererUPtr;

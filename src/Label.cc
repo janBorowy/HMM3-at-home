@@ -1,7 +1,7 @@
 #include "Label.h"
 #include "SDLUtils.h"
 
-Label::Label(std::string initialText, Renderer const &renderer)
+Label::Label(std::string initialText, const Renderer &renderer)
     : text_(""),
       image_(),
       renderer_(renderer),

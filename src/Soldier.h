@@ -3,11 +3,11 @@
 
 class Soldier {
    protected:
-    int const attack_;
-    int const defense_;
-    int const damage_;
-    int const health_;
-    int const walk_distance_;
+    const int attack_;
+    const int defense_;
+    const int damage_;
+    const int health_;
+    const int walk_distance_;
     int current_health_;
     int number_;
     int pos_x_;

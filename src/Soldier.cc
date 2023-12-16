@@ -1,5 +1,5 @@
-#include "Soldier.h"
 #include <stdexcept>
+#include "Soldier.h"
 
 Soldier::Soldier(int attack, int defense, int damage, int health,
                  int walk_distance, int number, int startX, int startY)

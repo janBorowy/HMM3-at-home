@@ -32,7 +32,7 @@ void Renderer::swapBuffers() { SDL_RenderPresent(renderer_); }
 
 SDL_Renderer *Renderer::getSDLRenderer() const { return renderer_; }
 
-void Renderer::drawEntity(GameEntity const &entity) const {
+void Renderer::drawEntity(const GameEntity &entity) const {
     auto &sprite = entity.sprite_;
     if (sprite == nullptr) return;
     SDL_Rect rect;
@@ -43,7 +43,7 @@ void Renderer::drawEntity(GameEntity const &entity) const {
     SDL_RenderCopy(renderer_, sprite->image_->getSDLTexture(), NULL, &rect);
 }
 
-void Renderer::drawSprite(int x, int y, Sprite const &sprite) const {
+void Renderer::drawSprite(int x, int y, const Sprite &sprite) const {
     SDL_Rect rect;
     rect.x = x;
     rect.y = y;
@@ -52,7 +52,7 @@ void Renderer::drawSprite(int x, int y, Sprite const &sprite) const {
     SDL_RenderCopy(renderer_, sprite.image_->getSDLTexture(), NULL, &rect);
 }
 
-void Renderer::drawImage(int x, int y, Image const &image) const {
+void Renderer::drawImage(int x, int y, const Image &image) const {
     SDL_Rect rect;
     rect.x = x;
     rect.y = y;
@@ -65,7 +65,7 @@ void Renderer::setColor(Uint8 r, Uint8 g, Uint8 b) {
     SDL_SetRenderDrawColor(renderer_, r, g, b, 0xFF);
 }
 
-Image Renderer::createTextImage(std::string text, ColorRGB const &rgb) const {
+Image Renderer::createTextImage(std::string text, const ColorRGB &rgb) const {
     SDL_Surface *surface = TTF_RenderText_Solid(
         font_, text.c_str(),
         {std::get<0>(rgb), std::get<1>(rgb), std::get<2>(rgb)});

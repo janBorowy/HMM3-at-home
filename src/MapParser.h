@@ -16,7 +16,7 @@ class MapParser {
     unsigned short height_;
     GameMap map_;
     MapElements elements_;
-    MapField parseString(std::string const &str) const;
+    MapField parseString(const std::string &str) const;
 
    public:
     MapParser(unsigned short width, unsigned short height);

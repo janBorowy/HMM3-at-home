@@ -1,7 +1,7 @@
 #include "Button.h"
 #include "GameData.h"
 
-Button::Button(std::string text, Renderer const &renderer, int width,
+Button::Button(std::string text, const Renderer &renderer, int width,
                int height)
     : Label(text, renderer),
       borderSprite_(width, height, GameData::getImage("button.png")),

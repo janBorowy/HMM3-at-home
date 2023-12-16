@@ -50,7 +50,7 @@ int gameLoop() {
     ImGui_ImplSDLRenderer2_Init(renderer.getSDLRenderer());
     try {
         panels.push(new MainPanel(renderer));
-    } catch (MapParserException const &e) {
+    } catch (const MapParserException &e) {
         std::cout << "Error parsing map file" << std::endl;
         return 1;
     }

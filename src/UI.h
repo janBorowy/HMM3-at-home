@@ -11,7 +11,7 @@ struct UI {
     void push(Panel *panel);
     void quit();
     void pop();
-    bool handle(SDL_Event const &event);
+    bool handle(const SDL_Event &event);
     bool isDone() const;
 
    private:

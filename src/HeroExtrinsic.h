@@ -4,11 +4,11 @@
 
 class HeroExtrinsic {
     Hero hero_;
-    MapExtrinsic const &map_;
+    const MapExtrinsic &map_;
     Sprite sprite_;
 
    public:
-    HeroExtrinsic(int initCol, int initRow, MapExtrinsic const &map);
+    HeroExtrinsic(int initCol, int initRow, const MapExtrinsic &map);
     Hero &hero();
-    void draw(Renderer const &renderer) const;
+    void draw(const Renderer &renderer) const;
 };

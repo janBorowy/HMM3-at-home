@@ -8,7 +8,7 @@ class Button : public Label {
     virtual void handleClick() = 0;
 
    public:
-    Button(std::string text, Renderer const &renderer, int width, int height);
+    Button(std::string text, const Renderer &renderer, int width, int height);
     void draw() const;
     bool handleIfClicked(int cursorX, int cursorY);
 };

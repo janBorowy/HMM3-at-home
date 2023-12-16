@@ -4,7 +4,7 @@
 
 MapExtrinsic::MapExtrinsic(unsigned short initX, unsigned short initY,
                            unsigned short width, unsigned short height,
-                           GameMap const &map)
+                           const GameMap &map)
     : x_{initX},
       y_{initY},
       fieldHeight_(height / GRID_HEIGHT),
@@ -14,7 +14,7 @@ MapExtrinsic::MapExtrinsic(unsigned short initX, unsigned short initY,
     loadMapSprites();
 }
 
-void MapExtrinsic::draw(Renderer const &renderer) const {
+void MapExtrinsic::draw(const Renderer &renderer) const {
     for (int row = cameraLeftUpperCorner_.second;
          row < GRID_HEIGHT + cameraLeftUpperCorner_.second; ++row) {
         for (int col = cameraLeftUpperCorner_.first;
@@ -31,7 +31,7 @@ void MapExtrinsic::draw(Renderer const &renderer) const {
 }
 
 void MapExtrinsic::drawField(int x, int y, MapField::Type type,
-                             Renderer const &renderer) const {
+                             const Renderer &renderer) const {
     switch (type) {
         case MapField::Type::EMPTY:
             renderer.drawSprite(x, y, *fieldSprite_);
@@ -42,7 +42,7 @@ void MapExtrinsic::drawField(int x, int y, MapField::Type type,
 }
 
 void MapExtrinsic::drawFieldObject(int x, int y, MapObject::Type type,
-                                   Renderer const &renderer) const {
+                                   const Renderer &renderer) const {
     switch (type) {
         case MapObject::Type::GOLD:
             renderer.drawSprite(x, y, *goldFieldSprite_);
@@ -57,7 +57,7 @@ void MapExtrinsic::drawFieldObject(int x, int y, MapObject::Type type,
     }
 }
 
-MapField const &MapExtrinsic::at(int col, int row) {
+const MapField &MapExtrinsic::at(int col, int row) {
     return map_.fields()[row - 1][col - 1];
 }
 

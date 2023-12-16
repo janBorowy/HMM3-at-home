@@ -7,17 +7,17 @@ namespace {
 inline double squareOf(double x) { return x * x; }
 }  // namespace
 
-ShortestPathFinder::ShortestPathFinder(Position const &src,
-                                       Position const &dest)
+ShortestPathFinder::ShortestPathFinder(const Position &src,
+                                       const Position &dest)
     : src_(src), dest_(dest), result_{} {}
 
-double ShortestPathFinder::euclideanLength(Position const &src,
-                                           Position const &dest) {
+double ShortestPathFinder::euclideanLength(const Position &src,
+                                           const Position &dest) {
     return sqrt(squareOf(dest.first - src.first) +
                 squareOf(dest.second - src.second));
 }
 
-void ShortestPathFinder::visit(GameMap const &map) {
+void ShortestPathFinder::visit(const GameMap &map) {
     std::vector<Node> toCheck;
 
     std::vector<std::vector<Position>> previous =

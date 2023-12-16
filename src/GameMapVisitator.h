@@ -2,5 +2,5 @@
 
 class GameMapVisitator {
    public:
-    void virtual visit(GameMap const &map) = 0;
+    void virtual visit(const GameMap &map) = 0;
 };

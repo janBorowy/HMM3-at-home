@@ -9,8 +9,8 @@
 #include "imgui.h"
 
 struct MainPanel : public Panel {
-    Renderer const &renderer_;
-    MainPanel(Renderer const &renderer);
+    const Renderer &renderer_;
+    MainPanel(const Renderer &renderer);
     virtual void step();
     virtual void draw();
     virtual void drawImGui();

@@ -21,7 +21,7 @@ GameMap MapParser::parse(std::istream &data) {
     return map_;
 }
 
-MapField MapParser::parseString(std::string const &str) const {
+MapField MapParser::parseString(const std::string &str) const {
     std::string identifier;
     auto it = str.begin();
     for (; it != str.end() && *it != '('; ++it) {
@@ -34,7 +34,7 @@ MapField MapParser::parseString(std::string const &str) const {
     MapObject::Type type;
     try {
         type = elements_.at(identifier);
-    } catch (std::out_of_range const &e) {
+    } catch (const std::out_of_range &e) {
         throw MapParserException("Illegal identifier");
     }
     if (identifier == "0") return MapField(MapObject(type, 0), MapField::EMPTY);

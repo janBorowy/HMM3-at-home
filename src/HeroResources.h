@@ -16,7 +16,7 @@ class HeroResources {
     int gold_;
     int wood_;
     int ore_;
-    int const movement_;
+    const int movement_;
     int mana_;
     std::vector<UnitInfo> units_;
 

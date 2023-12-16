@@ -1,7 +1,7 @@
-#include "AlivePlayer.h"
 #include <cmath>
 #include <iostream>
 #include <stdexcept>
+#include "AlivePlayer.h"
 
 bool AlivePlayer::makeMove(int x, int y, std::vector<SoldierPtr> &my_army,
                            std::vector<SoldierPtr> &enemy_army, int paw_nr) {

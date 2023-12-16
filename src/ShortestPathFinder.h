@@ -10,17 +10,17 @@ class ShortestPathFinder : public GameMapVisitator {
     struct Node {
         int priority_;
         Position pos_;
-        Node(int priority, Position const &pos)
+        Node(int priority, const Position &pos)
             : priority_(priority), pos_(pos) {}
-        friend bool operator<(Node const &l, Node const &r) {
+        friend bool operator<(const Node &l, const Node &r) {
             return l.priority_ < r.priority_;
         }
-        friend bool operator>(Node const &l, Node const &r) { return r < l; }
+        friend bool operator>(const Node &l, const Node &r) { return r < l; }
     };
 
    public:
-    ShortestPathFinder(Position const &src, Position const &dest);
-    void virtual visit(GameMap const &map);
+    ShortestPathFinder(const Position &src, const Position &dest);
+    void virtual visit(const GameMap &map);
     std::vector<Position> result() const;
-    double euclideanLength(Position const &src, Position const &dest);
+    double euclideanLength(const Position &src, const Position &dest);
 };

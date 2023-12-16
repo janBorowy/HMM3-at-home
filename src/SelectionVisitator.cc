@@ -2,7 +2,7 @@
 #include "SelectionVisitator.h"
 
 SelectionVisitator::SelectionVisitator(int fieldWidth, int fieldHeight,
-                                       Renderer const &renderer)
+                                       const Renderer &renderer)
     : canMoveSprite_(fieldWidth, fieldHeight,
                      GameData::getImage("selected_green.png")),
       cannotMoveSprite_(fieldWidth, fieldHeight,
@@ -17,7 +17,7 @@ SelectionVisitator::SelectionVisitator(int fieldWidth, int fieldHeight,
       visible_{false},
       renderer_(renderer) {}
 
-void SelectionVisitator::visit(MapExtrinsic const &map) {
+void SelectionVisitator::visit(const MapExtrinsic &map) {
     auto cameraPos = map.getCameraPosition();
     auto col = col_ - cameraPos.first;
     auto row = row_ - cameraPos.second;
@@ -31,7 +31,7 @@ void SelectionVisitator::visit(MapExtrinsic const &map) {
     }
 }
 
-void SelectionVisitator::drawMovementIndicators(MapExtrinsic const &map) {
+void SelectionVisitator::drawMovementIndicators(const MapExtrinsic &map) {
     auto it = movementIndicators_.begin() +
               1;  // start from second element to avoid drawing over sprite
     while (movementIndicators_.end() - it != 1) {
@@ -70,7 +70,7 @@ int SelectionVisitator::row() const { return row_; }
 
 void SelectionVisitator::canMove(bool can) { canMove_ = can; }
 
-Sprite const &SelectionVisitator::chooseSprite() {
+const Sprite &SelectionVisitator::chooseSprite() {
     if (canMove_) {
         return canMoveSprite_;
     }
@@ -78,6 +78,6 @@ Sprite const &SelectionVisitator::chooseSprite() {
 }
 
 void SelectionVisitator::setMovementIndicators(
-    std::vector<Position> const &indicators) {
+    const std::vector<Position> &indicators) {
     movementIndicators_ = indicators;
 }

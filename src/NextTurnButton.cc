@@ -1,6 +1,6 @@
 #include "NextTurnButton.h"
 
-NextTurnButton::NextTurnButton(Renderer const &renderer, int width, int height,
+NextTurnButton::NextTurnButton(const Renderer &renderer, int width, int height,
                                TurnManager &turnManager)
     : Button("Next turn", renderer, width, height), turnManager_(turnManager) {}
 

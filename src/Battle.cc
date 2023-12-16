@@ -1,6 +1,6 @@
-#include "Battle.h"
 #include <memory>
 #include <stdexcept>
+#include "Battle.h"
 #include "HeroResources.h"
 
 Battle::Battle(std::vector<UnitInfo> &hero_units,

@@ -1,7 +1,7 @@
 #include "GameData.h"
 #include "HeroExtrinsic.h"
 
-HeroExtrinsic::HeroExtrinsic(int initCol, int initRow, MapExtrinsic const &map)
+HeroExtrinsic::HeroExtrinsic(int initCol, int initRow, const MapExtrinsic &map)
     : hero_(initCol, initRow),
       map_(map),
       sprite_(map.fieldWidth(), map.fieldHeight(),
@@ -9,7 +9,7 @@ HeroExtrinsic::HeroExtrinsic(int initCol, int initRow, MapExtrinsic const &map)
 
 Hero &HeroExtrinsic::hero() { return hero_; }
 
-void HeroExtrinsic::draw(Renderer const &renderer) const {
+void HeroExtrinsic::draw(const Renderer &renderer) const {
     auto pos = hero_.position();
     auto cameraPos = map_.getCameraPosition();
     auto col = pos.first - cameraPos.first;

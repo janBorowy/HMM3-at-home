@@ -13,8 +13,7 @@ ShortestPathFinder::ShortestPathFinder(const Position &src,
 
 double ShortestPathFinder::euclideanLength(const Position &src,
                                            const Position &dest) {
-    return sqrt(squareOf(dest.first - src.first) +
-                squareOf(dest.second - src.second));
+    return std::hypot(dest.first - src.first, dest.second - src.second);
 }
 
 void ShortestPathFinder::visit(const GameMap &map) {

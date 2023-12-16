@@ -9,8 +9,8 @@
 #include "Player.h"
 #include "SoldierTypes.h"
 
-#define Cols 16
-#define Rows 16
+constexpr int Cols = 16;
+constexpr int Rows = 16;
 
 enum BattleState { heroTurn, enemyTurn, won, lost };
 

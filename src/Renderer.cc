@@ -1,6 +1,8 @@
 #include "Renderer.h"
 #include "SDLUtils.h"
 
+constexpr std::string_view VERA_FONT_PATH = "resources/Vera.ttf";
+
 namespace {
 SDL_Renderer *createSDLRenderer(SDL_Window *window) {
     auto renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -8,7 +10,7 @@ SDL_Renderer *createSDLRenderer(SDL_Window *window) {
     return renderer;
 }
 
-TTF_Font *openFont(std::string path) {
+TTF_Font *openFont(const std::string &path) {
     auto font = TTF_OpenFont(path.c_str(), 14);
     // Maybe add some handling in case TTF_OpenFont fails
     return font;
@@ -18,8 +20,7 @@ TTF_Font *openFont(std::string path) {
 Renderer::Renderer(SDL_Window *window)
     : window_(window),
       renderer_(createSDLRenderer(window)),
-      font_(
-          openFont("/home/janek/workspace/Heroes-3-clone/resource/Vera.ttf")) {}
+      font_(openFont({VERA_FONT_PATH.begin(), VERA_FONT_PATH.end()})) {}
 
 Renderer::~Renderer() { SDL_DestroyRenderer(renderer_); }
 

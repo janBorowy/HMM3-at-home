@@ -32,3 +32,21 @@ list(REMOVE_ITEM src_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cc")
 # compiles tests
 add_executable(test test/main.cc ${src_FILES})
 target_link_libraries(test imgui SDL2::SDL2 SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf)
+
+# images
+add_custom_target(make-images-directory ALL
+    COMMAND ${CMAKE_COMMAND} -E make_directory images)
+file(GLOB images images/*)
+foreach(file ${images})
+    get_filename_component(filename ${file} NAME)
+    configure_file(${file} images/${filename} COPYONLY)
+endforeach()
+
+# resources
+add_custom_target(make-resources-directory ALL
+    COMMAND ${CMAKE_COMMAND} -E make_directory resources)
+file(GLOB resources resources/*)
+foreach(file ${resources})
+    get_filename_component(filename ${file} NAME)
+    configure_file(${file} resources/${filename} COPYONLY)
+endforeach()

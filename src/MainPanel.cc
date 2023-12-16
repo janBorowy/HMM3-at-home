@@ -21,9 +21,7 @@ MainPanel::MainPanel(const Renderer &renderer)
     : Panel(),
       renderer_(renderer),
       map_{GRID_X, GRID_Y, GRID_PANEL_WIDTH, GRID_PANEL_HEIGHT,
-           loadMap(
-               50, 50,
-               "/home/janek/workspace/Heroes-3-clone/resource/map1.hmm3map")},
+           loadMap(50, 50, "resources/map1.hmm3map")},
       staminaResourceLabel_("Stamina: ", renderer),
       goldResourceLabel_("Gold: ", renderer),
       woodResourceLabel_("Wood: ", renderer),

@@ -26,7 +26,7 @@ void GameData::loadFromPng(std::string path, SDL_Renderer *renderer) {
 }
 
 void GameData::load() {
-    auto directory = fs::directory_entry("../images");
+    auto directory = fs::directory_entry("images");
     for (const auto &dir_entry : fs::directory_iterator{directory}) {
         if (dir_entry.is_regular_file()) {
             loadFromPng(dir_entry.path(), renderer_);

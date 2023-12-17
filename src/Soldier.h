@@ -1,6 +1,7 @@
 #pragma once
 #include <cmath>
 
+constexpr int SIZE = 16;
 class Soldier {
    protected:
     const int attack_;

@@ -10,8 +10,8 @@ bool AlivePlayer::makeMove(int x, int y, std::vector<SoldierPtr> &my_army,
 
     bool attack = false;
 
-    for (int i = 0; i < 16; ++i) {
-        for (int j = 0; j < 16; ++j) {
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
             game_grid[i][j] = 0;
         }
     }

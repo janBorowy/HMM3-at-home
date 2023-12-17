@@ -2,7 +2,7 @@
 #include "Player.h"
 
 class AlivePlayer : public Player {
-    int8_t game_grid[16][16];
+    int8_t game_grid[SIZE][SIZE];
     int my_x_;
     int my_y_;
 

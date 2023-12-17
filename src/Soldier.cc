@@ -12,7 +12,7 @@ Soldier::Soldier(int attack, int defense, int damage, int health,
       number_(number)
 
 {
-    if (startX < 0 || startY < 0 || startX > 15 || startY > 15) {
+    if (startX < 0 || startY < 0 || startX > SIZE-1 || startY > SIZE-1) {
         throw std::runtime_error(
             "Initialzed soldier with x, y values out of scope");
     } else {

@@ -18,6 +18,9 @@ include_directories(extern/imgui)
 include_directories(extern/imgui/backends)
 add_library(imgui ${imgui_SOURCE_FILES} ${imgui_BACKEND})
 
+set(SDL2_image_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/cmake/SDL2_image/")
+set(SDL2_ttf_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/cmake/SDL2_ttf/")
+
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(SDL2_ttf REQUIRED)

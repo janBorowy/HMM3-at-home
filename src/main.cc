@@ -13,7 +13,7 @@
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
 
-constexpr int FRAMES_PER_SECOND = 60;
+constexpr int MAX_FRAME_RATE = 60;
 
 int gameLoop();
 
@@ -55,17 +55,29 @@ int gameLoop() {
         return 1;
     }
     while (!panels.isDone()) {
+        int64_t frameStart = SDL_GetPerformanceCounter();
+
         SDL_Event event;
-        SDL_PollEvent(&event);
         ImGui_ImplSDL2_ProcessEvent(&event);
-        if (event.type == SDL_QUIT) {
-            panels.quit();
-        } else if (panels.handle(event)) {
-            // UI handled the event
+        while (SDL_PollEvent(&event) != 0) {
+            if (event.type == SDL_QUIT) {
+                panels.quit();
+            } else if (panels.handle(event)) {
+                // UI handled the event
+            }
         }
         renderer.clear();
         panels.drawFront(renderer);
         renderer.swapBuffers();
+
+        int64_t frameEnd = SDL_GetPerformanceCounter();
+        float frameDurationInMilliseconds =
+            (frameEnd - frameStart) / (float)SDL_GetPerformanceFrequency() *
+            1000.0f;
+        auto cappedFrameDuration = (1000.0f / MAX_FRAME_RATE);
+        if (cappedFrameDuration - frameDurationInMilliseconds > 0.0f) {
+            SDL_Delay(cappedFrameDuration - frameDurationInMilliseconds);
+        }
     }
     return 0;
 }

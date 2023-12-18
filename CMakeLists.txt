@@ -18,20 +18,21 @@ include_directories(extern/imgui)
 include_directories(extern/imgui/backends)
 add_library(imgui ${imgui_SOURCE_FILES} ${imgui_BACKEND})
 
-find_package(SDL2 REQUIRED)
-find_package(SDL2_image REQUIRED)
-find_package(SDL2_ttf REQUIRED)
+Include(FindPkgConfig)
+PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
+PKG_SEARCH_MODULE(SDL2_IMAGE REQUIRED SDL2_image>=2.0.0)
+PKG_SEARCH_MODULE(SDL2_TTF REQUIRED SDL2_ttf>=2.0.0)
 include_directories(${SDL2_INCLUDE_DIRS})
-include_directories(${SDL2IMAGE_INCLUDE_DIRS})
-include_directories(${SDL2TTF_INCLUDE_DIRS})
+include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
+include_directories(${SDL2_TTF_INCLUDE_DIRS})
 
-target_link_libraries(HMM3-clone imgui SDL2::SDL2 SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf)
+target_link_libraries(HMM3-clone imgui ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_TTF_LIBRARIES})
 
 list(REMOVE_ITEM src_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cc")
 
 # compiles tests
 add_executable(test test/main.cc ${src_FILES})
-target_link_libraries(test imgui SDL2::SDL2 SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf)
+target_link_libraries(test imgui ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_TTF_LIBRARIES})
 
 # images
 add_custom_target(make-images-directory ALL

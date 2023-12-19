@@ -3,18 +3,19 @@
 #include "Battle.h"
 #include "HeroResources.h"
 
-Battle::Battle(std::vector<UnitInfo> &hero_units,
-               std::vector<UnitInfo> &enemy_units)
-    : state_(heroTurn), counter_(0) {
+Battle::Battle() : state_(heroTurn), counter_(0) {
     hero_ = std::make_unique<AlivePlayer>();
     enemy_ = std::make_unique<AlivePlayer>();
+}
 
+void Battle::setArmy(std::vector<UnitInfo> &hero_units,
+                     std::vector<UnitInfo> &enemy_units) {
     hero_paw_nr_ = hero_units.size();
     enemy_paw_nr_ = enemy_units.size();
 
-    int h_distribution = Rows / hero_units.size();
-    int e_distribution = Rows / enemy_units.size();
-    int pos = (Rows - 1 - h_distribution * (hero_units.size() - 1)) / 2;
+    int h_distribution = ROWS / hero_units.size();
+    int e_distribution = ROWS / enemy_units.size();
+    int pos = (ROWS - 1 - h_distribution * (hero_units.size() - 1)) / 2;
 
     int id_num = 0;
     for (auto i : hero_units) {
@@ -37,22 +38,22 @@ Battle::Battle(std::vector<UnitInfo> &hero_units,
     }
 
     id_num = 0;
-    pos = (Rows - 1 - e_distribution * (enemy_units.size() - 1)) / 2;
+    pos = (ROWS - 1 - e_distribution * (enemy_units.size() - 1)) / 2;
 
     for (auto i : enemy_units) {
         --id_num;
         switch (i.unit) {
             case Archer:
                 enemy_army_.push_back(
-                    std::make_unique<SType::Archer>(i.number, Cols - 1, pos));
+                    std::make_unique<SType::Archer>(i.number, COLS - 1, pos));
                 break;
             case Pikeman:
                 enemy_army_.push_back(
-                    std::make_unique<SType::Pikeman>(i.number, Cols - 1, pos));
+                    std::make_unique<SType::Pikeman>(i.number, COLS - 1, pos));
                 break;
             case SwordsMan:
                 enemy_army_.push_back(std::make_unique<SType::SwordsMan>(
-                    i.number, Cols - 1, pos));
+                    i.number, COLS - 1, pos));
                 break;
         }
         pos += e_distribution;
@@ -122,3 +123,6 @@ void Battle::updateState() {
 }
 
 BattleState Battle::getState() { return state_; }
+std::vector<SoldierPtr> &Battle::getHeroArmy() { return hero_army_; }
+std::vector<SoldierPtr> &Battle::getEnemyArmy() { return enemy_army_; }
+int Battle::getCounter() { return counter_; }

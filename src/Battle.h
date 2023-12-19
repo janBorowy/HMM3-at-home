@@ -9,8 +9,8 @@
 #include "Player.h"
 #include "SoldierTypes.h"
 
-constexpr int Cols = 16;
-constexpr int Rows = 16;
+constexpr int COLS = 16;
+constexpr int ROWS = 16;
 
 enum BattleState { heroTurn, enemyTurn, won, lost };
 
@@ -27,10 +27,14 @@ class Battle {
     std::unique_ptr<Player> enemy_;
 
    public:
-    Battle(std::vector<UnitInfo> &hero_units,
-           std::vector<UnitInfo> &enemy_units);
+    Battle();
     ~Battle() = default;
     void battleSpin(int x, int y);
     void updateState();
+    void setArmy(std::vector<UnitInfo> &hero_units,
+                 std::vector<UnitInfo> &enemy_units);
     BattleState getState();
+    std::vector<SoldierPtr> &getHeroArmy();
+    std::vector<SoldierPtr> &getEnemyArmy();
+    int getCounter();
 };

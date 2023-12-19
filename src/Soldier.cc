@@ -2,14 +2,15 @@
 #include "Soldier.h"
 
 Soldier::Soldier(int attack, int defense, int damage, int health,
-                 int walk_distance, int number, int startX, int startY)
+                 int walk_distance, int number, int startX, int startY, ArmyBranch type)
     : attack_(attack),
       defense_(defense),
       damage_(damage),
       health_(health),
       walk_distance_(walk_distance),
       current_health_(health),
-      number_(number)
+      number_(number),
+      type_(type)
 
 {
     if (startX < 0 || startY < 0 || startX > 15 || startY > 15) {
@@ -56,6 +57,8 @@ bool Soldier::try_to_move(int x, int y) {
 
 int Soldier::get_number() { return number_; }
 
+int Soldier::getWalk(){ return walk_distance_; }
+
 bool Soldier::isAlive() {
     if (number_ > 0) {
         return true;
@@ -66,3 +69,4 @@ bool Soldier::isAlive() {
 
 int Soldier::getX() { return pos_x_; }
 int Soldier::getY() { return pos_y_; }
+Soldier::ArmyBranch Soldier::get_type() const { return type_; }

@@ -62,7 +62,8 @@ TEST_CASE("Battle") {
 
     e_units.push_back(UnitInfo(Pikeman, 1));
     SUBCASE("Testing Battle") {
-        Battle battle(h_units, e_units);
+        Battle battle;
+        battle.setArmy(h_units, e_units);
         CHECK_EQ(battle.getState(), heroTurn);
         battle.battleSpin(15, 7);
         CHECK_EQ(battle.getState(), enemyTurn);

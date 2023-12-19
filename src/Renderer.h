@@ -25,7 +25,9 @@ class Renderer {
     void setColor(Uint8 r, Uint8 g, Uint8 b);
     void swapBuffers();
     void drawEntity(const GameEntity &entity) const;
-    void drawSprite(int x, int y, const Sprite &sprite) const;
+    void drawSprite(int x, int y, Sprite const &sprite) const;
+    void drawSprite(int x, int y, Sprite const &sprite,
+                    SDL_Rect &srcRect) const;
     void drawImage(int x, int y, const Image &image) const;
 };
 

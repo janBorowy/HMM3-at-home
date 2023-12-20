@@ -101,25 +101,39 @@ void Battle::updateState() {
     } else if (h_count == 0) {
         state_ = lost;
     } else if (state_ == heroTurn) {
-        for (int i = counter_ + 1; i < hero_army_.size(); ++i) {
-            if (hero_army_.at(i)->isAlive()) {
-                counter_ = i;
-                return;
-            }
+        if(setHeroCounter(counter_+1)){
+            return;
         }
         state_ = enemyTurn;
-        counter_ = 0;
+        setEnemyCounter(0);
         return;
     } else if (state_ == enemyTurn) {
-        for (int i = counter_ + 1; i < enemy_army_.size(); ++i) {
-            if (enemy_army_.at(i)->isAlive()) {
-                counter_ = i;
-                return;
-            }
+        if(setEnemyCounter(counter_+1)){
+            return;
         }
         state_ = heroTurn;
-        counter_ = 0;
+        setHeroCounter(0);
+        return;
     }
+}
+
+bool Battle::setHeroCounter(int counter){
+    for (int i = counter ; i < hero_army_.size(); ++i) {
+        if (hero_army_.at(i)->isAlive()) {
+            counter_ = i;
+            return true;
+        }
+    }
+    return false;
+}
+bool Battle::setEnemyCounter(int counter){
+    for (int i = counter; i < enemy_army_.size(); ++i) {
+        if (enemy_army_.at(i)->isAlive()) {
+            counter_ = i;
+            return true;
+        }
+    }
+    return false;
 }
 
 BattleState Battle::getState() { return state_; }

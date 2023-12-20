@@ -33,6 +33,8 @@ class Battle {
     void updateState();
     void setArmy(std::vector<UnitInfo> &hero_units,
                  std::vector<UnitInfo> &enemy_units);
+    bool setHeroCounter(int counter);
+    bool setEnemyCounter(int counter);
     BattleState getState();
     std::vector<SoldierPtr> &getHeroArmy();
     std::vector<SoldierPtr> &getEnemyArmy();

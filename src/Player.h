@@ -4,8 +4,6 @@
 #include <vector>
 #include "Soldier.h"
 
-using SoldierPtr = std::unique_ptr<Soldier>;
-
 class Player {
    protected:
     int itr_;

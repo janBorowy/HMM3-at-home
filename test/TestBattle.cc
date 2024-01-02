@@ -1,6 +1,8 @@
+#include <iostream>
 #include <memory>
 #include <vector>
 #include "../src/Battle.h"
+#include "GameWindow.h"
 #include "doctest.h"
 
 TEST_CASE("Battle") {
@@ -62,7 +64,7 @@ TEST_CASE("Battle") {
 
     e_units.push_back(UnitInfo(Pikeman, 1));
     SUBCASE("Testing Battle") {
-        Battle battle;
+        Battle battle(false);
         battle.setArmy(h_units, e_units);
         CHECK_EQ(battle.getState(), heroTurn);
         battle.battleSpin(15, 7);
@@ -73,5 +75,23 @@ TEST_CASE("Battle") {
         CHECK_EQ(battle.getState(), heroTurn);
         battle.battleSpin(15, 6);
         CHECK_EQ(battle.getState(), won);
+    }
+    hero_army.clear();
+    enemy_army.clear();
+    // hero_army.push_back(std::make_unique<SType::Archer>(4, 0, 2));
+    // hero_army.push_back(std::make_unique<SType::Pikeman>(2, 0, 0));
+    // hero_army.push_back(std::make_unique<SType::Pikeman>(2, 0, 4));
+    hero_army.push_back(std::make_unique<SType::Archer>(2, 0, 12));
+    // hero_army.push_back(std::make_unique<SType::SwordsMan>(2, 0, 11));
+
+    // enemy_army.push_back(std::make_unique<SType::Archer>(5, 15, 5));
+    enemy_army.push_back(std::make_unique<SType::Pikeman>(2, 15, 7));
+    SUBCASE("Testing AiPlayer") {
+        AiPlayer player;
+        State state(hero_army, enemy_army);
+        std::vector<State> children;
+        // player.addChildren(children, state, 0, state.my_army.size(), true);
+        player.makeMove(0, 0, hero_army, enemy_army, 0);
+        std::cout << "bbll";
     }
 }

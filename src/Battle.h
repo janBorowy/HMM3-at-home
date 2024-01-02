@@ -4,13 +4,14 @@
 #include <map>
 #include <memory>
 #include <vector>
+#include "AiPlayer.h"
 #include "AlivePlayer.h"
 #include "HeroResources.h"
 #include "Player.h"
 #include "SoldierTypes.h"
 
-constexpr int COLS = 16;
-constexpr int ROWS = 16;
+// constexpr int COLS = 16;
+// constexpr int ROWS = 16;
 
 enum BattleState { heroTurn, enemyTurn, won, lost };
 
@@ -27,12 +28,13 @@ class Battle {
     std::unique_ptr<Player> enemy_;
 
    public:
-    Battle();
+    Battle(bool ai_game);
     ~Battle() = default;
     void battleSpin(int x, int y);
     void updateState();
     void setArmy(std::vector<UnitInfo> &hero_units,
                  std::vector<UnitInfo> &enemy_units);
+    void loadArmySprites();
     bool setHeroCounter(int counter);
     bool setEnemyCounter(int counter);
     BattleState getState();

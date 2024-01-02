@@ -1,11 +1,15 @@
+#include "Battle.h"
 #include <memory>
 #include <stdexcept>
-#include "Battle.h"
 #include "HeroResources.h"
 
-Battle::Battle() : state_(heroTurn), counter_(0) {
+Battle::Battle(bool ai_game) : state_(heroTurn), counter_(0) {
     hero_ = std::make_unique<AlivePlayer>();
-    enemy_ = std::make_unique<AlivePlayer>();
+    if (ai_game) {
+        enemy_ = std::make_unique<AiPlayer>();
+    } else {
+        enemy_ = std::make_unique<AlivePlayer>();
+    }
 }
 
 void Battle::setArmy(std::vector<UnitInfo> &hero_units,
@@ -60,6 +64,15 @@ void Battle::setArmy(std::vector<UnitInfo> &hero_units,
     }
 }
 
+void Battle::loadArmySprites() {
+    for (auto &i : hero_army_) {
+        i->loadSprites();
+    }
+    for (auto &i : enemy_army_) {
+        i->loadSprites();
+    }
+}
+
 void Battle::battleSpin(int x, int y) {
     switch (state_) {
         case heroTurn:
@@ -101,14 +114,14 @@ void Battle::updateState() {
     } else if (h_count == 0) {
         state_ = lost;
     } else if (state_ == heroTurn) {
-        if(setHeroCounter(counter_+1)){
+        if (setHeroCounter(counter_ + 1)) {
             return;
         }
         state_ = enemyTurn;
         setEnemyCounter(0);
         return;
     } else if (state_ == enemyTurn) {
-        if(setEnemyCounter(counter_+1)){
+        if (setEnemyCounter(counter_ + 1)) {
             return;
         }
         state_ = heroTurn;
@@ -117,8 +130,8 @@ void Battle::updateState() {
     }
 }
 
-bool Battle::setHeroCounter(int counter){
-    for (int i = counter ; i < hero_army_.size(); ++i) {
+bool Battle::setHeroCounter(int counter) {
+    for (int i = counter; i < hero_army_.size(); ++i) {
         if (hero_army_.at(i)->isAlive()) {
             counter_ = i;
             return true;
@@ -126,7 +139,7 @@ bool Battle::setHeroCounter(int counter){
     }
     return false;
 }
-bool Battle::setEnemyCounter(int counter){
+bool Battle::setEnemyCounter(int counter) {
     for (int i = counter; i < enemy_army_.size(); ++i) {
         if (enemy_army_.at(i)->isAlive()) {
             counter_ = i;

@@ -1,5 +1,5 @@
-#include <filesystem>
 #include "GameData.h"
+#include <filesystem>
 #include "SDLUtils.h"
 
 namespace fs = std::filesystem;

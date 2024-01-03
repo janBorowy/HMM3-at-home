@@ -1,4 +1,5 @@
 #include "AiPlayer.h"
+#include <algorithm>
 #include "AlivePlayer.h"
 
 State::State(const State &other) {
@@ -24,13 +25,8 @@ bool AiPlayer::makeMove(int x, int y, std::vector<SoldierPtr> &my_army,
                         std::vector<SoldierPtr> &enemy_army, int paw_nr) {
     paw_nr_ = paw_nr;
     State base_state(my_army, enemy_army);
-    // for (auto &i : my_army) {
-    //     base_state.my_army.push_back(i->clone());
-    // }
-    // for (auto &i : enemy_army) {
-    //     base_state.enemy_army.push_back(i->clone());
-    // }
-    minimax(base_state, DEPTH, INT_MIN, INT_MAX, true, true);
+
+    minimax(base_state, DEPTH, INT_MIN, INT_MAX, true, true, paw_nr);
 
     for (int i = 0; i < my_army.size(); ++i) {
         my_army.at(i)->setCurrentHealth(
@@ -49,64 +45,71 @@ bool AiPlayer::makeMove(int x, int y, std::vector<SoldierPtr> &my_army,
 }
 
 int AiPlayer::minimax(const State &position, int depth, int alpha, int beta,
-                      bool maximizingPlayer, bool beginning) {
+                      bool maximizingPlayer, bool beginning, int paw_nr) {
     if (depth == 0 || isGameOver(position)) {
         return evaluatePosition(position);
     }
-    std::vector<State> children;
+
+    State child;
+    cloneState(position, child);
+    int x = 0;
+    int y = 0;
     if (maximizingPlayer) {
         int maxEval = INT_MIN;
-        generateChildren(position, children, true);
-        if (beginning) {
-            for (const auto &child : children) {
-                int eval = minimax(child, depth - 1, alpha, beta, false, false);
-                if (eval > maxEval) {
+
+        while (updateChild(child, true, paw_nr, x, y)) {
+            int eval;
+            eval = minimax(child, depth - 1, alpha, beta, false, false, 0);
+            if (eval > maxEval) {
+                if (beginning) {
                     cloneState(child, player_move_);
-                    maxEval = eval;
                 }
-                // maxEval = std::max(maxEval, eval);
-                alpha = std::max(alpha, eval);
-                if (beta <= alpha) {
-                    break;
-                }
+                maxEval = eval;
             }
-        } else {
-            for (const auto &child : children) {
-                int eval = minimax(child, depth - 1, alpha, beta, false, false);
-                maxEval = std::max(maxEval, eval);
-                alpha = std::max(alpha, eval);
-                if (beta <= alpha) {
-                    break;
-                }
+
+            alpha = std::max(alpha, eval);
+            if (beta <= alpha) {
+                break;
             }
+            cloneState(position, child);
         }
+
         return maxEval;
     } else {
-        generateChildren(position, children, false);
         int minEval = INT_MAX;
-        for (const auto &child : children) {
-            int eval = minimax(child, depth - 1, alpha, beta, true, false);
+
+        while (updateChild(child, false, paw_nr, x, y)) {
+            int eval;
+            ++paw_nr;
+            if (paw_nr >= position.enemy_army.size()) {
+                eval = minimax(child, depth - 1, alpha, beta, true, false,
+                               paw_nr_);
+            } else {
+                eval = minimax(child, depth - 1, alpha, beta, false, false,
+                               paw_nr);
+            }
             minEval = std::min(minEval, eval);
             beta = std::min(beta, eval);
             if (beta <= alpha) {
                 break;
             }
+            --paw_nr;
+            cloneState(position, child);
         }
         return minEval;
     }
 }
 
 void AiPlayer::cloneState(const State &state, State &new_state) {
-    // State new_state;
     new_state.my_army.clear();
     new_state.enemy_army.clear();
-    for (const auto &i : state.my_army) {
-        new_state.my_army.push_back(i->clone());
-    }
-    for (const auto &i : state.enemy_army) {
-        new_state.enemy_army.push_back(i->clone());
-    }
-    // return new_state;
+    std::transform(state.my_army.begin(), state.my_army.end(),
+                   std::back_inserter(new_state.my_army),
+                   [](const auto &i) { return i->clone(); });
+
+    std::transform(state.enemy_army.begin(), state.enemy_army.end(),
+                   std::back_inserter(new_state.enemy_army),
+                   [](const auto &i) { return i->clone(); });
 }
 
 bool AiPlayer::isGameOver(const State &position) const {
@@ -126,88 +129,73 @@ bool AiPlayer::isGameOver(const State &position) const {
 }
 
 int AiPlayer::evaluatePosition(const State &position) const {
-    // Implement your static evaluation function
-    const float distance_attack_bonus = 1.2;
-    int my_damage = 0;
-    int my_health = 0;
-
-    int enemy_damage = 0;
     int enemy_health = 0;
 
-    for (auto &i : position.my_army) {
-        my_health += i->get_number() * i->getHealth() -
-                     (i->getHealth() - i->getCurrentHealth());
-        if (i->get_type() == Soldier::ARCHER) {
-            my_damage +=
-                distance_attack_bonus * i->get_number() * i->getDamage();
-        } else {
-            my_damage += i->get_number() * i->getDamage();
-        }
-    }
+    int distance = 0;
+
     for (auto &i : position.enemy_army) {
         enemy_health += i->get_number() * i->getHealth() -
                         (i->getHealth() - i->getCurrentHealth());
-        if (i->get_type() == Soldier::ARCHER) {
-            enemy_damage +=
-                distance_attack_bonus * i->get_number() * i->getDamage();
-        } else {
-            enemy_damage += i->get_number() * i->getDamage();
+        for (auto &j : position.my_army) {
+            if (i->isAlive() && j->isAlive()) {
+                distance += std::pow(i->getX() - j->getX(), 2) +
+                            std::pow(i->getY() - j->getY(), 2);
+            }
         }
     }
 
-    return my_damage + my_health - enemy_health - enemy_damage;
+    return -enemy_health - distance / 70;
 }
 
-void AiPlayer::generateChildren(const State &position,
-                                std::vector<State> &children,
-                                bool if_max_player) {
-    // std::vector<State> children;
-    children.clear();
-    addChildren(children, position, 0, position.my_army.size(), if_max_player);
-    // return children;
-}
-
-void AiPlayer::addChildren(std::vector<State> &children, const State &state,
-                           int nesting_level, int max_level,
-                           bool if_max_player) {
-    State new_state;
+bool AiPlayer::updateChild(State &child, bool if_max_player, int paw_nr, int &x,
+                           int &y) {
     AlivePlayer alive_player;
-    cloneState(state, new_state);
+
     if (if_max_player) {
-        for (int i = 0; i < COLS; ++i) {
-            for (int j = 0; j < ROWS; ++j) {
-                if (alive_player.makeMove(i, j, new_state.my_army,
-                                          new_state.enemy_army,
-                                          nesting_level)) {
-                    ++nesting_level;
-                    if (nesting_level == max_level) {
-                        children.push_back(new_state);
-                    } else {
-                        addChildren(children, new_state, nesting_level,
-                                    max_level, true);
+        for (int i = x; i < COLS; ++i) {
+            for (int j = y; j < ROWS; ++j) {
+                if (alive_player.makeMove(i, j, child.my_army, child.enemy_army,
+                                          paw_nr)) {
+                    x = i;
+                    y = j;
+                    ++y;
+                    if (y == ROWS) {
+                        y = 0;
+                        ++x;
+                        if (x == COLS) {
+                            return false;
+                        }
                     }
-                    --nesting_level;
-                    cloneState(state, new_state);
+                    return true;
                 }
             }
+            if (i == COLS - 1) {
+                return false;
+            }
+            y = 0;
         }
-        // std::cout << "bll";
     } else {
-        for (int i = 0; i < COLS; ++i) {
-            for (int j = 0; j < ROWS; ++j) {
-                if (alive_player.makeMove(i, j, new_state.enemy_army,
-                                          new_state.my_army, nesting_level)) {
-                    ++nesting_level;
-                    if (nesting_level == max_level) {
-                        children.push_back(new_state);
-                    } else {
-                        addChildren(children, new_state, nesting_level,
-                                    max_level, false);
+        for (int i = x; i < COLS; ++i) {
+            for (int j = y; j < ROWS; ++j) {
+                if (alive_player.makeMove(i, j, child.enemy_army, child.my_army,
+                                          paw_nr)) {
+                    x = i;
+                    y = j;
+                    ++y;
+                    if (y == ROWS) {
+                        y = 0;
+                        ++x;
+                        if (x == COLS) {
+                            return false;
+                        }
                     }
-                    --nesting_level;
-                    cloneState(state, new_state);
+                    return true;
                 }
             }
+            if (i == COLS - 1) {
+                return false;
+            }
+            y = 0;
         }
     }
 }

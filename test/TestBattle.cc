@@ -79,18 +79,21 @@ TEST_CASE("Battle") {
     hero_army.clear();
     enemy_army.clear();
     // hero_army.push_back(std::make_unique<SType::Archer>(4, 0, 2));
-    // hero_army.push_back(std::make_unique<SType::Pikeman>(2, 0, 0));
-    // hero_army.push_back(std::make_unique<SType::Pikeman>(2, 0, 4));
-    hero_army.push_back(std::make_unique<SType::Archer>(2, 0, 12));
+    hero_army.push_back(std::make_unique<SType::SwordsMan>(5, 15, 2));
+    hero_army.push_back(std::make_unique<SType::SwordsMan>(2, 15, 7));
+    hero_army.push_back(std::make_unique<SType::SwordsMan>(2, 15, 12));
     // hero_army.push_back(std::make_unique<SType::SwordsMan>(2, 0, 11));
 
-    // enemy_army.push_back(std::make_unique<SType::Archer>(5, 15, 5));
-    enemy_army.push_back(std::make_unique<SType::Pikeman>(2, 15, 7));
+    enemy_army.push_back(std::make_unique<SType::Archer>(3, 0, 2));
+    enemy_army.push_back(std::make_unique<SType::Pikeman>(5, 0, 7));
+    enemy_army.push_back(std::make_unique<SType::SwordsMan>(2, 0, 12));
     SUBCASE("Testing AiPlayer") {
         AiPlayer player;
         State state(hero_army, enemy_army);
         std::vector<State> children;
         // player.addChildren(children, state, 0, state.my_army.size(), true);
+        player.makeMove(0, 0, hero_army, enemy_army, 0);
+        player.makeMove(0, 0, hero_army, enemy_army, 0);
         player.makeMove(0, 0, hero_army, enemy_army, 0);
         std::cout << "bbll";
     }

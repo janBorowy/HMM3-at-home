@@ -4,6 +4,7 @@
 #include "Battle.h"
 #include "HeroResources.h"
 #include "Soldier.h"
+#include "SoldierTypes.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
 
@@ -25,13 +26,13 @@ BattlePanel::BattlePanel(const Renderer &renderer)
       battle_(true) {
     std::vector<UnitInfo> h_units;
     std::vector<UnitInfo> e_units;
-    // h_units.push_back(UnitInfo(Archer, 3));
-    //  h_units.push_back(UnitInfo(Pikeman, 5));
-    h_units.push_back(UnitInfo(SwordsMan, 2));
+    h_units.push_back(UnitInfo(Archer, 5));
+    h_units.push_back(UnitInfo(Pikeman, 5));
+    h_units.push_back(UnitInfo(SwordsMan, 5));
 
-    // e_units.push_back(UnitInfo(Pikeman, 2));
-    // e_units.push_back(UnitInfo(Pikeman, 2));
-    e_units.push_back(UnitInfo(SwordsMan, 2));
+    e_units.push_back(UnitInfo(Archer, 5));
+    e_units.push_back(UnitInfo(Pikeman, 5));
+    e_units.push_back(UnitInfo(SwordsMan, 5));
     battle_.setArmy(h_units, e_units);
     battle_.loadArmySprites();
 

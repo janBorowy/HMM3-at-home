@@ -3,7 +3,8 @@
 #include <stdexcept>
 #include "HeroResources.h"
 
-Battle::Battle(bool ai_game) : state_(heroTurn), counter_(0) {
+Battle::Battle(bool ai_game)
+    : state_(heroTurn), counter_(0), ai_enemy_(ai_game) {
     hero_ = std::make_unique<AlivePlayer>();
     if (ai_game) {
         enemy_ = std::make_unique<AiPlayer>();
@@ -85,6 +86,8 @@ void Battle::battleSpin(int x, int y) {
                 updateState();
             }
             break;
+        case waitForNextTurn:
+            break;
         case won:
             std::cout << "hero won";
             break;
@@ -117,8 +120,12 @@ void Battle::updateState() {
         if (setHeroCounter(counter_ + 1)) {
             return;
         }
-        state_ = enemyTurn;
-        setEnemyCounter(0);
+        if (ai_enemy_) {
+            state_ = waitForNextTurn;
+        } else {
+            state_ = enemyTurn;
+            setEnemyCounter(0);
+        }
         return;
     } else if (state_ == enemyTurn) {
         if (setEnemyCounter(counter_ + 1)) {
@@ -127,6 +134,26 @@ void Battle::updateState() {
         state_ = heroTurn;
         setHeroCounter(0);
         return;
+    }
+}
+
+void Battle::handleNextTurn() {
+    if ((state_ == heroTurn && ai_enemy_) || state_ == waitForNextTurn) {
+        state_ = enemyTurn;
+        setEnemyCounter(0);
+        for (int i = 0; i < enemy_army_.size(); ++i) {
+            battleSpin(0, 0);
+            if (state_ == heroTurn) {
+                break;
+            }
+        }
+        setHeroCounter(0);
+    } else if (state_ == heroTurn) {
+        state_ = enemyTurn;
+        setEnemyCounter(0);
+    } else if (state_ == enemyTurn) {
+        state_ = heroTurn;
+        setHeroCounter(0);
     }
 }
 

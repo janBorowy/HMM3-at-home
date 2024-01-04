@@ -1,6 +1,7 @@
 #include "BattlePanel.h"
 #include <fstream>
 #include <string>
+#include "AlivePlayer.h"
 #include "Battle.h"
 #include "HeroResources.h"
 #include "Soldier.h"
@@ -23,7 +24,10 @@ BattlePanel::BattlePanel(const Renderer &renderer)
       y_(GRID_Y),
       clicked_col_(10000),
       clicked_row_(10000),
-      battle_(true) {
+      battle_(true),
+      button_(renderer_, 150, 100) {
+    button_.setPos(GRID_X + GRID_WIDTH * COLS + 2,
+                   GRID_Y + GRID_HEIGHT * (ROWS - 2));
     std::vector<UnitInfo> h_units;
     std::vector<UnitInfo> e_units;
     h_units.push_back(UnitInfo(Archer, 5));
@@ -41,6 +45,7 @@ BattlePanel::BattlePanel(const Renderer &renderer)
 
 void BattlePanel::draw() {
     renderer_.drawSprite(0, 0, *battleGroundSprite_);
+    button_.draw();
 
     for (int i = 0; i < COLS; ++i) {
         for (int j = 0; j < ROWS; ++j) {
@@ -127,6 +132,10 @@ void BattlePanel::loadBattleSprites() {
 }
 
 bool BattlePanel::mouseButtonDown(int x, int y) {
+    if (button_.handleIfClicked(x, y)) {
+        battle_.handleNextTurn();
+        return true;
+    }
     if (x > GRID_X && x < GRID_X + GRID_WIDTH * COLS && y > GRID_Y &&
         y < GRID_Y + GRID_HEIGHT * ROWS) {
         auto clickedCol = (x - x_) / GRID_WIDTH;
@@ -141,7 +150,7 @@ void BattlePanel::handleMapGridClick(int clickedCol, int clickedRow) {
     battle_.battleSpin(clickedCol, clickedRow);
     clicked_col_ = clickedCol;
     clicked_row_ = clickedRow;
-    std::cout << clickedCol << "\n" << clickedRow << "\n";
+    // std::cout << clickedCol << "\n" << clickedRow << "\n";
 }
 
 void BattlePanel::drawImGui() {}

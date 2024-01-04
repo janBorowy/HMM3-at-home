@@ -13,13 +13,14 @@
 // constexpr int COLS = 16;
 // constexpr int ROWS = 16;
 
-enum BattleState { heroTurn, enemyTurn, won, lost };
+enum BattleState { heroTurn, enemyTurn, waitForNextTurn, won, lost };
 
 class Battle {
     BattleState state_;
     int hero_paw_nr_;
     int enemy_paw_nr_;
     int counter_;
+    bool ai_enemy_;
 
     std::vector<SoldierPtr> hero_army_;
     std::vector<SoldierPtr> enemy_army_;
@@ -32,6 +33,7 @@ class Battle {
     ~Battle() = default;
     void battleSpin(int x, int y);
     void updateState();
+    void handleNextTurn();
     void setArmy(std::vector<UnitInfo> &hero_units,
                  std::vector<UnitInfo> &enemy_units);
     void loadArmySprites();

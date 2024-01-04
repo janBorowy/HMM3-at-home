@@ -9,6 +9,8 @@ class Button : public Label {
 
    public:
     Button(std::string text, const Renderer &renderer, int width, int height);
+    Button(std::string text, const Renderer &renderer, std::string image_name,
+           int width, int height);
     void draw() const;
     bool handleIfClicked(int cursorX, int cursorY);
 };

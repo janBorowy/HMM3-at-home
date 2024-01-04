@@ -4,6 +4,7 @@
 // #include "BattleExtrinsic.h"
 // #include "Label.h"
 // #include "NextTurnButton.h"
+#include "BattleButton.h"
 #include "GameData.h"
 #include "Panel.h"
 #include "TurnManager.h"
@@ -11,8 +12,8 @@
 
 struct BattlePanel : public Panel {
    public:
-    Renderer const &renderer_;
-    BattlePanel(Renderer const &renderer);
+    const Renderer &renderer_;
+    BattlePanel(const Renderer &renderer);
     virtual void step();
     virtual void draw();
     virtual void drawImGui();
@@ -26,6 +27,8 @@ struct BattlePanel : public Panel {
     int clicked_col_;
     int clicked_row_;
 
+    BattleButton button_;
+
     SpriteUPtr selectedFieldSprite_;
     SpriteUPtr emptyFieldSprite_;
     SpriteUPtr battleGroundSprite_;
@@ -33,7 +36,7 @@ struct BattlePanel : public Panel {
     SpriteUPtr whiteFieldSprite_;
 
     void handleMapGridClick(int col, int row);
-    // void handleMapGridSelect(int col, int row);
+
     void loadBattleSprites();
     void drawWalkingDistance(int x, int y, int distance);
 };

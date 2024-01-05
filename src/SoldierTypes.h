@@ -3,74 +3,53 @@
 #include "Soldier.h"
 
 namespace SType {
-
 class Archer : public Soldier {
    public:
-    Archer(int number, int startX, int startY)
-        : Soldier(6, 3, 3, 10, 10, 4, number, startX, startY, ARCHER) {}
-    Archer(const Archer &other)
-        : Soldier(6, 3, 3, 10, other.current_health_, 4, other.number_,
-                  other.pos_x_, other.pos_y_, ARCHER) {}
-
-    virtual int attack(int x, int y) override { return damage_ * number_; }
-    virtual void loadSprites() override {
-        auto image = GameData::getImage("ArcherRight.png");
-        rightSprite_.reset(
-            new Sprite(image->getWidth(), image->getHeight(), image));
-        image = GameData::getImage("ArcherLeft.png");
-        leftSprite_.reset(
-            new Sprite(image->getWidth(), image->getHeight(), image));
-        image = GameData::getImage("ArcherDead.png");
-        deadSprite_.reset(
-            new Sprite(image->getWidth(), image->getHeight(), image));
-    }
-    virtual SoldierPtr clone() const { return std::make_unique<Archer>(*this); }
+    Archer(int number, int startX, int startY);
+    Archer(const Archer &other);
+    virtual int attack(int x, int y) override;
+    virtual void loadSprites() override;
+    SoldierPtr clone() const;
 };
 
 class Pikeman : public Soldier {
    public:
-    Pikeman(int number, int startX, int startY)
-        : Soldier(4, 5, 3, 10, 10, 4, number, startX, startY, PIKEMAN) {}
-    Pikeman(const Pikeman &other)
-        : Soldier(4, 5, 3, 10, other.current_health_, 4, other.number_,
-                  other.pos_x_, other.pos_y_, PIKEMAN) {}
-    virtual void loadSprites() override {
-        auto image = GameData::getImage("PikemanRight.png");
-        rightSprite_.reset(
-            new Sprite(image->getWidth(), image->getHeight(), image));
-        image = GameData::getImage("PikemanLeft.png");
-        leftSprite_.reset(
-            new Sprite(image->getWidth(), image->getHeight(), image));
-        image = GameData::getImage("PikemanDead.png");
-        deadSprite_.reset(
-            new Sprite(image->getWidth(), image->getHeight(), image));
-    }
-    virtual SoldierPtr clone() const {
-        return std::make_unique<Pikeman>(*this);
-    }
+    Pikeman(int number, int startX, int startY);
+    Pikeman(const Pikeman &other);
+    virtual void loadSprites() override;
+    virtual SoldierPtr clone() const;
 };
 
 class SwordsMan : public Soldier {
    public:
-    SwordsMan(int number, int startX, int startY)
-        : Soldier(10, 12, 8, 35, 35, 5, number, startX, startY, SWORDSMAN) {}
-    SwordsMan(const SwordsMan &other)
-        : Soldier(10, 12, 8, 35, other.current_health_, 5, other.number_,
-                  other.pos_x_, other.pos_y_, SWORDSMAN) {}
-    virtual void loadSprites() override {
-        auto image = GameData::getImage("SwordsmanRight.png");
-        rightSprite_.reset(
-            new Sprite(image->getWidth(), image->getHeight(), image));
-        image = GameData::getImage("SwordsmanLeft.png");
-        leftSprite_.reset(
-            new Sprite(image->getWidth(), image->getHeight(), image));
-        image = GameData::getImage("SwordsmanDead.png");
-        deadSprite_.reset(
-            new Sprite(image->getWidth(), image->getHeight(), image));
-    }
-    virtual SoldierPtr clone() const {
-        return std::make_unique<SwordsMan>(*this);
-    }
+    SwordsMan(int number, int startX, int startY);
+    SwordsMan(const SwordsMan &other);
+    virtual void loadSprites() override;
+    virtual SoldierPtr clone() const;
 };
 
+class Minotaur : public Soldier {
+   public:
+    Minotaur(int number, int startX, int startY);
+    Minotaur(const Minotaur &other);
+    virtual void loadSprites() override;
+    virtual SoldierPtr clone() const;
+};
+
+class Troglodyte : public Soldier {
+   public:
+    Troglodyte(int number, int startX, int startY);
+    Troglodyte(const Troglodyte &other);
+    virtual void loadSprites() override;
+    virtual SoldierPtr clone() const;
+};
+
+class Beholder : public Soldier {
+   public:
+    Beholder(int number, int startX, int startY);
+    Beholder(const Beholder &other);
+    virtual int attack(int x, int y) override;
+    virtual void loadSprites() override;
+    SoldierPtr clone() const;
+};
 }  // namespace SType

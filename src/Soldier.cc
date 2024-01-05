@@ -40,7 +40,7 @@ void Soldier::receive_damage(int damage) {
     int remainder = damage % health_;
     if (current_health_ - remainder <= 0) {
         number_ -= 1;
-        current_health_ = 5 + (current_health_ - remainder);
+        current_health_ = health_ + current_health_ - remainder;
     } else {
         current_health_ -= remainder;
     }
@@ -91,4 +91,4 @@ void Soldier::setNumber(int num) { number_ = num; }
 void Soldier::setX(int x) { pos_x_ = x; }
 void Soldier::setY(int y) { pos_y_ = y; }
 
-Soldier::ArmyBranch Soldier::get_type() const { return type_; }
+ArmyBranch Soldier::get_type() const { return type_; }

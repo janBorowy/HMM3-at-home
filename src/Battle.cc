@@ -2,6 +2,8 @@
 #include <memory>
 #include <stdexcept>
 #include "HeroResources.h"
+#include "Soldier.h"
+#include "SoldierTypes.h"
 
 Battle::Battle(bool ai_game)
     : state_(heroTurn), counter_(0), ai_enemy_(ai_game) {
@@ -25,20 +27,21 @@ void Battle::setArmy(std::vector<UnitInfo> &hero_units,
     int id_num = 0;
     for (auto i : hero_units) {
         ++id_num;
-        switch (i.unit) {
-            case Archer:
-                hero_army_.push_back(
-                    std::make_unique<SType::Archer>(i.number, 0, pos));
-                break;
-            case Pikeman:
-                hero_army_.push_back(
-                    std::make_unique<SType::Pikeman>(i.number, 0, pos));
-                break;
-            case SwordsMan:
-                hero_army_.push_back(
-                    std::make_unique<SType::SwordsMan>(i.number, 0, pos));
-                break;
-        }
+        pushToArmyVector(hero_army_, i.unit, i.number, 0, pos);
+        // switch (i.unit) {
+        //     case Archer:
+        //         hero_army_.push_back(
+        //             std::make_unique<SType::Archer>(i.number, 0, pos));
+        //         break;
+        //     case Pikeman:
+        //         hero_army_.push_back(
+        //             std::make_unique<SType::Pikeman>(i.number, 0, pos));
+        //         break;
+        //     case SwordsMan:
+        //         hero_army_.push_back(
+        //             std::make_unique<SType::SwordsMan>(i.number, 0, pos));
+        //         break;
+        // }
         pos += h_distribution;
     }
 
@@ -47,21 +50,48 @@ void Battle::setArmy(std::vector<UnitInfo> &hero_units,
 
     for (auto i : enemy_units) {
         --id_num;
-        switch (i.unit) {
-            case Archer:
-                enemy_army_.push_back(
-                    std::make_unique<SType::Archer>(i.number, COLS - 1, pos));
-                break;
-            case Pikeman:
-                enemy_army_.push_back(
-                    std::make_unique<SType::Pikeman>(i.number, COLS - 1, pos));
-                break;
-            case SwordsMan:
-                enemy_army_.push_back(std::make_unique<SType::SwordsMan>(
-                    i.number, COLS - 1, pos));
-                break;
-        }
+        pushToArmyVector(enemy_army_, i.unit, i.number, COLS - 1, pos);
+        // switch (i.unit) {
+        //     case ARCHER:
+        //         enemy_army_.push_back(
+        //             std::make_unique<SType::Archer>(i.number, COLS - 1,
+        //             pos));
+        //         break;
+        //     case PIKEMAN:
+        //         enemy_army_.push_back(
+        //             std::make_unique<SType::Pikeman>(i.number, COLS - 1,
+        //             pos));
+        //         break;
+        //     case SWORDSMAN:
+        //         enemy_army_.push_back(std::make_unique<SType::SwordsMan>(
+        //             i.number, COLS - 1, pos));
+        //         break;
+        // }
         pos += e_distribution;
+    }
+}
+
+void Battle::pushToArmyVector(std::vector<SoldierPtr> &vec, ArmyBranch type,
+                              int num, int x, int y) {
+    switch (type) {
+        case ARCHER:
+            vec.push_back(std::make_unique<SType::Archer>(num, x, y));
+            break;
+        case PIKEMAN:
+            vec.push_back(std::make_unique<SType::Pikeman>(num, x, y));
+            break;
+        case SWORDSMAN:
+            vec.push_back(std::make_unique<SType::SwordsMan>(num, x, y));
+            break;
+        case TROGLODYTE:
+            vec.push_back(std::make_unique<SType::Troglodyte>(num, x, y));
+            break;
+        case MINOTAUR:
+            vec.push_back(std::make_unique<SType::Minotaur>(num, x, y));
+            break;
+        case BEHOLDER:
+            vec.push_back(std::make_unique<SType::Beholder>(num, x, y));
+            break;
     }
 }
 

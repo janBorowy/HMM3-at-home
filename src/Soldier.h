@@ -3,10 +3,9 @@
 #include "GameData.h"
 #include "Sprite.h"
 
+enum ArmyBranch { ARCHER, PIKEMAN, SWORDSMAN, MINOTAUR, TROGLODYTE, BEHOLDER };
 class Soldier {
    public:
-    enum ArmyBranch { ARCHER, PIKEMAN, SWORDSMAN };
-
    protected:
     ArmyBranch type_;
     const int attack_;

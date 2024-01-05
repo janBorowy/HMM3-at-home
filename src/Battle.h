@@ -28,6 +28,9 @@ class Battle {
     std::unique_ptr<Player> hero_;
     std::unique_ptr<Player> enemy_;
 
+    void pushToArmyVector(std::vector<SoldierPtr> &vec, ArmyBranch type,
+                          int num, int x, int y);
+
    public:
     Battle(bool ai_game);
     ~Battle() = default;

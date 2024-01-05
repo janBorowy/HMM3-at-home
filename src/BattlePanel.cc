@@ -25,18 +25,19 @@ BattlePanel::BattlePanel(const Renderer &renderer)
       clicked_col_(10000),
       clicked_row_(10000),
       battle_(true),
-      button_(renderer_, 150, 100) {
+      button_(renderer_, 134, 86) {
     button_.setPos(GRID_X + GRID_WIDTH * COLS + 2,
                    GRID_Y + GRID_HEIGHT * (ROWS - 2));
     std::vector<UnitInfo> h_units;
     std::vector<UnitInfo> e_units;
-    h_units.push_back(UnitInfo(Archer, 5));
-    h_units.push_back(UnitInfo(Pikeman, 5));
-    h_units.push_back(UnitInfo(SwordsMan, 5));
+    h_units.push_back(UnitInfo(ARCHER, 5));
+    h_units.push_back(UnitInfo(TROGLODYTE, 10));
+    h_units.push_back(UnitInfo(SWORDSMAN, 5));
 
-    e_units.push_back(UnitInfo(Archer, 5));
-    e_units.push_back(UnitInfo(Pikeman, 5));
-    e_units.push_back(UnitInfo(SwordsMan, 5));
+    e_units.push_back(UnitInfo(MINOTAUR, 2));
+    e_units.push_back(UnitInfo(BEHOLDER, 5));
+    e_units.push_back(UnitInfo(TROGLODYTE, 20));
+    //  e_units.push_back(UnitInfo(TROGLODYTE, 10));
     battle_.setArmy(h_units, e_units);
     battle_.loadArmySprites();
 

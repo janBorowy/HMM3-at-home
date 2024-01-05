@@ -60,9 +60,9 @@ TEST_CASE("Battle") {
 
     std::vector<UnitInfo> h_units;
     std::vector<UnitInfo> e_units;
-    h_units.push_back(UnitInfo(Archer, 3));
+    h_units.push_back(UnitInfo(ARCHER, 3));
 
-    e_units.push_back(UnitInfo(Pikeman, 1));
+    e_units.push_back(UnitInfo(PIKEMAN, 1));
     SUBCASE("Testing Battle") {
         Battle battle(false);
         battle.setArmy(h_units, e_units);
@@ -95,6 +95,15 @@ TEST_CASE("Battle") {
         player.makeMove(0, 0, hero_army, enemy_army, 0);
         player.makeMove(0, 0, hero_army, enemy_army, 0);
         player.makeMove(0, 0, hero_army, enemy_army, 0);
-        std::cout << "bbll";
+
+        hero_army.clear();
+        enemy_army.clear();
+        hero_army.push_back(std::make_unique<SType::Troglodyte>(10, 13, 5));
+        enemy_army.push_back(std::make_unique<SType::Minotaur>(10, 15, 5));
+        AlivePlayer player2;
+        player2.makeMove(15, 5, hero_army, enemy_army, 0);
+        player2.makeMove(15, 5, hero_army, enemy_army, 0);
+        player2.makeMove(15, 5, hero_army, enemy_army, 0);
+        player2.makeMove(15, 5, hero_army, enemy_army, 0);
     }
 }

@@ -3,9 +3,9 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
+#include "BattlePanel.h"
 #include "GameData.h"
 #include "GameWindow.h"
-#include "BattlePanel.h"
 #include "HeroResources.h"
 #include "MainPanel.h"
 #include "MapParser.h"

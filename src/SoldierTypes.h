@@ -3,6 +3,7 @@
 #include "Soldier.h"
 
 namespace SType {
+
 class Archer : public Soldier {
    public:
     Archer(int number, int startX, int startY);

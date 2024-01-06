@@ -6,7 +6,11 @@
 #include "SoldierTypes.h"
 
 Battle::Battle(bool ai_game)
-    : state_(heroTurn), counter_(0), ai_enemy_(ai_game) {
+    : state_(heroTurn),
+      counter_(0),
+      ai_enemy_(ai_game),
+      soldier_info_itr_(0),
+      if_hero_soldier_info_(true) {
     hero_ = std::make_unique<AlivePlayer>();
     if (ai_game) {
         enemy_ = std::make_unique<AiPlayer>();
@@ -28,20 +32,6 @@ void Battle::setArmy(std::vector<UnitInfo> &hero_units,
     for (auto i : hero_units) {
         ++id_num;
         pushToArmyVector(hero_army_, i.unit, i.number, 0, pos);
-        // switch (i.unit) {
-        //     case Archer:
-        //         hero_army_.push_back(
-        //             std::make_unique<SType::Archer>(i.number, 0, pos));
-        //         break;
-        //     case Pikeman:
-        //         hero_army_.push_back(
-        //             std::make_unique<SType::Pikeman>(i.number, 0, pos));
-        //         break;
-        //     case SwordsMan:
-        //         hero_army_.push_back(
-        //             std::make_unique<SType::SwordsMan>(i.number, 0, pos));
-        //         break;
-        // }
         pos += h_distribution;
     }
 
@@ -51,22 +41,6 @@ void Battle::setArmy(std::vector<UnitInfo> &hero_units,
     for (auto i : enemy_units) {
         --id_num;
         pushToArmyVector(enemy_army_, i.unit, i.number, COLS - 1, pos);
-        // switch (i.unit) {
-        //     case ARCHER:
-        //         enemy_army_.push_back(
-        //             std::make_unique<SType::Archer>(i.number, COLS - 1,
-        //             pos));
-        //         break;
-        //     case PIKEMAN:
-        //         enemy_army_.push_back(
-        //             std::make_unique<SType::Pikeman>(i.number, COLS - 1,
-        //             pos));
-        //         break;
-        //     case SWORDSMAN:
-        //         enemy_army_.push_back(std::make_unique<SType::SwordsMan>(
-        //             i.number, COLS - 1, pos));
-        //         break;
-        // }
         pos += e_distribution;
     }
 }
@@ -210,3 +184,29 @@ BattleState Battle::getState() { return state_; }
 std::vector<SoldierPtr> &Battle::getHeroArmy() { return hero_army_; }
 std::vector<SoldierPtr> &Battle::getEnemyArmy() { return enemy_army_; }
 int Battle::getCounter() { return counter_; }
+
+bool Battle::setSoldierInfo(int x, int y) {
+    for (int i = 0; i < hero_army_.size(); ++i) {
+        if (hero_army_.at(i)->getX() == x && hero_army_.at(i)->getY() == y) {
+            soldier_info_itr_ = i;
+            if_hero_soldier_info_ = true;
+            return true;
+        }
+    }
+    for (int i = 0; i < enemy_army_.size(); ++i) {
+        if (enemy_army_.at(i)->getX() == x && enemy_army_.at(i)->getY() == y) {
+            soldier_info_itr_ = i;
+            if_hero_soldier_info_ = false;
+            return true;
+        }
+    }
+    return false;
+}
+
+SoldierPtr &Battle::getSoldierForInfo() {
+    if (if_hero_soldier_info_) {
+        return hero_army_.at(soldier_info_itr_);
+    } else {
+        return enemy_army_.at(soldier_info_itr_);
+    }
+}

@@ -8,10 +8,8 @@
 #include "AlivePlayer.h"
 #include "HeroResources.h"
 #include "Player.h"
+#include "Soldier.h"
 #include "SoldierTypes.h"
-
-// constexpr int COLS = 16;
-// constexpr int ROWS = 16;
 
 enum BattleState { heroTurn, enemyTurn, waitForNextTurn, won, lost };
 
@@ -21,6 +19,9 @@ class Battle {
     int enemy_paw_nr_;
     int counter_;
     bool ai_enemy_;
+
+    int soldier_info_itr_;
+    bool if_hero_soldier_info_;
 
     std::vector<SoldierPtr> hero_army_;
     std::vector<SoldierPtr> enemy_army_;
@@ -35,6 +36,8 @@ class Battle {
     Battle(bool ai_game);
     ~Battle() = default;
     void battleSpin(int x, int y);
+    bool setSoldierInfo(int x, int y);
+    SoldierPtr &getSoldierForInfo();
     void updateState();
     void handleNextTurn();
     void setArmy(std::vector<UnitInfo> &hero_units,

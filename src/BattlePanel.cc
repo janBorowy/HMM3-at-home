@@ -1,22 +1,28 @@
 #include "BattlePanel.h"
+#include <array>
 #include <fstream>
 #include <string>
 #include "AlivePlayer.h"
 #include "Battle.h"
 #include "HeroResources.h"
+#include "Label.h"
 #include "Soldier.h"
 #include "SoldierTypes.h"
+#include "Sprite.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
 
 constexpr int GRID_WIDTH = 50;
 constexpr int GRID_HEIGHT = 50;
-constexpr int GRID_X = 150;
+constexpr int GRID_X = 100;
 constexpr int GRID_Y = 50;
-constexpr int GRID_PANEL_WIDTH = 1000;
+constexpr int GRID_PANEL_WIDTH = 100;
 constexpr int GRID_PANEL_HEIGHT = 896;
 constexpr int POW_HEIGHT = 80;
 constexpr int POW_WIDTH = 40;
+
+const std::array<std::string, 6> soldierTypeStrings{
+    "Archer", "Pikeman", "Swordsman", "Minotaur", "Troglodyte", "Beholder"};
 
 BattlePanel::BattlePanel(const Renderer &renderer)
     : renderer_(renderer),
@@ -24,19 +30,20 @@ BattlePanel::BattlePanel(const Renderer &renderer)
       y_(GRID_Y),
       clicked_col_(10000),
       clicked_row_(10000),
+      if_soldier_info_(false),
       battle_(true),
       button_(renderer_, 134, 86) {
-    button_.setPos(GRID_X + GRID_WIDTH * COLS + 2,
+    button_.setPos(GRID_X * 2 + GRID_WIDTH * COLS + 20,
                    GRID_Y + GRID_HEIGHT * (ROWS - 2));
     std::vector<UnitInfo> h_units;
     std::vector<UnitInfo> e_units;
-    h_units.push_back(UnitInfo(ARCHER, 5));
-    h_units.push_back(UnitInfo(TROGLODYTE, 10));
-    h_units.push_back(UnitInfo(SWORDSMAN, 5));
+    e_units.push_back(UnitInfo(ARCHER, 5));
+    e_units.push_back(UnitInfo(PIKEMAN, 10));
+    e_units.push_back(UnitInfo(SWORDSMAN, 5));
 
-    e_units.push_back(UnitInfo(MINOTAUR, 2));
-    e_units.push_back(UnitInfo(BEHOLDER, 5));
-    e_units.push_back(UnitInfo(TROGLODYTE, 20));
+    h_units.push_back(UnitInfo(MINOTAUR, 2));
+    h_units.push_back(UnitInfo(BEHOLDER, 5));
+    h_units.push_back(UnitInfo(TROGLODYTE, 50));
     //  e_units.push_back(UnitInfo(TROGLODYTE, 10));
     battle_.setArmy(h_units, e_units);
     battle_.loadArmySprites();
@@ -46,6 +53,10 @@ BattlePanel::BattlePanel(const Renderer &renderer)
 
 void BattlePanel::draw() {
     renderer_.drawSprite(0, 0, *battleGroundSprite_);
+    renderer_.drawSprite(0, 0, *panel_);
+    if (if_soldier_info_) {
+        drawSoldierInfo(battle_.getSoldierForInfo());
+    }
     button_.draw();
 
     for (int i = 0; i < COLS; ++i) {
@@ -130,6 +141,8 @@ void BattlePanel::loadBattleSprites() {
     battleGroundSprite_.reset(new Sprite(GRID_WIDTH * COLS + 2 * GRID_X,
                                          GRID_HEIGHT * ROWS + 2 * GRID_Y,
                                          image));
+    image = GameData::getImage("panel.png");
+    panel_.reset(new Sprite(image->getWidth(), image->getHeight(), image));
 }
 
 bool BattlePanel::mouseButtonDown(int x, int y) {
@@ -148,7 +161,15 @@ bool BattlePanel::mouseButtonDown(int x, int y) {
 }
 
 void BattlePanel::handleMapGridClick(int clickedCol, int clickedRow) {
-    battle_.battleSpin(clickedCol, clickedRow);
+    if (clickedCol == clicked_col_ && clickedRow == clicked_row_) {
+        battle_.battleSpin(clickedCol, clickedRow);
+        if_soldier_info_ = false;
+    } else if (battle_.setSoldierInfo(clickedCol, clickedRow)) {
+        if_soldier_info_ = true;
+    } else {
+        battle_.battleSpin(clickedCol, clickedRow);
+        if_soldier_info_ = false;
+    }
     clicked_col_ = clickedCol;
     clicked_row_ = clickedRow;
     // std::cout << clickedCol << "\n" << clickedRow << "\n";
@@ -172,4 +193,40 @@ void BattlePanel::drawWalkingDistance(int x, int y, int distance) {
     }
     renderer_.drawSprite(GRID_X + x * GRID_WIDTH, GRID_Y + y * GRID_HEIGHT,
                          *whiteFieldSprite_);
+}
+
+void BattlePanel::drawSoldierInfo(const SoldierPtr &soldier) {
+    SDL_Rect rect;
+    rect.x = 1020;
+    rect.y = 80;
+    rect.w = 200;
+    rect.h = 280;
+    if (soldier->isAlive()) {
+        renderer_.drawSprite(*soldier->rightSprite_, rect);
+    } else {
+        renderer_.drawSprite(*soldier->deadSprite_, rect);
+    }
+    std::string initial_string =
+        "Name: " + soldierTypeStrings[soldier->get_type()];
+    Label label(initial_string, renderer_);
+    label.setPos(1030, 390);
+    label.draw();
+
+    label.updateText("Unit health: " + std::to_string(soldier->getHealth()));
+    label.setPos(1030, 410);
+    label.draw();
+
+    label.updateText("Current health: " +
+                     std::to_string(soldier->getCurrentHealth()));
+    label.setPos(1030, 430);
+    label.draw();
+
+    label.updateText("Unit damage: " + std::to_string(soldier->getDamage()));
+    label.setPos(1030, 450);
+    label.draw();
+
+    label.updateText("Number of units: " +
+                     std::to_string(soldier->get_number()));
+    label.setPos(1030, 470);
+    label.draw();
 }

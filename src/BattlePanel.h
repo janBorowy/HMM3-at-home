@@ -22,6 +22,7 @@ struct BattlePanel : public Panel {
 
    private:
     Battle battle_;
+    bool if_soldier_info_;
     int x_;
     int y_;
     int clicked_col_;
@@ -34,9 +35,11 @@ struct BattlePanel : public Panel {
     SpriteUPtr battleGroundSprite_;
     SpriteUPtr blueFieldSprite_;
     SpriteUPtr whiteFieldSprite_;
+    SpriteUPtr panel_;
 
     void handleMapGridClick(int col, int row);
 
     void loadBattleSprites();
     void drawWalkingDistance(int x, int y, int distance);
+    void drawSoldierInfo(const SoldierPtr &soldier);
 };

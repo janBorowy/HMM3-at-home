@@ -44,7 +44,7 @@ void Renderer::drawEntity(const GameEntity &entity) const {
     SDL_RenderCopy(renderer_, sprite->image_->getSDLTexture(), NULL, &rect);
 }
 
-void Renderer::drawSprite(int x, int y, Sprite const &sprite) const {
+void Renderer::drawSprite(int x, int y, const Sprite &sprite) const {
     SDL_Rect rect;
     rect.x = x;
     rect.y = y;
@@ -53,13 +53,18 @@ void Renderer::drawSprite(int x, int y, Sprite const &sprite) const {
     SDL_RenderCopy(renderer_, sprite.image_->getSDLTexture(), NULL, &rect);
 }
 
-void Renderer::drawSprite(int x, int y, Sprite const &sprite, SDL_Rect &srcRect) const {
+void Renderer::drawSprite(int x, int y, const Sprite &sprite,
+                          SDL_Rect &srcRect) const {
     SDL_Rect rect;
     rect.x = x;
     rect.y = y;
     rect.w = sprite.width_;
     rect.h = sprite.height_;
     SDL_RenderCopy(renderer_, sprite.image_->getSDLTexture(), &srcRect, &rect);
+}
+
+void Renderer::drawSprite(const Sprite &sprite, SDL_Rect &dstRect) const {
+    SDL_RenderCopy(renderer_, sprite.image_->getSDLTexture(), NULL, &dstRect);
 }
 
 void Renderer::drawImage(int x, int y, const Image &image) const {

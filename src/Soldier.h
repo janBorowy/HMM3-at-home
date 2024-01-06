@@ -4,6 +4,7 @@
 #include "Sprite.h"
 
 enum ArmyBranch { ARCHER, PIKEMAN, SWORDSMAN, MINOTAUR, TROGLODYTE, BEHOLDER };
+
 class Soldier {
    public:
    protected:

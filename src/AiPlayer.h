@@ -4,7 +4,7 @@
 #include <vector>
 #include "Player.h"
 #include "SoldierTypes.h"
-constexpr int DEPTH = 3;
+constexpr int DEPTH = 2;
 
 struct State {
     std::vector<SoldierPtr> my_army;

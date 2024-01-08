@@ -7,6 +7,12 @@ Button::Button(std::string text, const Renderer &renderer, int width,
       borderSprite_(width, height, GameData::getImage("button.png")),
       width_(width),
       height_(height) {}
+Button::Button(std::string text, const Renderer &renderer,
+               std::string image_name, int width, int height)
+    : Label(text, renderer),
+      borderSprite_(width, height, GameData::getImage(image_name)),
+      width_(width),
+      height_(height) {}
 
 bool Button::handleIfClicked(int cursorX, int cursorY) {
     if (cursorX > x_ && cursorX < x_ + width_ && cursorY > y_ &&

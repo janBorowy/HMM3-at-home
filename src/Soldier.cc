@@ -1,15 +1,17 @@
-#include <stdexcept>
 #include "Soldier.h"
+#include <stdexcept>
 
 Soldier::Soldier(int attack, int defense, int damage, int health,
-                 int walk_distance, int number, int startX, int startY)
+                 int current_health, int walk_distance, int number, int startX,
+                 int startY, ArmyBranch type)
     : attack_(attack),
       defense_(defense),
       damage_(damage),
       health_(health),
       walk_distance_(walk_distance),
-      current_health_(health),
-      number_(number)
+      current_health_(current_health),
+      number_(number),
+      type_(type)
 
 {
     if (startX < 0 || startY < 0 || startX > 15 || startY > 15) {
@@ -21,12 +23,24 @@ Soldier::Soldier(int attack, int defense, int damage, int health,
     }
 }
 
+Soldier::Soldier(const Soldier &other)
+    : attack_(other.attack_),
+      defense_(other.defense_),
+      damage_(other.damage_),
+      health_(other.health_),
+      walk_distance_(other.walk_distance_),
+      current_health_(other.current_health_),
+      number_(other.number_),
+      type_(other.type_),
+      pos_x_(other.pos_x_),
+      pos_y_(other.pos_y_) {}
+
 void Soldier::receive_damage(int damage) {
     int division = damage / health_;
     int remainder = damage % health_;
     if (current_health_ - remainder <= 0) {
         number_ -= 1;
-        current_health_ = 5 + (current_health_ - remainder);
+        current_health_ = health_ + current_health_ - remainder;
     } else {
         current_health_ -= remainder;
     }
@@ -56,6 +70,8 @@ bool Soldier::try_to_move(int x, int y) {
 
 int Soldier::get_number() { return number_; }
 
+int Soldier::getWalk() { return walk_distance_; }
+
 bool Soldier::isAlive() {
     if (number_ > 0) {
         return true;
@@ -63,6 +79,16 @@ bool Soldier::isAlive() {
         return false;
     }
 }
+int Soldier::getCurrentHealth() { return current_health_; }
+int Soldier::getDamage() { return damage_; }
+int Soldier::getHealth() { return health_; }
 
 int Soldier::getX() { return pos_x_; }
 int Soldier::getY() { return pos_y_; }
+
+void Soldier::setCurrentHealth(int health) { current_health_ = health; }
+void Soldier::setNumber(int num) { number_ = num; }
+void Soldier::setX(int x) { pos_x_ = x; }
+void Soldier::setY(int y) { pos_y_ = y; }
+
+ArmyBranch Soldier::get_type() const { return type_; }

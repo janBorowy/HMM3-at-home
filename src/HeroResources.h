@@ -1,14 +1,13 @@
 #pragma once
 #include <vector>
+#include "Soldier.h"
 #include "SoldierTypes.h"
 constexpr int ONE_FIELD_MOVEMENT_PENALTY = 100;
 
-enum MilitaryUnit { Archer, Pikeman, SwordsMan };
-
 struct UnitInfo {
-    MilitaryUnit unit;
+    ArmyBranch unit;
     int number;
-    UnitInfo(MilitaryUnit u, int n) : unit(u), number(n) {}
+    UnitInfo(ArmyBranch u, int n) : unit(u), number(n) {}
 };
 
 class HeroResources {

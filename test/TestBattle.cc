@@ -1,6 +1,8 @@
+#include <iostream>
 #include <memory>
 #include <vector>
 #include "../src/Battle.h"
+#include "GameWindow.h"
 #include "doctest.h"
 
 TEST_CASE("Battle") {
@@ -58,11 +60,12 @@ TEST_CASE("Battle") {
 
     std::vector<UnitInfo> h_units;
     std::vector<UnitInfo> e_units;
-    h_units.push_back(UnitInfo(Archer, 3));
+    h_units.push_back(UnitInfo(ARCHER, 3));
 
-    e_units.push_back(UnitInfo(Pikeman, 1));
+    e_units.push_back(UnitInfo(PIKEMAN, 1));
     SUBCASE("Testing Battle") {
-        Battle battle(h_units, e_units);
+        Battle battle(false);
+        battle.setArmy(h_units, e_units);
         CHECK_EQ(battle.getState(), heroTurn);
         battle.battleSpin(15, 7);
         CHECK_EQ(battle.getState(), enemyTurn);
@@ -72,5 +75,35 @@ TEST_CASE("Battle") {
         CHECK_EQ(battle.getState(), heroTurn);
         battle.battleSpin(15, 6);
         CHECK_EQ(battle.getState(), won);
+    }
+    hero_army.clear();
+    enemy_army.clear();
+    // hero_army.push_back(std::make_unique<SType::Archer>(4, 0, 2));
+    hero_army.push_back(std::make_unique<SType::SwordsMan>(5, 15, 2));
+    hero_army.push_back(std::make_unique<SType::SwordsMan>(2, 15, 7));
+    hero_army.push_back(std::make_unique<SType::SwordsMan>(2, 15, 12));
+    // hero_army.push_back(std::make_unique<SType::SwordsMan>(2, 0, 11));
+
+    enemy_army.push_back(std::make_unique<SType::Archer>(3, 0, 2));
+    enemy_army.push_back(std::make_unique<SType::Pikeman>(5, 0, 7));
+    enemy_army.push_back(std::make_unique<SType::SwordsMan>(2, 0, 12));
+    SUBCASE("Testing AiPlayer") {
+        AiPlayer player;
+        State state(hero_army, enemy_army);
+        std::vector<State> children;
+        // player.addChildren(children, state, 0, state.my_army.size(), true);
+        player.makeMove(0, 0, hero_army, enemy_army, 0);
+        player.makeMove(0, 0, hero_army, enemy_army, 0);
+        player.makeMove(0, 0, hero_army, enemy_army, 0);
+
+        hero_army.clear();
+        enemy_army.clear();
+        hero_army.push_back(std::make_unique<SType::Troglodyte>(10, 13, 5));
+        enemy_army.push_back(std::make_unique<SType::Minotaur>(10, 15, 5));
+        AlivePlayer player2;
+        player2.makeMove(15, 5, hero_army, enemy_army, 0);
+        player2.makeMove(15, 5, hero_army, enemy_army, 0);
+        player2.makeMove(15, 5, hero_army, enemy_army, 0);
+        player2.makeMove(15, 5, hero_army, enemy_army, 0);
     }
 }

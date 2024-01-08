@@ -1,7 +1,7 @@
+#include "AlivePlayer.h"
 #include <cmath>
 #include <iostream>
 #include <stdexcept>
-#include "AlivePlayer.h"
 
 bool AlivePlayer::makeMove(int x, int y, std::vector<SoldierPtr> &my_army,
                            std::vector<SoldierPtr> &enemy_army, int paw_nr) {
@@ -18,7 +18,6 @@ bool AlivePlayer::makeMove(int x, int y, std::vector<SoldierPtr> &my_army,
     for (auto &i : my_army) {
         game_grid[i->getY()][i->getX()] = 1;
         if (i->getX() == x && i->getY() == y) {
-            std::cout << "Do you want to kill yourself or your comrades!!?";
             return false;
         }
     }

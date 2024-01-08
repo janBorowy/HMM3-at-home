@@ -26,6 +26,9 @@ class Renderer {
     void swapBuffers();
     void drawEntity(const GameEntity &entity) const;
     void drawSprite(int x, int y, const Sprite &sprite) const;
+    void drawSprite(int x, int y, const Sprite &sprite,
+                    SDL_Rect &srcRect) const;
+    void drawSprite(const Sprite &sprite, SDL_Rect &dstRect) const;
     void drawImage(int x, int y, const Image &image) const;
 };
 

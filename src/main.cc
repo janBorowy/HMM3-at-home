@@ -3,6 +3,7 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
+#include "BattlePanel.h"
 #include "GameData.h"
 #include "GameWindow.h"
 #include "HeroResources.h"
@@ -49,7 +50,7 @@ int gameLoop() {
                                       renderer.getSDLRenderer());
     ImGui_ImplSDLRenderer2_Init(renderer.getSDLRenderer());
     try {
-        panels.push(new MainPanel(renderer));
+        panels.push(new BattlePanel(renderer));
     } catch (const MapParserException &e) {
         std::cout << "Error parsing map file" << std::endl;
         return 1;

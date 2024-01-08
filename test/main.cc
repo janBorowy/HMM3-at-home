@@ -4,6 +4,7 @@
 #include "TestHeroResources.cc"
 #include "TestMapObject.cc"
 #include "TestMapParser.cc"
+#include "TestShortestPathFinder.cc"
 #include "TestTurnManager.cc"
 #include "doctest.h"
 

@@ -24,6 +24,13 @@ void HeroResources::reduceStaminaByStep() {
     if (stamina_ < 0) stamina_ = 0;
 }
 
+void HeroResources::reduceStaminaByNSteps(int n) {
+    while (n > 0) {
+        reduceStaminaByStep();
+        --n;
+    }
+}
+
 bool HeroResources::canMove() const { return stamina_ != 0; }
 int HeroResources::calculateMaxSteps() const {
     auto staminaLeft = calculateStamina(movement_);

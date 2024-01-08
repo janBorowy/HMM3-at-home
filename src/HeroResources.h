@@ -26,6 +26,7 @@ class HeroResources {
     int stamina() const;
     int movement() const;
     void reduceStaminaByStep();
+    void reduceStaminaByNSteps(int n);
     bool canMove() const;
     int calculateMaxSteps() const;
     int gold() const;

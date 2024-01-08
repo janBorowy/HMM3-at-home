@@ -58,8 +58,8 @@ int gameLoop() {
         int64_t frameStart = SDL_GetPerformanceCounter();
 
         SDL_Event event;
-        ImGui_ImplSDL2_ProcessEvent(&event);
         while (SDL_PollEvent(&event) != 0) {
+            ImGui_ImplSDL2_ProcessEvent(&event);
             if (event.type == SDL_QUIT) {
                 panels.quit();
             } else if (panels.handle(event)) {

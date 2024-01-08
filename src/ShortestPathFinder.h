@@ -1,6 +1,15 @@
+#pragma once
+#include <queue>
 #include <vector>
 #include "GameMapVisitator.h"
+#include "stdexcept"
 #include "typedefs.h"
+
+class ShortestPathFinderException : public std::runtime_error {
+   public:
+    ShortestPathFinderException(std::string message)
+        : std::runtime_error(message) {}
+};
 
 class ShortestPathFinder : public GameMapVisitator {
     Position src_;
@@ -8,14 +17,11 @@ class ShortestPathFinder : public GameMapVisitator {
     std::vector<Position> result_;
 
     struct Node {
-        int priority_;
         Position pos_;
-        Node(int priority, const Position &pos)
-            : priority_(priority), pos_(pos) {}
-        friend bool operator<(const Node &l, const Node &r) {
-            return l.priority_ < r.priority_;
-        }
-        friend bool operator>(const Node &l, const Node &r) { return r < l; }
+        double distanceFromDest_;
+        bool operator>(const Node &rhs) const;
+        bool operator<(const Node &rhs) const;
+        Node(const Position &position, double distanceFromDest_);
     };
 
    public:
@@ -23,4 +29,6 @@ class ShortestPathFinder : public GameMapVisitator {
     void virtual visit(const GameMap &map);
     std::vector<Position> result() const;
     double euclideanLength(const Position &src, const Position &dest);
+    void updateQueue(std::priority_queue<Node> &queue, const Position &pos,
+                     double priority);
 };

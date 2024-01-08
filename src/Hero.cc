@@ -1,4 +1,5 @@
 #include "Hero.h"
+#include "ShortestPathFinder.h"
 
 namespace {
 constexpr int INITIAL_GOLD = 1000;
@@ -17,49 +18,18 @@ void Hero::move(const Position &destination, const GameMap &map) {
     if (!canMove(destination, map)) {
         throw HeroException("Illegal move");
     }
-    while (resources_.canMove() && position_ != destination) {
-        resources_.reduceStaminaByStep();
-        if (position_.first < destination.first) {
-            ++(position_.first);
-            continue;
-        } else if (position_.first > destination.first) {
-            --(position_.first);
-            continue;
-        } else if (position_.second < destination.second) {
-            ++(position_.second);
-            continue;
-        } else {
-            --(position_.second);
-            continue;
-        }
-    }
+    ShortestPathFinder finder(position_, destination);
+    finder.visit(map);
+    auto result = finder.result();
+    resources_.reduceStaminaByNSteps(result.size() - 1);
+    position_ = result.back();
 }
 
 std::vector<Position> Hero::getMovementPath(const Position &destination,
                                             const GameMap &map) const {
-    if (!canMove(destination, map)) {
-        throw HeroException("Illegal move");
-    }
-    auto position = position_;
-    std::vector<Position> traveledPath;
-    while (resources_.canMove() && position != destination) {
-        traveledPath.push_back(position);
-        if (position.first < destination.first) {
-            ++(position.first);
-            continue;
-        } else if (position.first > destination.first) {
-            --(position.first);
-            continue;
-        } else if (position.second < destination.second) {
-            ++(position.second);
-            continue;
-        } else {
-            --(position.second);
-            continue;
-        }
-    }
-    traveledPath.push_back(position);
-    return traveledPath;
+    ShortestPathFinder finder(position_, destination);
+    finder.visit(map);
+    return finder.result();
 }
 
 Position Hero::position() const { return position_; }
@@ -73,11 +43,10 @@ bool Hero::canMove(const Position &destination, const GameMap &map) const {
         return false;
     }
 
-    Position delta;
-    delta.first = destination.first - position_.first;
-    delta.second = destination.second - position_.second;
-    int staminaRequired =
-        (abs(delta.first) + abs(delta.second)) * ONE_FIELD_MOVEMENT_PENALTY;
+    ShortestPathFinder finder(position_, destination);
+    finder.visit(map);
+    auto result = finder.result();
+    int staminaRequired = (result.size() - 1) * ONE_FIELD_MOVEMENT_PENALTY;
     if (resources_.stamina() < staminaRequired) {
         return false;
     }

@@ -53,3 +53,22 @@ void HeroResources::addWood(int delta) { wood_ += delta; }
 void HeroResources::addOre(int delta) { ore_ += delta; }
 
 std::vector<UnitInfo> &HeroResources::getUnits() { return units_; }
+
+std::string UnitInfo::infoString() const {
+    std::string unitName;
+    switch (unit) {
+        case ArmyBranch::ARCHER:
+            unitName = "Archer";
+            break;
+        case ArmyBranch::PIKEMAN:
+            unitName = "Pikeman";
+            break;
+        case ArmyBranch::SWORDSMAN:
+            unitName = "Swordsman";
+            break;
+        default:
+            unitName = "unknown";
+    }
+
+    return unitName + ": " + std::to_string(number);
+}

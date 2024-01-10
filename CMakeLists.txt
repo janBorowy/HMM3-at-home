@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(HMM3-clone)
+project(HMM3-at-home)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -9,7 +9,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 file(GLOB src_FILES src/*.cc)
 include_directories(src)
 include_directories(src/engine_core)
-add_executable(HMM3-clone src/main.cc ${src_FILES} ${src_engine_core_FILES} ${src_component_FILES})
+add_executable(HMM3-at-home src/main.cc ${src_FILES} ${src_engine_core_FILES} ${src_component_FILES})
 
 file(GLOB imgui_SOURCE_FILES extern/imgui/*.cpp)
 set(imgui_BACKEND extern/imgui/backends/imgui_impl_sdl2.cpp
@@ -26,7 +26,7 @@ include_directories(${SDL2_INCLUDE_DIRS})
 include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
 include_directories(${SDL2_TTF_INCLUDE_DIRS})
 
-target_link_libraries(HMM3-clone imgui ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_TTF_LIBRARIES})
+target_link_libraries(HMM3-at-home imgui ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_TTF_LIBRARIES})
 
 list(REMOVE_ITEM src_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cc")
 

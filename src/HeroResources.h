@@ -8,6 +8,7 @@ struct UnitInfo {
     ArmyBranch unit;
     int number;
     UnitInfo(ArmyBranch u, int n) : unit(u), number(n) {}
+    std::string infoString() const;
 };
 
 class HeroResources {

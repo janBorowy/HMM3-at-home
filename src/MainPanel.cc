@@ -31,6 +31,7 @@ MainPanel::MainPanel(const Renderer &renderer)
       woodResourceLabel_("Wood: ", renderer),
       oreResourceLabel_("Ore: ", renderer),
       turnLabel_("Turn: ", renderer),
+      unitInfoLabel_("Units: ", renderer),
       selection_(map_.fieldWidth(), map_.fieldHeight(), renderer),
       playerHero_(1, 1, map_),
       turnManager_(playerHero_.hero()),
@@ -39,6 +40,7 @@ MainPanel::MainPanel(const Renderer &renderer)
     goldResourceLabel_.setPos(200, 950);
     woodResourceLabel_.setPos(350, 950);
     oreResourceLabel_.setPos(500, 950);
+    unitInfoLabel_.setPos(GRID_X + GRID_PANEL_WIDTH + 30, GRID_Y);
     turnLabel_.setPos(GRID_X + GRID_PANEL_WIDTH + 30,
                       GRID_PANEL_HEIGHT + GRID_Y);
     nextTurnButton_.setPos(GRID_X + GRID_PANEL_WIDTH + 30,
@@ -198,4 +200,11 @@ void MainPanel::updateAndDrawLabels() {
     turnLabelText += std::to_string(turnManager_.currentTurn());
     turnLabel_.updateText(turnLabelText);
     turnLabel_.draw();
+
+    std::string unitInfoLabelText = "Units - ";
+    for (auto unitInfo : playerHero_.hero().resources().getUnits()) {
+        unitInfoLabelText += unitInfo.infoString() + "  ";
+    }
+    unitInfoLabel_.updateText(unitInfoLabelText);
+    unitInfoLabel_.draw();
 }

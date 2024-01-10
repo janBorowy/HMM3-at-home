@@ -198,4 +198,5 @@ bool AiPlayer::updateChild(State &child, bool if_max_player, int paw_nr, int &x,
             y = 0;
         }
     }
+    return true;
 }

@@ -3,7 +3,9 @@
 void UI::stepAll() {}
 void UI::drawFront(Renderer &renderer) {
     stack_.back()->draw();
+#ifdef IMGUI_ON
     stack_.back()->drawImGui();
+#endif
 }
 void UI::pop() { stack_.erase(stack_.end()); }
 bool UI::handle(const SDL_Event &event) {

@@ -6,6 +6,7 @@
 #include "Panel.h"
 #include "SelectionVisitator.h"
 #include "TurnManager.h"
+#include "UI.h"
 #include "imgui.h"
 
 struct MainPanel : public Panel {
@@ -32,4 +33,5 @@ struct MainPanel : public Panel {
     void handleMapGridSelect(int col, int row);
     void handleMapGridMove(int col, int row);
     void updateAndDrawLabels();
+    void setBattle(int mapCol, int mapRow);
 };

@@ -210,3 +210,9 @@ SoldierPtr &Battle::getSoldierForInfo() {
         return enemy_army_.at(soldier_info_itr_);
     }
 }
+
+void Battle::reset() {
+    hero_army_.clear();
+    enemy_army_.clear();
+    state_ = heroTurn;
+}

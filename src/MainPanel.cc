@@ -1,6 +1,10 @@
-#include <fstream>
 #include "MainPanel.h"
+#include <fstream>
+#include "BattlePanel.h"
+#include "HeroResources.h"
+#include "MapObject.h"
 #include "MapParser.h"
+#include "Soldier.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
 
@@ -137,9 +141,32 @@ void MainPanel::handleMapGridSelect(int mapCol, int mapRow) {
 }
 
 void MainPanel::handleMapGridMove(int mapCol, int mapRow) {
+    bool if_battle = false;
     playerHero_.hero().move({mapCol, mapRow}, map_.gameMap());
-    playerHero_.hero().interactWith(map_.gameMap(), {mapCol, mapRow});
+    playerHero_.hero().interactWith(map_.gameMap(), {mapCol, mapRow},
+                                    if_battle);
+    if (if_battle) {
+        setBattle(mapCol, mapRow);
+    }
     selection_.visible(false);
+}
+
+void MainPanel::setBattle(int mapCol, int mapRow) {
+    std::vector<UnitInfo> e_units;
+
+    switch (map_.gameMap().at(mapCol, mapRow).object_.type()) {
+        case MapObject::TROGLODYTE:
+            int number = map_.gameMap().at(mapCol, mapRow).object_.value() / 3;
+
+            e_units.push_back(UnitInfo(TROGLODYTE, number));
+            e_units.push_back(UnitInfo(TROGLODYTE, number));
+            e_units.push_back(UnitInfo(TROGLODYTE, number));
+            break;
+    }
+    auto battlePanelPtr = std::dynamic_pointer_cast<BattlePanel>(ui_->at(0));
+    battlePanelPtr->setArmies(playerHero_.hero().resources().getUnits(),
+                              e_units);
+    ui_->setPanelNum(0);
 }
 
 void MainPanel::updateAndDrawLabels() {

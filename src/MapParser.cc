@@ -1,5 +1,5 @@
-#include <fstream>
 #include "MapParser.h"
+#include <fstream>
 
 MapParser::MapParser(unsigned short width, unsigned short height)
     : width_(width),
@@ -8,7 +8,8 @@ MapParser::MapParser(unsigned short width, unsigned short height)
       elements_{{"0", MapObject::Type::NONE},
                 {"g", MapObject::Type::GOLD},
                 {"w", MapObject::Type::WOOD},
-                {"o", MapObject::Type::ORE}} {}
+                {"o", MapObject::Type::ORE},
+                {"t", MapObject::Type::TROGLODYTE}} {}
 
 GameMap MapParser::parse(std::istream &data) {
     for (int row = 1; row <= height_; ++row) {

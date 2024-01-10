@@ -25,6 +25,7 @@ class MapExtrinsic {
     SpriteUPtr goldFieldSprite_;
     SpriteUPtr oreFieldSprite_;
     SpriteUPtr woodFieldSprite_;
+    SpriteUPtr troglodyteSprite_;
     Position cameraLeftUpperCorner_;
     void loadMapSprites();
     void drawField(int x, int y, MapField::Type type,

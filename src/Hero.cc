@@ -1,4 +1,5 @@
 #include "Hero.h"
+#include "MapObject.h"
 #include "ShortestPathFinder.h"
 
 namespace {
@@ -53,7 +54,8 @@ bool Hero::canMove(const Position &destination, const GameMap &map) const {
     return true;
 }
 
-void Hero::interactWith(GameMap &map, const Position &position) {
+void Hero::interactWith(GameMap &map, const Position &position,
+                        bool &if_battle) {
     auto &object = map.at(position.first, position.second).object_;
     switch (object.type()) {
         case MapObject::NONE:
@@ -67,6 +69,9 @@ void Hero::interactWith(GameMap &map, const Position &position) {
         case MapObject::ORE:
             resources_.addOre(object.value());
             break;
+        case MapObject::TROGLODYTE:
+            if_battle = true;
+            return;
     }
     object = MapObject(MapObject::NONE, 0);
 }

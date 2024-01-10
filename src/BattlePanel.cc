@@ -9,6 +9,7 @@
 #include "Soldier.h"
 #include "SoldierTypes.h"
 #include "Sprite.h"
+#include "UI.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
 
@@ -35,20 +36,13 @@ BattlePanel::BattlePanel(const Renderer &renderer)
       button_(renderer_, 134, 86) {
     button_.setPos(GRID_X * 2 + GRID_WIDTH * COLS + 20,
                    GRID_Y + GRID_HEIGHT * (ROWS - 2));
-    std::vector<UnitInfo> h_units;
-    std::vector<UnitInfo> e_units;
-    e_units.push_back(UnitInfo(ARCHER, 5));
-    e_units.push_back(UnitInfo(PIKEMAN, 10));
-    e_units.push_back(UnitInfo(SWORDSMAN, 5));
-
-    h_units.push_back(UnitInfo(MINOTAUR, 2));
-    h_units.push_back(UnitInfo(BEHOLDER, 5));
-    h_units.push_back(UnitInfo(TROGLODYTE, 50));
-    //  e_units.push_back(UnitInfo(TROGLODYTE, 10));
-    battle_.setArmy(h_units, e_units);
-    battle_.loadArmySprites();
 
     loadBattleSprites();
+}
+void BattlePanel::setArmies(std::vector<UnitInfo> &hero_units,
+                            std::vector<UnitInfo> &enemy_units) {
+    battle_.setArmy(hero_units, enemy_units);
+    battle_.loadArmySprites();
 }
 
 void BattlePanel::draw() {
@@ -85,8 +79,10 @@ void BattlePanel::draw() {
                 battle_.getEnemyArmy().at(battle_.getCounter())->getWalk());
             break;
         case won:
+            renderer_.drawSprite(300, 875, *wonSprite_);
             break;
         case lost:
+            renderer_.drawSprite(300, 875, *lostSprite_);
             break;
     }
 
@@ -143,9 +139,19 @@ void BattlePanel::loadBattleSprites() {
                                          image));
     image = GameData::getImage("panel.png");
     panel_.reset(new Sprite(image->getWidth(), image->getHeight(), image));
+    image = GameData::getImage("hLost.png");
+    lostSprite_.reset(new Sprite(image->getWidth(), image->getHeight(), image));
+    image = GameData::getImage("hWon.png");
+    wonSprite_.reset(new Sprite(image->getWidth(), image->getHeight(), image));
 }
 
 bool BattlePanel::mouseButtonDown(int x, int y) {
+    if (battle_.getState() == won) {
+        ui_->setPanelNum(1);
+        battle_.reset();
+        return true;
+    }
+
     if (button_.handleIfClicked(x, y)) {
         battle_.handleNextTurn();
         return true;
@@ -172,7 +178,6 @@ void BattlePanel::handleMapGridClick(int clickedCol, int clickedRow) {
     }
     clicked_col_ = clickedCol;
     clicked_row_ = clickedRow;
-    // std::cout << clickedCol << "\n" << clickedRow << "\n";
 }
 
 void BattlePanel::drawImGui() {}

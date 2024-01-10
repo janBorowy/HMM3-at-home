@@ -48,7 +48,8 @@ MainPanel::MainPanel(const Renderer &renderer)
     goldResourceLabel_.setPos(200, 950);
     woodResourceLabel_.setPos(350, 950);
     oreResourceLabel_.setPos(500, 950);
-    unitInfoLabel_.setPos(GRID_X + GRID_PANEL_WIDTH + 30, GRID_Y);
+    unitInfoLabel_.setPos(GRID_X + GRID_PANEL_WIDTH + 30,
+                          GRID_PANEL_HEIGHT + GRID_Y - 475);
     turnLabel_.setPos(GRID_X + GRID_PANEL_WIDTH + 30,
                       GRID_PANEL_HEIGHT + GRID_Y);
     nextTurnButton_.setPos(GRID_X + GRID_PANEL_WIDTH + 30,

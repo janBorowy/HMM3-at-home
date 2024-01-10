@@ -15,7 +15,7 @@ Hero::Hero(int initialCol, int initialRow)
 }
 
 void Hero::move(const Position &destination, const GameMap &map) {
-    if (!canMove(destination, map)) {
+    if (!canMove(destination, map, true)) {
         throw HeroException("Illegal move");
     }
     ShortestPathFinder finder(position_, destination);
@@ -36,15 +36,24 @@ Position Hero::position() const { return position_; }
 
 HeroResources &Hero::resources() { return resources_; }
 
-bool Hero::canMove(const Position &destination, const GameMap &map) const {
+bool Hero::canMove(const Position &destination, const GameMap &map,
+                   bool isFinalDestination) const {
     if (destination.first < 0 || destination.first > map.width() ||
-        destination.second < 0 || destination.second > map.height() ||
-        !map.at(destination).movable()) {
+        destination.second < 0 || destination.second > map.height()) {
         return false;
     }
 
+    if (!map.at(destination).movable(isFinalDestination) &&
+        map.at(destination).object_.type() == MapObject::Type::ENEMY) {
+        return true;
+    }
+
     ShortestPathFinder finder(position_, destination);
-    finder.visit(map);
+    try {
+        finder.visit(map);
+    } catch (ShortestPathFinderException &e) {
+        return false;
+    }
     auto result = finder.result();
     int staminaRequired = (result.size() - 1) * ONE_FIELD_MOVEMENT_PENALTY;
     if (resources_.stamina() < staminaRequired) {

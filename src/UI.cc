@@ -5,8 +5,7 @@ void UI::drawFront(Renderer &renderer) {
     stack.back()->draw();
     stack.back()->drawImGui();
 }
-void UI::pop() { /*pop pop*/
-}
+void UI::pop() { stack.erase(stack.end()); }
 bool UI::handle(const SDL_Event &event) {
     bool handled = false;
     std::vector<std::shared_ptr<Panel>>::iterator it = stack.end();
@@ -17,6 +16,7 @@ bool UI::handle(const SDL_Event &event) {
                 int x, y;
                 SDL_GetMouseState(&x, &y);
                 handled = (*it)->mouseButtonDown(x, y);
+                break;
             case SDL_KEYDOWN:
                 handled =
                     (*it)->keyDown(event.key.keysym.sym, event.key.keysym.mod,
@@ -32,6 +32,6 @@ void UI::push(Panel *panel) {
     stack.push_back(std::shared_ptr<Panel>(panel));
 }
 
-bool UI::isDone() const { return done; }
+bool UI::isDone() const { return done_; }
 
-void UI::quit() { done = true; }
+void UI::quit() { done_ = true; }

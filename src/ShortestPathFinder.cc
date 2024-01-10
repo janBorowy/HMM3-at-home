@@ -51,21 +51,23 @@ ShortestPathFinder::Node::Node(const Position &position,
                                double distanceFromDest)
     : pos_{position}, distanceFromDest_{distanceFromDest} {}
 
-std::vector<Position> getNeighbours(int width, int height, const Position &pos,
-                                    const GameMap &map) {
+std::vector<Position> ShortestPathFinder::getNeighbours(int width, int height,
+                                                        const Position &pos,
+                                                        const GameMap &map) {
     int x = pos.first;
     int y = pos.second;
     std::vector<Position> output;
-    if (x > 1 && map.at(x - 1, y).movable()) {
+
+    if (x > 1 && map.at(x - 1, y).movable(Position{x - 1, y} == dest_)) {
         output.push_back({x - 1, y});
     }
-    if (x < width && map.at(x + 1, y).movable()) {
+    if (x < width && map.at(x + 1, y).movable(Position{x + 1, y} == dest_)) {
         output.push_back({x + 1, y});
     }
-    if (y > 1 && map.at(x, y - 1).movable()) {
+    if (y > 1 && map.at(x, y - 1).movable(Position{x, y - 1} == dest_)) {
         output.push_back({x, y - 1});
     }
-    if (y < height && map.at(x, y + 1).movable()) {
+    if (y < height && map.at(x, y + 1).movable(Position{x, y + 1} == dest_)) {
         output.push_back({x, y + 1});
     }
     return output;

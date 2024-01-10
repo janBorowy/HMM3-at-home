@@ -23,6 +23,7 @@ class Hero {
     void move(const Position &destination, const GameMap &map);
     std::vector<Position> getMovementPath(const Position &destination,
                                           const GameMap &map) const;
-    bool canMove(const Position &destination, const GameMap &map) const;
+    bool canMove(const Position &destination, const GameMap &map,
+                 bool isFinalDestination) const;
     void interactWith(GameMap &map, const Position &at);
 };

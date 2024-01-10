@@ -1,6 +1,6 @@
+#include "MapExtrinsic.h"
 #include <algorithm>
 #include "GameData.h"
-#include "MapExtrinsic.h"
 
 MapExtrinsic::MapExtrinsic(unsigned short initX, unsigned short initY,
                            unsigned short width, unsigned short height,
@@ -53,6 +53,9 @@ void MapExtrinsic::drawFieldObject(int x, int y, MapObject::Type type,
         case MapObject::Type::ORE:
             renderer.drawSprite(x, y, *oreFieldSprite_);
             break;
+        case MapObject::Type::ENEMY:
+            // Draw enemy outside of field bounds
+            renderer.drawSprite(x, y, *enemyFieldSprite_);
         case MapObject::Type::NONE:;
     }
 }
@@ -72,6 +75,8 @@ void MapExtrinsic::loadMapSprites() {
     woodFieldSprite_.reset(new Sprite(fieldWidth_, fieldHeight_, image));
     image = GameData::getImage("ore.png");
     oreFieldSprite_.reset(new Sprite(fieldWidth_, fieldHeight_, image));
+    image = GameData::getImage("enemy_field.png");
+    enemyFieldSprite_.reset(new Sprite(fieldWidth_, fieldHeight_, image));
 }
 
 void MapExtrinsic::moveCameraBy(Position delta) {

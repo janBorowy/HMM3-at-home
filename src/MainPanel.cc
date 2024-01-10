@@ -1,6 +1,8 @@
-#include <fstream>
 #include "MainPanel.h"
+#include <fstream>
+#include "BattlePanel.h"
 #include "MapParser.h"
+#include "UI.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
 
@@ -26,14 +28,17 @@ MainPanel::MainPanel(const Renderer &renderer)
       goldResourceLabel_("Gold: ", renderer),
       woodResourceLabel_("Wood: ", renderer),
       oreResourceLabel_("Ore: ", renderer),
+      turnLabel_("Turn: ", renderer),
       selection_(map_.fieldWidth(), map_.fieldHeight(), renderer),
       playerHero_(1, 1, map_),
       turnManager_(playerHero_.hero()),
       nextTurnButton_(renderer_, 300, 100, turnManager_) {
-    goldResourceLabel_.setPos(50, 950);
-    staminaResourceLabel_.setPos(150, 950);
-    woodResourceLabel_.setPos(300, 950);
-    oreResourceLabel_.setPos(450, 950);
+    staminaResourceLabel_.setPos(50, 950);
+    goldResourceLabel_.setPos(200, 950);
+    woodResourceLabel_.setPos(350, 950);
+    oreResourceLabel_.setPos(500, 950);
+    turnLabel_.setPos(GRID_X + GRID_PANEL_WIDTH + 30,
+                      GRID_PANEL_HEIGHT + GRID_Y);
     nextTurnButton_.setPos(GRID_X + GRID_PANEL_WIDTH + 30,
                            GRID_PANEL_HEIGHT + GRID_Y - 115);
 }
@@ -115,7 +120,7 @@ void MainPanel::handleMapGridClick(int clickedCol, int clickedRow) {
         return;
     }
     if (selection_.col() == mapCol && selection_.row() == mapRow &&
-        playerHero_.hero().canMove({mapCol, mapRow}, map_.gameMap())) {
+        playerHero_.hero().canMove({mapCol, mapRow}, map_.gameMap(), true)) {
         handleMapGridMove(mapCol, mapRow);
         return;
     } else {
@@ -127,7 +132,7 @@ void MainPanel::handleMapGridClick(int clickedCol, int clickedRow) {
 void MainPanel::handleMapGridSelect(int mapCol, int mapRow) {
     selection_.setPosition(mapCol, mapRow);
     auto canMoveThere =
-        playerHero_.hero().canMove({mapCol, mapRow}, map_.gameMap());
+        playerHero_.hero().canMove({mapCol, mapRow}, map_.gameMap(), true);
     selection_.canMove(canMoveThere);
     if (canMoveThere) {
         selection_.setMovementIndicators(playerHero_.hero().getMovementPath(
@@ -138,6 +143,10 @@ void MainPanel::handleMapGridSelect(int mapCol, int mapRow) {
 
 void MainPanel::handleMapGridMove(int mapCol, int mapRow) {
     playerHero_.hero().move({mapCol, mapRow}, map_.gameMap());
+    if (map_.gameMap().at({mapCol, mapRow}).object_.type() ==
+        MapObject::Type::ENEMY) {
+        ui_->push(new BattlePanel(renderer_));
+    }
     playerHero_.hero().interactWith(map_.gameMap(), {mapCol, mapRow});
     selection_.visible(false);
 }
@@ -163,4 +172,9 @@ void MainPanel::updateAndDrawLabels() {
     oreLabelText += std::to_string(playerHero_.hero().resources().ore());
     oreResourceLabel_.updateText(oreLabelText);
     oreResourceLabel_.draw();
+
+    std::string turnLabelText = "Turn: ";
+    turnLabelText += std::to_string(turnManager_.currentTurn());
+    turnLabel_.updateText(turnLabelText);
+    turnLabel_.draw();
 }

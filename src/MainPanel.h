@@ -23,6 +23,7 @@ struct MainPanel : public Panel {
     Label goldResourceLabel_;
     Label woodResourceLabel_;
     Label oreResourceLabel_;
+    Label turnLabel_;
     SelectionVisitator selection_;
     HeroExtrinsic playerHero_;
     TurnManager turnManager_;

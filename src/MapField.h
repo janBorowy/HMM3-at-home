@@ -13,5 +13,5 @@ class MapField {
     MapField(MapObject object, Type type);
     MapObject object_;
     Type type() const;
-    bool movable() const;
+    bool movable(bool isFinalDestination) const;
 };

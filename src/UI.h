@@ -16,5 +16,5 @@ struct UI {
 
    private:
     std::vector<std::shared_ptr<Panel>> stack;
-    bool done = false;
+    bool done_;
 };

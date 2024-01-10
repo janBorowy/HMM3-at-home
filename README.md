@@ -1,3 +1,10 @@
+# HMM3 at home
+Son: Mom can we buy hmm3? \
+Mom: No, we ahve hmm3 at home. \
+HMM3 at home: 
+
+![image](demo_img.png)
+
 # Dependencies:
 Required on a system:\
 SDL2\

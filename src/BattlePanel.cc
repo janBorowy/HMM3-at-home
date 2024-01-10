@@ -9,6 +9,7 @@
 #include "Soldier.h"
 #include "SoldierTypes.h"
 #include "Sprite.h"
+#include "UI.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
 
@@ -37,9 +38,8 @@ BattlePanel::BattlePanel(const Renderer &renderer)
                    GRID_Y + GRID_HEIGHT * (ROWS - 2));
     std::vector<UnitInfo> h_units;
     std::vector<UnitInfo> e_units;
-    e_units.push_back(UnitInfo(ARCHER, 5));
-    e_units.push_back(UnitInfo(PIKEMAN, 10));
-    e_units.push_back(UnitInfo(SWORDSMAN, 5));
+    e_units.push_back(UnitInfo(ARCHER, 1));
+    e_units.push_back(UnitInfo(PIKEMAN, 1));
 
     h_units.push_back(UnitInfo(MINOTAUR, 2));
     h_units.push_back(UnitInfo(BEHOLDER, 5));
@@ -85,9 +85,13 @@ void BattlePanel::draw() {
                 battle_.getEnemyArmy().at(battle_.getCounter())->getWalk());
             break;
         case won:
-            break;
+            // display win info
+            ui_->pop();
+            return;
         case lost:
-            break;
+            // display game over screen
+            ui_->quit();
+            return;
     }
 
     for (auto &i : battle_.getHeroArmy()) {
@@ -177,7 +181,9 @@ void BattlePanel::handleMapGridClick(int clickedCol, int clickedRow) {
 
 void BattlePanel::drawImGui() {}
 void BattlePanel::step(){};
-bool BattlePanel::keyDown(SDL_Keycode key, Uint16 mod, bool isNewPress){};
+bool BattlePanel::keyDown(SDL_Keycode key, Uint16 mod, bool isNewPress) {
+    return false;
+};
 
 void BattlePanel::drawWalkingDistance(int x, int y, int distance) {
     for (int temp_x = x - distance; temp_x <= x + distance; ++temp_x) {

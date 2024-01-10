@@ -24,6 +24,10 @@ class ShortestPathFinder : public GameMapVisitator {
         Node(const Position &position, double distanceFromDest_);
     };
 
+    std::vector<Position> getNeighbours(int width, int height,
+                                        const Position &pos,
+                                        const GameMap &map);
+
    public:
     ShortestPathFinder(const Position &src, const Position &dest);
     void virtual visit(const GameMap &map);

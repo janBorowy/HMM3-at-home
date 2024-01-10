@@ -129,6 +129,7 @@ bool MainPanel::mouseButtonDown(int x, int y) {
         return true;
     }
     if (nextTurnButton_.handleIfClicked(x, y)) {
+        selection_.visible(false);
         return true;
     }
     if (buyPikemanButton_.handleIfClicked(x, y)) {

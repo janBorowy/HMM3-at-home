@@ -16,7 +16,7 @@ void BuyUnitButton::setBuyDetails(int cost, ResourceType type,
 }
 
 void BuyUnitButton::handleClick() {
-    if (heroResources_.getResource(resourceType_) < quantity_) {
+    if (heroResources_.getResource(resourceType_) < cost_) {
         return;
     }
     heroResources_.addResource(resourceType_, -cost_);

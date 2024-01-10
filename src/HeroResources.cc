@@ -60,7 +60,7 @@ std::string UnitInfo::infoString() const {
 }
 
 void HeroResources::addUnit(ArmyBranch branch, int quantity) {
-    for (auto unitInfo : units_) {
+    for (auto &unitInfo : units_) {
         if (unitInfo.unit == branch) {
             unitInfo.number += quantity;
             return;

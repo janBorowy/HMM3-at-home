@@ -10,11 +10,16 @@ StartPanel::StartPanel(const Renderer &renderer) : renderer_(renderer) {
 void StartPanel::drawImGui() {}
 void StartPanel::step(){};
 bool StartPanel::keyDown(SDL_Keycode key, Uint16 mod, bool isNewPress) {
-    ui_->push(new MainPanel(renderer_));
+    // Self-destruct and push MainPanel
+    auto ui = ui_;
+    ui->pop();
+    ui->push(new MainPanel(renderer_));
     return true;
 };
 bool StartPanel::mouseButtonDown(int x, int y) {
-    ui_->push(new MainPanel(renderer_));
+    auto ui = ui_;
+    ui->pop();
+    ui->push(new MainPanel(renderer_));
     return true;
 };
 

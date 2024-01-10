@@ -11,6 +11,8 @@ struct UnitInfo {
     std::string infoString() const;
 };
 
+enum ResourceType { GOLD, WOOD, ORE };
+
 class HeroResources {
     int stamina_;
     int gold_;
@@ -32,8 +34,11 @@ class HeroResources {
     int gold() const;
     int wood() const;
     int ore() const;
+    int getResource(ResourceType type) const;
+    void addResource(ResourceType type, int delta);
     void addGold(int);
     void addWood(int);
     void addOre(int);
     std::vector<UnitInfo> &getUnits();
+    void addUnit(ArmyBranch branch, int quantity);
 };

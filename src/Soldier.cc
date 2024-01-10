@@ -92,3 +92,22 @@ void Soldier::setX(int x) { pos_x_ = x; }
 void Soldier::setY(int y) { pos_y_ = y; }
 
 ArmyBranch Soldier::get_type() const { return type_; }
+
+std::string Soldier::branchToString(ArmyBranch branch) {
+    std::string unitName;
+    switch (branch) {
+        case ArmyBranch::ARCHER:
+            unitName = "Archer";
+            break;
+        case ArmyBranch::PIKEMAN:
+            unitName = "Pikeman";
+            break;
+        case ArmyBranch::SWORDSMAN:
+            unitName = "Swordsman";
+            break;
+        default:
+            unitName = "unknown";
+            break;
+    }
+    return unitName;
+}

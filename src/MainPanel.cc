@@ -35,7 +35,10 @@ MainPanel::MainPanel(const Renderer &renderer)
       selection_(map_.fieldWidth(), map_.fieldHeight(), renderer),
       playerHero_(1, 1, map_),
       turnManager_(playerHero_.hero()),
-      nextTurnButton_(renderer_, 300, 100, turnManager_) {
+      nextTurnButton_(renderer_, 300, 100, turnManager_),
+      buyPikemanButton_(renderer_, 300, 100, playerHero_.hero().resources()),
+      buyArcherButton_(renderer_, 300, 100, playerHero_.hero().resources()),
+      buySwordsmanButton_(renderer_, 300, 100, playerHero_.hero().resources()) {
     staminaResourceLabel_.setPos(50, 950);
     goldResourceLabel_.setPos(200, 950);
     woodResourceLabel_.setPos(350, 950);
@@ -45,6 +48,19 @@ MainPanel::MainPanel(const Renderer &renderer)
                       GRID_PANEL_HEIGHT + GRID_Y);
     nextTurnButton_.setPos(GRID_X + GRID_PANEL_WIDTH + 30,
                            GRID_PANEL_HEIGHT + GRID_Y - 115);
+    buyPikemanButton_.setPos(GRID_X + GRID_PANEL_WIDTH + 30,
+                             GRID_PANEL_HEIGHT + GRID_Y - 445);
+    buyArcherButton_.setPos(GRID_X + GRID_PANEL_WIDTH + 30,
+                            GRID_PANEL_HEIGHT + GRID_Y - 335);
+    buySwordsmanButton_.setPos(GRID_X + GRID_PANEL_WIDTH + 30,
+                               GRID_PANEL_HEIGHT + GRID_Y - 225);
+
+    buyPikemanButton_.setBuyDetails(100, ResourceType::GOLD,
+                                    ArmyBranch::PIKEMAN, 5);
+    buyArcherButton_.setBuyDetails(100, ResourceType::WOOD, ArmyBranch::ARCHER,
+                                   5);
+    buySwordsmanButton_.setBuyDetails(100, ResourceType::ORE,
+                                      ArmyBranch::SWORDSMAN, 5);
 }
 void MainPanel::step() {}
 void MainPanel::draw() {
@@ -53,6 +69,9 @@ void MainPanel::draw() {
     map_.accept(&selection_);
     updateAndDrawLabels();
     nextTurnButton_.draw();
+    buyPikemanButton_.draw();
+    buyArcherButton_.draw();
+    buySwordsmanButton_.draw();
 }
 void MainPanel::drawImGui() {
     ImGui_ImplSDLRenderer2_NewFrame();
@@ -110,6 +129,15 @@ bool MainPanel::mouseButtonDown(int x, int y) {
         return true;
     }
     if (nextTurnButton_.handleIfClicked(x, y)) {
+        return true;
+    }
+    if (buyPikemanButton_.handleIfClicked(x, y)) {
+        return true;
+    }
+    if (buyArcherButton_.handleIfClicked(x, y)) {
+        return true;
+    }
+    if (buySwordsmanButton_.handleIfClicked(x, y)) {
         return true;
     }
     return false;

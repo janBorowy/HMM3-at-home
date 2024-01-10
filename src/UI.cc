@@ -26,8 +26,6 @@ bool UI::handle(const SDL_Event &event) {
                 break;
         }
     }
-    // stack.pop_back();
-
     return handled;
 }
 void UI::push(Panel *panel) {

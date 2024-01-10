@@ -11,6 +11,7 @@ HeroResources::HeroResources(int movement)
       gold_(0),
       wood_(0),
       ore_(0) {
+    // Starting units
     units_.push_back(UnitInfo(ARCHER, 5));
     units_.push_back(UnitInfo(PIKEMAN, 10));
     units_.push_back(UnitInfo(SWORDSMAN, 3));
@@ -55,20 +56,42 @@ void HeroResources::addOre(int delta) { ore_ += delta; }
 std::vector<UnitInfo> &HeroResources::getUnits() { return units_; }
 
 std::string UnitInfo::infoString() const {
-    std::string unitName;
-    switch (unit) {
-        case ArmyBranch::ARCHER:
-            unitName = "Archer";
-            break;
-        case ArmyBranch::PIKEMAN:
-            unitName = "Pikeman";
-            break;
-        case ArmyBranch::SWORDSMAN:
-            unitName = "Swordsman";
-            break;
-        default:
-            unitName = "unknown";
-    }
+    return Soldier::branchToString(unit) + ": " + std::to_string(number);
+}
 
-    return unitName + ": " + std::to_string(number);
+void HeroResources::addUnit(ArmyBranch branch, int quantity) {
+    for (auto unitInfo : units_) {
+        if (unitInfo.unit == branch) {
+            unitInfo.number += quantity;
+            return;
+        }
+    }
+    units_.push_back(UnitInfo(branch, quantity));
+}
+
+int HeroResources::getResource(ResourceType type) const {
+    switch (type) {
+        case GOLD:
+            return gold();
+        case WOOD:
+            return wood();
+        case ORE:
+            return ore();
+    }
+    return 0;
+}
+
+void HeroResources::addResource(ResourceType type, int delta) {
+    switch (type) {
+        case GOLD:
+            addGold(delta);
+            break;
+        case WOOD:
+            addWood(delta);
+            break;
+        case ORE:
+            addOre(delta);
+            break;
+    }
+    return;
 }

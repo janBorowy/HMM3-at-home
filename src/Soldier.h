@@ -40,6 +40,9 @@ class Soldier {
     void setX(int x);
     void setY(int y);
     ArmyBranch get_type() const;
+
+    static std::string branchToString(ArmyBranch branch);
+
     virtual std::unique_ptr<Soldier> clone() const = 0;
 
     virtual void loadSprites() = 0;

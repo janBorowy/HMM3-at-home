@@ -1,4 +1,5 @@
 #pragma once
+#include "BuyUnitButton.h"
 #include "HeroExtrinsic.h"
 #include "Label.h"
 #include "MapExtrinsic.h"
@@ -30,6 +31,9 @@ struct MainPanel : public Panel {
     HeroExtrinsic playerHero_;
     TurnManager turnManager_;
     NextTurnButton nextTurnButton_;
+    BuyUnitButton buyPikemanButton_;
+    BuyUnitButton buyArcherButton_;
+    BuyUnitButton buySwordsmanButton_;
 
     void handleMapGridClick(int col, int row);
     void handleMapGridSelect(int col, int row);

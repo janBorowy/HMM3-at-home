@@ -1,4 +1,5 @@
 #include "Hero.h"
+#include "MapObject.h"
 #include "ShortestPathFinder.h"
 
 namespace {

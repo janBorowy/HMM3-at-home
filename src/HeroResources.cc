@@ -1,4 +1,5 @@
 #include "HeroResources.h"
+#include "Soldier.h"
 
 namespace {
 int calculateStamina(int movement) { return movement; }
@@ -9,7 +10,11 @@ HeroResources::HeroResources(int movement)
       movement_(movement),
       gold_(0),
       wood_(0),
-      ore_(0) {}
+      ore_(0) {
+    units_.push_back(UnitInfo(ARCHER, 5));
+    units_.push_back(UnitInfo(PIKEMAN, 10));
+    units_.push_back(UnitInfo(SWORDSMAN, 3));
+}
 
 int HeroResources::refreshStamina() {
     stamina_ = calculateStamina(movement_);
@@ -46,3 +51,5 @@ int HeroResources::wood() const { return wood_; }
 void HeroResources::addGold(int delta) { gold_ += delta; }
 void HeroResources::addWood(int delta) { wood_ += delta; }
 void HeroResources::addOre(int delta) { ore_ += delta; }
+
+std::vector<UnitInfo> &HeroResources::getUnits() { return units_; }

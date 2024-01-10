@@ -2,14 +2,14 @@
 
 void UI::stepAll() {}
 void UI::drawFront(Renderer &renderer) {
-    stack.back()->draw();
-    stack.back()->drawImGui();
+    stack_.back()->draw();
+    stack_.back()->drawImGui();
 }
-void UI::pop() { stack.erase(stack.end()); }
+void UI::pop() { stack_.erase(stack_.end()); }
 bool UI::handle(const SDL_Event &event) {
     bool handled = false;
-    std::vector<std::shared_ptr<Panel>>::iterator it = stack.end();
-    while (it != stack.begin() && !handled) {
+    std::vector<std::shared_ptr<Panel>>::iterator it = stack_.end();
+    while (it != stack_.begin() && !handled) {
         --it;
         switch (event.type) {
             case SDL_MOUSEBUTTONDOWN:
@@ -24,14 +24,16 @@ bool UI::handle(const SDL_Event &event) {
                 break;
         }
     }
+    // stack.pop_back();
+
     return handled;
 }
-
 void UI::push(Panel *panel) {
     panel->setUI(this);
-    stack.push_back(std::shared_ptr<Panel>(panel));
+    stack_.push_back(std::shared_ptr<Panel>(panel));
 }
 
+std::shared_ptr<Panel> UI::top() { return *stack_.end(); }
 bool UI::isDone() const { return done_; }
 
 void UI::quit() { done_ = true; }

@@ -34,4 +34,5 @@ class HeroResources {
     void addGold(int);
     void addWood(int);
     void addOre(int);
+    std::vector<UnitInfo> &getUnits();
 };

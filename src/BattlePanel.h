@@ -1,9 +1,6 @@
 #pragma once
 
 #include "Battle.h"
-// #include "BattleExtrinsic.h"
-// #include "Label.h"
-// #include "NextTurnButton.h"
 #include "BattleButton.h"
 #include "GameData.h"
 #include "Panel.h"
@@ -19,6 +16,8 @@ struct BattlePanel : public Panel {
     virtual void drawImGui();
     virtual bool keyDown(SDL_Keycode key, Uint16 mod, bool isNewPress) override;
     virtual bool mouseButtonDown(int x, int y) override;
+    void setArmies(std::vector<UnitInfo> &hero_units,
+                   std::vector<UnitInfo> &enemy_units);
 
    private:
     Battle battle_;
@@ -36,6 +35,8 @@ struct BattlePanel : public Panel {
     SpriteUPtr blueFieldSprite_;
     SpriteUPtr whiteFieldSprite_;
     SpriteUPtr panel_;
+    SpriteUPtr wonSprite_;
+    SpriteUPtr lostSprite_;
 
     void handleMapGridClick(int col, int row);
 

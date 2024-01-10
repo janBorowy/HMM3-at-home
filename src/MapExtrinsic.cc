@@ -55,7 +55,7 @@ void MapExtrinsic::drawFieldObject(int x, int y, MapObject::Type type,
             break;
         case MapObject::Type::ENEMY:
             // Draw enemy outside of field bounds
-            renderer.drawSprite(x, y, *enemyFieldSprite_);
+            renderer.drawSprite(x, y - 20, *enemyFieldSprite_);
         case MapObject::Type::NONE:;
     }
 }
@@ -76,7 +76,8 @@ void MapExtrinsic::loadMapSprites() {
     image = GameData::getImage("ore.png");
     oreFieldSprite_.reset(new Sprite(fieldWidth_, fieldHeight_, image));
     image = GameData::getImage("enemy_field.png");
-    enemyFieldSprite_.reset(new Sprite(fieldWidth_, fieldHeight_, image));
+    enemyFieldSprite_.reset(
+        new Sprite(fieldWidth_ + 20, fieldHeight_ + 20, image));
 }
 
 void MapExtrinsic::moveCameraBy(Position delta) {

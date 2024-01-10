@@ -49,4 +49,5 @@ class Battle {
     std::vector<SoldierPtr> &getHeroArmy();
     std::vector<SoldierPtr> &getEnemyArmy();
     int getCounter();
+    void reset();
 };

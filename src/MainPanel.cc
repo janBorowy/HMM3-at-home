@@ -1,6 +1,7 @@
 #include "MainPanel.h"
 #include <fstream>
 #include "BattlePanel.h"
+#include "GameWindow.h"
 #include "HeroResources.h"
 #include "MapObject.h"
 #include "MapParser.h"
@@ -38,7 +39,11 @@ MainPanel::MainPanel(const Renderer &renderer)
       nextTurnButton_(renderer_, 300, 100, turnManager_),
       buyPikemanButton_(renderer_, 300, 100, playerHero_.hero().resources()),
       buyArcherButton_(renderer_, 300, 100, playerHero_.hero().resources()),
-      buySwordsmanButton_(renderer_, 300, 100, playerHero_.hero().resources()) {
+      buySwordsmanButton_(renderer_, 300, 100, playerHero_.hero().resources()),
+      background_() {
+    auto image = GameData::getImage("main_background.png");
+    background_.reset(new Sprite(GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT, image));
+
     staminaResourceLabel_.setPos(50, 950);
     goldResourceLabel_.setPos(200, 950);
     woodResourceLabel_.setPos(350, 950);
@@ -64,6 +69,7 @@ MainPanel::MainPanel(const Renderer &renderer)
 }
 void MainPanel::step() {}
 void MainPanel::draw() {
+    renderer_.drawSprite(0, 0, *background_);
     map_.draw(renderer_);
     playerHero_.draw(renderer_);
     map_.accept(&selection_);

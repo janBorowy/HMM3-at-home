@@ -4,6 +4,9 @@
 #include <stdexcept>
 #include "Renderer.h"
 
+constexpr int GAME_WINDOW_WIDTH = 1600;
+constexpr int GAME_WINDOW_HEIGHT = 1000;
+
 class GameWindow {
     GameWindow();
     static std::unique_ptr<GameWindow> instance_;

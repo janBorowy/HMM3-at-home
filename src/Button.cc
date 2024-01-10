@@ -4,7 +4,7 @@
 Button::Button(std::string text, const Renderer &renderer, int width,
                int height)
     : Label(text, renderer),
-      borderSprite_(width, height, GameData::getImage("button.png")),
+      borderSprite_(width, height, GameData::getImage("longboard.png")),
       width_(width),
       height_(height) {}
 Button::Button(std::string text, const Renderer &renderer,

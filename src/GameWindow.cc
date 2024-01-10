@@ -1,6 +1,6 @@
+#include "GameWindow.h"
 #include <iostream>
 #include <string>
-#include "GameWindow.h"
 #include "SDLUtils.h"
 
 /*Static variable has to be initialized outside class*/
@@ -9,8 +9,8 @@ GameWindowUPtr GameWindow::instance_;
 GameWindow::GameWindow()
     : window_(nullptr),
       renderer_(nullptr),
-      windowWidth_(1600),
-      windowHeight_(1000) {
+      windowWidth_(GAME_WINDOW_WIDTH),
+      windowHeight_(GAME_WINDOW_HEIGHT) {
     SDL_Init(SDL_INIT_VIDEO);
     SDLError::checkSDLError();
     IMG_Init(IMG_INIT_PNG);

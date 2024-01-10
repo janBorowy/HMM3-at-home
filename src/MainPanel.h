@@ -35,6 +35,8 @@ struct MainPanel : public Panel {
     BuyUnitButton buyArcherButton_;
     BuyUnitButton buySwordsmanButton_;
 
+    SpriteUPtr background_;
+
     void handleMapGridClick(int col, int row);
     void handleMapGridSelect(int col, int row);
     void handleMapGridMove(int col, int row);

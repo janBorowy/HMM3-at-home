@@ -2,12 +2,12 @@
 #include "doctest.h"
 
 TEST_CASE("Hero") {
-    Hero hero(0, 0);
+    Hero hero(1, 1);
     GameMap map(20, 20);
     SUBCASE("Should initialize properly") {}
     SUBCASE("Should get correct position") {
         auto pos = hero.position();
-        CHECK_EQ(pos, Position{0, 0});
+        CHECK_EQ(pos, Position{1, 1});
     }
     SUBCASE("Should move to given position") {
         hero.move(Position{2, 2}, map);
@@ -15,11 +15,11 @@ TEST_CASE("Hero") {
         auto stamina = hero.resources().stamina();
         CHECK_EQ(pos, Position{2, 2});
         CHECK_EQ(stamina,
-                 INITIAL_HERO_MOVEMENT - 4 * ONE_FIELD_MOVEMENT_PENALTY);
-        hero.move(Position{7, 8}, map);
+                 INITIAL_HERO_MOVEMENT - 2 * ONE_FIELD_MOVEMENT_PENALTY);
+        hero.move(Position{8, 9}, map);
         pos = hero.position();
         stamina = hero.resources().stamina();
-        CHECK_EQ(pos, Position{7, 8});
+        CHECK_EQ(pos, Position{8, 9});
         CHECK_EQ(stamina, 0);
     }
     SUBCASE("Should not be possible to move out of bounds") {
@@ -32,6 +32,6 @@ TEST_CASE("Hero") {
     SUBCASE("Should not be able to move if not enough stamina") {
         CHECK_THROWS_AS(hero.move(Position{map.width(), map.height()}, map),
                         HeroException);
-        CHECK_THROWS_AS(hero.move(Position{8, 8}, map), HeroException);
+        CHECK_THROWS_AS(hero.move(Position{9, 9}, map), HeroException);
     }
 }

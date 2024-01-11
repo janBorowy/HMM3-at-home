@@ -106,21 +106,21 @@ void MainPanel::drawImGui() {
     ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
 }
 bool MainPanel::keyDown(SDL_Keycode key, Uint16 mod, bool isNewPress) {
-    if (key == SDLK_RIGHT) {
+    if (key == SDLK_RIGHT || key == SDLK_d) {
         map_.moveCameraBy({1, 0});
         return true;
     }
-    if (key == SDLK_LEFT) {
+    if (key == SDLK_LEFT || key == SDLK_a) {
         map_.moveCameraBy({-1, 0});
         return true;
     }
 
-    if (key == SDLK_UP) {
+    if (key == SDLK_UP || key == SDLK_w) {
         map_.moveCameraBy({0, -1});
         return true;
     }
 
-    if (key == SDLK_DOWN) {
+    if (key == SDLK_DOWN || key == SDLK_s) {
         map_.moveCameraBy({0, 1});
         return true;
     }

@@ -161,9 +161,7 @@ bool BattlePanel::mouseButtonDown(int x, int y) {
         return true;
     }
     if (battle_.getState() == lost) {
-        hero_initial_army_.clear();
-        ui_->pop();
-        battle_.reset();
+        ui_->quit();
         return true;
     }
 

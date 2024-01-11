@@ -34,3 +34,17 @@ cd build
 ./HMM3-at-home # game
 ./test # doctest tests
 ```
+
+# Controls
+- click to select/move/attack
+- move the map with WSAD/arrow keys
+
+# Buttons
+- Use buy buttons to buy soldiers
+- 5 pikeman = 100 gold
+- 5 archer = 100 wood
+- 5 swordsman = 100 ore
+- Use next turn button to refresh stamina and advance turn counter
+
+# Map creation
+Maps should have fixed width and height of 50 tiles.

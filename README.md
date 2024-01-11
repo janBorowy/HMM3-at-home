@@ -22,11 +22,12 @@ ImGui - included with git submodule
 
 ## Dependencies
 ```bash
-sudo apt-get -y build-essential
-sudo apt-get -y cmake
-sudo apt-get -y libsdl2-dev
-sudo apt-get -y libsdl2-image-dev
-sudo apt-get -y libsdl2-ttf-dev
+sudo apt-get install -y git
+sudo apt-get install -y build-essential
+sudo apt-get install -y cmake
+sudo apt-get install -y libsdl2-dev
+sudo apt-get install -y libsdl2-image-dev
+sudo apt-get install -y libsdl2-ttf-dev
 ```
 
 ## Compiling project

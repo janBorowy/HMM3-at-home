@@ -3,7 +3,7 @@ Son: Mom can we buy hmm3? \
 Mom: No, we have hmm3 at home. \
 HMM3 at home: 
 
-![image](demo_img.png)
+![image](demo_image.png)
 
 # Dependencies:
 Required on a system:\

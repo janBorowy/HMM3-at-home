@@ -19,6 +19,17 @@ ImGui - included with git submodule
 `sudo pacman -S sdl2`
 
 # Ubuntu example
+
+## Dependencies
+```bash
+sudo apt-get -y build-essential
+sudo apt-get -y cmake
+sudo apt-get -y libsdl2-dev
+sudo apt-get -y libsdl2-image-dev
+sudo apt-get -y libsdl2-ttf-dev
+```
+
+## Compiling project
 ```bash
 git clone https://github.com/janBorowy/HMM3-at-home --recurse-submodules
 cd HMM3-at-home
@@ -32,7 +43,7 @@ cmake --build .
 ```bash
 cd build
 ./HMM3-at-home # game
-./test # doctest tests
+./test # run doctest tests
 ```
 
 # Controls
@@ -48,3 +59,9 @@ cd build
 
 # Map creation
 Maps should have fixed width and height of 50 tiles.
+Each tile is declared by character:
+- 0 - empty tile
+- g(value) - tile with gold, where value is quantity
+- w(value) - tile with wood
+- o(value) - tile with ore
+- e(value) - tile with enemy, where value is difficulty(currently has no effect)

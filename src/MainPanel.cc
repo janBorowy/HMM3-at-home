@@ -1,5 +1,6 @@
 #include "MainPanel.h"
 #include <fstream>
+#include <random>
 #include "BattlePanel.h"
 #include "GameWindow.h"
 #include "HeroResources.h"
@@ -195,15 +196,32 @@ void MainPanel::handleMapGridMove(int mapCol, int mapRow) {
 void MainPanel::setBattle(int mapCol, int mapRow) {
     std::vector<UnitInfo> e_units;
 
-    switch (map_.gameMap().at(mapCol, mapRow).object_.type()) {
-        case MapObject::ENEMY:
-            int number = map_.gameMap().at(mapCol, mapRow).object_.value();
+    int monsterNr =
+        map_.gameMap().at(mapCol, mapRow).object_.value() + difficulty_;
 
-            e_units.push_back(UnitInfo(TROGLODYTE, number));
-            e_units.push_back(UnitInfo(TROGLODYTE, number));
-            e_units.push_back(UnitInfo(TROGLODYTE, number));
-            break;
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    std::uniform_int_distribution<int> randomType(3, 5);
+    std::uniform_int_distribution<int> minotaurNum(1, 4);
+    std::uniform_int_distribution<int> troglodyteNum(8, 20);
+    std::uniform_int_distribution<int> beholderNum(4, 8);
+
+    for (int i = 0; i < monsterNr; ++i) {
+        ArmyBranch monsterType = static_cast<ArmyBranch>(randomType(gen));
+        switch (monsterType) {
+            case MINOTAUR:
+                e_units.push_back(UnitInfo(MINOTAUR, minotaurNum(gen)));
+                break;
+            case TROGLODYTE:
+                e_units.push_back(UnitInfo(TROGLODYTE, troglodyteNum(gen)));
+                break;
+            case BEHOLDER:
+                e_units.push_back(UnitInfo(BEHOLDER, beholderNum(gen)));
+                break;
+        }
     }
+
     auto battlePanelPtr = new BattlePanel(renderer_);
     battlePanelPtr->setArmies(playerHero_.hero().resources().getUnits(),
                               e_units);
@@ -243,4 +261,8 @@ void MainPanel::updateAndDrawLabels() {
     }
     unitInfoLabel_.updateText(unitInfoLabelText);
     unitInfoLabel_.draw();
+}
+
+void MainPanel::setDifficulty(Difficulty difficulty) {
+    difficulty_ = difficulty;
 }

@@ -1,11 +1,13 @@
 #include "BattlePanel.h"
 #include <array>
 #include <fstream>
+#include <memory>
 #include <string>
 #include "AlivePlayer.h"
 #include "Battle.h"
 #include "HeroResources.h"
 #include "Label.h"
+#include "MainPanel.h"
 #include "Soldier.h"
 #include "SoldierTypes.h"
 #include "Sprite.h"
@@ -13,8 +15,8 @@
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
 
-constexpr int GRID_WIDTH = 50;
-constexpr int GRID_HEIGHT = 50;
+constexpr int GRID_W = 50;
+constexpr int GRID_H = 50;
 constexpr int GRID_X = 100;
 constexpr int GRID_Y = 50;
 constexpr int GRID_PANEL_WIDTH = 100;
@@ -34,8 +36,8 @@ BattlePanel::BattlePanel(const Renderer &renderer)
       if_soldier_info_(false),
       battle_(true),
       button_(renderer_, 134, 86) {
-    button_.setPos(GRID_X * 2 + GRID_WIDTH * COLS + 20,
-                   GRID_Y + GRID_HEIGHT * (ROWS - 2));
+    button_.setPos(GRID_X * 2 + GRID_W * COLS + 20,
+                   GRID_Y + GRID_H * (ROWS - 2));
     battle_.loadArmySprites();
     loadBattleSprites();
 }
@@ -55,13 +57,13 @@ void BattlePanel::draw() {
 
     for (int i = 0; i < COLS; ++i) {
         for (int j = 0; j < ROWS; ++j) {
-            renderer_.drawSprite(GRID_X + i * GRID_WIDTH,
-                                 GRID_Y + j * GRID_HEIGHT, *emptyFieldSprite_);
+            renderer_.drawSprite(GRID_X + i * GRID_W, GRID_Y + j * GRID_H,
+                                 *emptyFieldSprite_);
         }
     }
     if (clicked_col_ < COLS && clicked_row_ < ROWS) {
-        renderer_.drawSprite(GRID_X + clicked_col_ * GRID_WIDTH,
-                             GRID_Y + clicked_row_ * GRID_HEIGHT,
+        renderer_.drawSprite(GRID_X + clicked_col_ * GRID_W,
+                             GRID_Y + clicked_row_ * GRID_H,
                              *selectedFieldSprite_);
     }
 
@@ -89,36 +91,34 @@ void BattlePanel::draw() {
     for (auto &i : battle_.getHeroArmy()) {
         if (i->isAlive()) {
             renderer_.drawSprite(
-                GRID_X + i->getX() * GRID_WIDTH,
-                GRID_Y + i->getY() * GRID_HEIGHT - i->rightSprite_->height_ / 2,
+                GRID_X + i->getX() * GRID_W,
+                GRID_Y + i->getY() * GRID_H - i->rightSprite_->height_ / 2,
                 *i->rightSprite_);
             renderer_.drawImage(
-                GRID_X + i->getX() * GRID_WIDTH + 2,
-                GRID_Y + i->getY() * GRID_HEIGHT,
+                GRID_X + i->getX() * GRID_W + 2, GRID_Y + i->getY() * GRID_H,
                 renderer_.createTextImage(std::to_string(i->get_number()),
                                           {255, 255, 255}));
         } else {
             renderer_.drawSprite(
-                GRID_X + i->getX() * GRID_WIDTH,
-                GRID_Y + i->getY() * GRID_HEIGHT - i->deadSprite_->height_ / 2,
+                GRID_X + i->getX() * GRID_W,
+                GRID_Y + i->getY() * GRID_H - i->deadSprite_->height_ / 2,
                 *i->deadSprite_);
         }
     }
     for (auto &i : battle_.getEnemyArmy()) {
         if (i->isAlive()) {
             renderer_.drawSprite(
-                GRID_X + i->getX() * GRID_WIDTH - 5,
-                GRID_Y + i->getY() * GRID_HEIGHT - i->leftSprite_->height_ / 2,
+                GRID_X + i->getX() * GRID_W - 5,
+                GRID_Y + i->getY() * GRID_H - i->leftSprite_->height_ / 2,
                 *i->leftSprite_);
             renderer_.drawImage(
-                GRID_X + i->getX() * GRID_WIDTH + 40,
-                GRID_Y + i->getY() * GRID_HEIGHT,
+                GRID_X + i->getX() * GRID_W + 40, GRID_Y + i->getY() * GRID_H,
                 renderer_.createTextImage(std::to_string(i->get_number()),
                                           {255, 255, 255}));
         } else {
             renderer_.drawSprite(
-                GRID_X + i->getX() * GRID_WIDTH,
-                GRID_Y + i->getY() * GRID_HEIGHT - i->deadSprite_->height_ / 2,
+                GRID_X + i->getX() * GRID_W,
+                GRID_Y + i->getY() * GRID_H - i->deadSprite_->height_ / 2,
                 *i->deadSprite_);
         }
     }
@@ -126,17 +126,16 @@ void BattlePanel::draw() {
 
 void BattlePanel::loadBattleSprites() {
     auto image = GameData::getImage("rectRed.png");
-    selectedFieldSprite_.reset(new Sprite(GRID_WIDTH, GRID_HEIGHT, image));
+    selectedFieldSprite_.reset(new Sprite(GRID_W, GRID_H, image));
     image = GameData::getImage("emptyField.png");
-    emptyFieldSprite_.reset(new Sprite(GRID_WIDTH, GRID_HEIGHT, image));
+    emptyFieldSprite_.reset(new Sprite(GRID_W, GRID_H, image));
     image = GameData::getImage("rectBlue.png");
-    blueFieldSprite_.reset(new Sprite(GRID_WIDTH, GRID_HEIGHT, image));
+    blueFieldSprite_.reset(new Sprite(GRID_W, GRID_H, image));
     image = GameData::getImage("rectWhite.png");
-    whiteFieldSprite_.reset(new Sprite(GRID_WIDTH, GRID_HEIGHT, image));
+    whiteFieldSprite_.reset(new Sprite(GRID_W, GRID_H, image));
     image = GameData::getImage("BattleGround.png");
-    battleGroundSprite_.reset(new Sprite(GRID_WIDTH * COLS + 2 * GRID_X,
-                                         GRID_HEIGHT * ROWS + 2 * GRID_Y,
-                                         image));
+    battleGroundSprite_.reset(new Sprite(GRID_W * COLS + 2 * GRID_X,
+                                         GRID_H * ROWS + 2 * GRID_Y, image));
     image = GameData::getImage("panel.png");
     panel_.reset(new Sprite(image->getWidth(), image->getHeight(), image));
     image = GameData::getImage("hLost.png");
@@ -156,10 +155,10 @@ bool BattlePanel::mouseButtonDown(int x, int y) {
         battle_.handleNextTurn();
         return true;
     }
-    if (x > GRID_X && x < GRID_X + GRID_WIDTH * COLS && y > GRID_Y &&
-        y < GRID_Y + GRID_HEIGHT * ROWS) {
-        auto clickedCol = (x - x_) / GRID_WIDTH;
-        auto clickedRow = (y - y_) / GRID_HEIGHT;
+    if (x > GRID_X && x < GRID_X + GRID_W * COLS && y > GRID_Y &&
+        y < GRID_Y + GRID_H * ROWS) {
+        auto clickedCol = (x - x_) / GRID_W;
+        auto clickedRow = (y - y_) / GRID_H;
         handleMapGridClick(clickedCol, clickedRow);
         return true;
     }
@@ -191,14 +190,14 @@ void BattlePanel::drawWalkingDistance(int x, int y, int distance) {
         for (int temp_y = y - distance; temp_y <= y + distance; ++temp_y) {
             if (temp_x >= 0 && temp_x < COLS && temp_y >= 0 && temp_y < ROWS) {
                 if (std::abs(temp_x - x) + std::abs(temp_y - y) <= distance) {
-                    renderer_.drawSprite(GRID_X + temp_x * GRID_WIDTH,
-                                         GRID_Y + temp_y * GRID_HEIGHT,
+                    renderer_.drawSprite(GRID_X + temp_x * GRID_W,
+                                         GRID_Y + temp_y * GRID_H,
                                          *blueFieldSprite_);
                 }
             }
         }
     }
-    renderer_.drawSprite(GRID_X + x * GRID_WIDTH, GRID_Y + y * GRID_HEIGHT,
+    renderer_.drawSprite(GRID_X + x * GRID_W, GRID_Y + y * GRID_H,
                          *whiteFieldSprite_);
 }
 

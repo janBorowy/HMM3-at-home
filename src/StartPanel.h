@@ -1,4 +1,5 @@
 #pragma once
+#include "DifficultyButton.h"
 #include "GameData.h"
 #include "Label.h"
 #include "Panel.h"
@@ -14,4 +15,8 @@ struct StartPanel : public Panel {
 
    private:
     SpriteUPtr front_page_;
+
+    DifficultyButton easy_button_;
+    DifficultyButton normal_button_;
+    DifficultyButton hard_button_;
 };

@@ -59,10 +59,10 @@ cd build
 
 # Map creation
 Maps should have fixed width and height of 50 tiles.
-Each tile is declared by character:
+Each tile is declared by a character:
 - 0 - empty tile
 - g(value) - tile with gold, where value is quantity
 - w(value) - tile with wood
 - o(value) - tile with ore
-- e(value) - tile with enemy, where value is difficulty(currently has no effect)
+- e(value) - tile with enemy, where value is difficulty(currently has no effect)\
 Put the map file in build/resources directory with name map1.hmm3map.

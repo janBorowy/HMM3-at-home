@@ -65,3 +65,4 @@ Each tile is declared by character:
 - w(value) - tile with wood
 - o(value) - tile with ore
 - e(value) - tile with enemy, where value is difficulty(currently has no effect)
+Put the map file in build/resources directory with name map1.hmm3map.

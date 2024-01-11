@@ -222,9 +222,8 @@ void MainPanel::setBattle(int mapCol, int mapRow) {
         }
     }
 
-    auto battlePanelPtr = new BattlePanel(renderer_);
-    battlePanelPtr->setArmies(playerHero_.hero().resources().getUnits(),
-                              e_units);
+    auto battlePanelPtr = new BattlePanel(
+        renderer_, playerHero_.hero().resources().getUnits(), e_units);
     ui_->push(battlePanelPtr);
 }
 

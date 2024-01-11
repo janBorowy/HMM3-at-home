@@ -27,7 +27,9 @@ constexpr int POW_WIDTH = 40;
 const std::array<std::string, 6> soldierTypeStrings{
     "Archer", "Pikeman", "Swordsman", "Minotaur", "Troglodyte", "Beholder"};
 
-BattlePanel::BattlePanel(const Renderer &renderer)
+BattlePanel::BattlePanel(const Renderer &renderer,
+                         std::vector<UnitInfo> &hero_units,
+                         std::vector<UnitInfo> &enemy_units)
     : renderer_(renderer),
       x_(GRID_X),
       y_(GRID_Y),
@@ -35,9 +37,11 @@ BattlePanel::BattlePanel(const Renderer &renderer)
       clicked_row_(10000),
       if_soldier_info_(false),
       battle_(true),
+      hero_initial_army_(hero_units),
       button_(renderer_, 134, 86) {
     button_.setPos(GRID_X * 2 + GRID_W * COLS + 20,
                    GRID_Y + GRID_H * (ROWS - 2));
+    battle_.setArmy(hero_units, enemy_units);
     battle_.loadArmySprites();
     loadBattleSprites();
 }
@@ -146,6 +150,18 @@ void BattlePanel::loadBattleSprites() {
 
 bool BattlePanel::mouseButtonDown(int x, int y) {
     if (battle_.getState() == won) {
+        hero_initial_army_.clear();
+        for (auto &i : battle_.getHeroArmy()) {
+            if (i->isAlive()) {
+                hero_initial_army_.push_back({i->get_type(), i->get_number()});
+            }
+        }
+        ui_->pop();
+        battle_.reset();
+        return true;
+    }
+    if (battle_.getState() == lost) {
+        hero_initial_army_.clear();
         ui_->pop();
         battle_.reset();
         return true;

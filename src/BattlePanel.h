@@ -10,7 +10,8 @@
 struct BattlePanel : public Panel {
    public:
     const Renderer &renderer_;
-    BattlePanel(const Renderer &renderer);
+    BattlePanel(const Renderer &renderer, std::vector<UnitInfo> &hero_units,
+                std::vector<UnitInfo> &enemy_units);
     virtual void step();
     virtual void draw();
     virtual void drawImGui();
@@ -20,6 +21,7 @@ struct BattlePanel : public Panel {
                    std::vector<UnitInfo> &enemy_units);
 
    private:
+    std::vector<UnitInfo> &hero_initial_army_;
     Battle battle_;
     bool if_soldier_info_;
     int x_;

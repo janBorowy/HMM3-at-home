@@ -17,3 +17,20 @@ ImGui - included with git submodule
 
 2.Install SDL2 for your linux distribution, for example on archlinux:\
 `sudo pacman -S sdl2`
+
+# Ubuntu example
+```bash
+git clone https://github.com/janBorowy/HMM3-at-home --recurse-submodules
+cd HMM3-at-home
+mkdir build
+cmake . -B build
+cd build
+cmake --build .
+```
+
+# Run
+```bash
+cd build
+./HMM3-at-home # game
+./test # doctest tests
+```

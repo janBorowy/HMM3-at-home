@@ -44,6 +44,7 @@ bool StartPanel::mouseButtonDown(int x, int y) {
         ui->push(mainBattlePtr);
         return true;
     }
+    return true;
 };
 
 void StartPanel::draw() {
